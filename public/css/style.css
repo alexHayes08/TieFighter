@@ -45,10 +45,10 @@ nav {
   text-indent: 2em;
 }
 
-#gBtnContainer { 
+#googleAccountContainer { 
   display: flex;
 }
 
-#gBtnContainer > *{
+#googleAccountContainer > *{
   margin: auto;
 }

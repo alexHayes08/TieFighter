@@ -4,6 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const gcloud = require("google-cloud")
+const datastore = gcloud.datastore({
+    projectId: "testmanager-140802",
+    keyFilename: "TestManager-38a238fd7f42.json",
+});
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -23,12 +29,50 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static("public"));
 
-app.use('/', index);
-app.use('/users', users);
+// Rest API
+// Good response
+function goodMessageTemplate (optionalMessage) {
+  var status =  {
+    error: false
+  };
+
+  if (optionalMessage)
+    status.message = optionalMessage;
+
+  return status;
+}
+
+// Bad response
+function errorMessageTemplate (error, optionalMessage) {
+  var status =  {
+    error: error
+  };
+
+  if (optionalMessage)
+    status.message = optionalMessage;
+
+  return status;
+}
+
+app.post("/new-user", function (req, res) {
+  res.json(errorMessageTemplate(500));
+});
+
+app.delete("/:userId", function (req, res) {
+  res.json(errorMessageTemplate(500));
+});
+
+app.get("/:userId", function (req, res) {
+  res.json(errorMessageTemplate(500));
+});
+
+// Webpages
+app.get("/", index);
+app.get("/users", users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error("Not Found");
   err.status = 404;
   next(err);
 });

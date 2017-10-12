@@ -37,7 +37,7 @@ var appStart = function() {
  */
 var initSigninV2 = function() {
   auth2 = gapi.auth2.init({
-      client_id: 'CLIENT_ID.apps.googleusercontent.com',
+      client_id: '1086585271464-3a8a8olol47pj29p3jr7kvls7e4mm6ks.apps.googleusercontent.com',
       scope: 'profile'
   });
 
@@ -113,4 +113,12 @@ var refreshValues = function() {
 
     updateGoogleUser();
   }
+}
+
+/**
+ * Function provided by Google. Use this function to disconnect a users 
+ * account.
+ */
+var revokeAllScopes = function() {
+  auth2.disconnect();
 }
