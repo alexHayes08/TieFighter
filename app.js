@@ -4,11 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const gcloud = require("google-cloud")
-const datastore = gcloud.datastore({
-    projectId: "testmanager-140802",
-    keyFilename: "TestManager-38a238fd7f42.json",
-});
+// const gcloud = require("google-cloud")
+// const datastore = gcloud.datastore({
+//     projectId: "testmanager-140802",
+//     keyFilename: "TestManager-38a238fd7f42.json",
+// });
 
 
 var index = require('./routes/index');

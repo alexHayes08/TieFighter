@@ -122,3 +122,28 @@ var refreshValues = function() {
 var revokeAllScopes = function() {
   auth2.disconnect();
 }
+
+// Firebase testing
+
+function addToDo (e) {
+  // e.preventDefault();
+  var test = {
+    names: [
+      "alex",
+      "bob",
+      "charlie"
+    ],
+    highscore: 24
+  };
+
+  // Add to database
+  var testKey = dbRef.child("tests").push().key;
+  var updates = {};
+  updates["/tests" + testKey] = test;
+
+  return dbRef.update(updates);
+}
+
+function addToDoList (toDoList) {
+
+}
