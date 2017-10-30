@@ -54,29 +54,16 @@ function errorMessageTemplate (error, optionalMessage) {
   return status;
 }
 
-app.post("/new-user", function (req, res) {
-  res.json(errorMessageTemplate(500));
-});
-
-app.delete("/:userId", function (req, res) {
-  res.json(errorMessageTemplate(500));
-});
-
-app.get("/:userId", function (req, res) {
-  res.json(errorMessageTemplate(500));
-});
-
 // Webpages
-app.get("/", function(req, res) {
-  var user = req.cookies.user || false;
-  res.render("index", { 
-    title: "Home", 
-    user: user
-  });
+app.all("*", function (req, res, next) {
+  
+  next();
+})
+app.get("/", index);
+app.get("/game", function (req, res) {
+  res.render('game', {title: 'Tie Fighter'});
 });
-app.get("/users", function (req, res) {
-  res.send(users);
-});
+app.get("/users", users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -25,13 +25,13 @@ html(lang="en")
             li.nav-item
               a.nav-link.active(href="#") Home
             li.nav-item
-              a#enterGame.nav-link(href="#") Enter the Game
+              a#enterGame.nav-link(href="/game") Enter the Game
               //- if user
               //-   a#enterGame.nav-link(href="#") Enter the Game
               //- else
               //-   a#enterGame.nav-link(disabled href="#") Enter the Game
             li.nav-item
-              a#login.nav-link(href="#") About
+              a.nav-link(href="#") About
             li(class="nav-item")
               a.nav-link(href="#") Artwork
             li.nav-item.dropdown
@@ -43,7 +43,7 @@ html(lang="en")
                 //-   a.dropdown-item(href="#") Something else here
                 //-   .dropdown-divider
                 //-   a.dropdown-item(href="#") Separated link
-                a#login.nav-link(href="#") Account
+                a#account.nav-link(href="#") Account
               else
                 a#login.nav-link(href="#") Login
     main(class="container")

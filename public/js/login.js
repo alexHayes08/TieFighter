@@ -27,7 +27,7 @@ $(function () {
         provider.addScope('profile');
         provider.addScope('email');
         firebase.auth().signInWithRedirect(provider);
-    
-        $("#login").on("click", login);
     }
+
+    $("#login").on("click", login);
 });
