@@ -1,127 +1,50 @@
+// var webClientId = "1086585271464-5kjfr6pbsm7omriab1b7v4tgc3d9130o.apps.googleusercontent.com";
+// var webClientSecret = "1HbqJ0gjfPByh0ma_70Fgk2g";
 
-/**
- * This function is provided by Google
- * @param {*} googleUser 
- */
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    var id_token = googleUser.getAuthResponse().id_token; // Send this instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyCgeNBTA_rTNn0NG2nCAYj401Kf5rXRgx0",
+  authDomain: "tiefighter-imperialremnant.firebaseapp.com",
+  databaseURL: "https://tiefighter-imperialremnant.firebaseio.com",
+  projectId: "tiefighter-imperialremnant",
+  storageBucket: "tiefighter-imperialremnant.appspot.com",
+  messagingSenderId: "1086585271464"
+};
+firebase.initializeApp(config);
 
-/**
- * This function is provided by Google
- */
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        console.log('User signed out.');
+(function () {
+
+  // Call firebase redirect login function on elements
+  // $("#enterGame").on("click", function () {
+  //   $(this).popover({
+  //     container: 'body',
+  //     content: "Must be logged in to enter the game. <a href=\"#\">Login</a>",
+  //     html: true,
+  //     position: "bottom",
+  //     // title: "Test",
+  //     trigger: 'click'
+  //   });
+  // });
+
+  function login () {
+    // Using a redirect.
+    firebase.auth().getRedirectResult().then(function(result) {
+      if (result.credential) {
+        // This gives you a Google Access Token.
+        var token = result.credential.accessToken;
+      }
+      var user = result.user;
     });
-}
 
-var auth2; // The Sign-In object.
-var googleUser; // The current user.
+    // Start a sign in process for an unauthenticated user.
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('profile');
+    provider.addScope('email');
+    firebase.auth().signInWithRedirect(provider);
 
-/**
- * Calls startAuth after Sign in V2 finishes setting up.
- */
-var appStart = function() {
-  gapi.load('auth2', initSigninV2);
-};
-
-/**
- * Initializes Signin v2 and sets up listeners.
- */
-var initSigninV2 = function() {
-  auth2 = gapi.auth2.init({
-      client_id: '1086585271464-3a8a8olol47pj29p3jr7kvls7e4mm6ks.apps.googleusercontent.com',
-      scope: 'profile'
-  });
-
-  // Listen for sign-in state changes.
-  auth2.isSignedIn.listen(signinChanged);
-
-  // Listen for changes to current user.
-  auth2.currentUser.listen(userChanged);
-
-  // Sign in the user if they are currently signed in.
-  if (auth2.isSignedIn.get() == true) {
-    auth2.signIn();
+    $("#login").on("click", login);
   }
-
-  // Start with the current live values.
-  refreshValues();
-};
-
-/**
- * Listener method for sign-out live value.
- *
- * @param {boolean} val the updated signed out state.
- */
-var signinChanged = function (val) {
-  console.log('Signin state changed to ', val);
-  document.getElementById('signed-in-cell').innerText = val;
-};
-
-/**
- * Listener method for when the user changes.
- *
- * @param {GoogleUser} user the updated user.
- */
-var userChanged = function (user) {
-  console.log('User now: ', user);
-  googleUser = user;
-  updateGoogleUser();
-  document.getElementById('curr-user-cell').innerText =
-    JSON.stringify(user, undefined, 2);
-};
-
-/**
- * Updates the properties in the Google User table using the current user.
- */
-var updateGoogleUser = function () {
-  if (googleUser) {
-    document.getElementById('user-id').innerText = googleUser.getId();
-    document.getElementById('user-scopes').innerText =
-      googleUser.getGrantedScopes();
-    document.getElementById('auth-response').innerText =
-      JSON.stringify(googleUser.getAuthResponse(), undefined, 2);
-  } else {
-    document.getElementById('user-id').innerText = '--';
-    document.getElementById('user-scopes').innerText = '--';
-    document.getElementById('auth-response').innerText = '--';
-  }
-};
-
-/**
- * Retrieves the current user and signed in states from the GoogleAuth
- * object.
- */
-var refreshValues = function() {
-  if (auth2){
-    console.log('Refreshing values...');
-
-    googleUser = auth2.currentUser.get();
-
-    document.getElementById('curr-user-cell').innerText =
-      JSON.stringify(googleUser, undefined, 2);
-    document.getElementById('signed-in-cell').innerText =
-      auth2.isSignedIn.get();
-
-    updateGoogleUser();
-  }
-}
-
-/**
- * Function provided by Google. Use this function to disconnect a users 
- * account.
- */
-var revokeAllScopes = function() {
-  auth2.disconnect();
-}
+})();
 
 // Firebase testing
 

@@ -21,16 +21,45 @@
 
 /* End Theme Colors */
 
+.btn-primary {
+  color: #fff;
+  background-color: rgba(35, 87, 137, 1);
+  border-color: rgba(35, 87, 137, 1);
+}
+
+.btn-info {
+  color: #fff;
+  background-color: rgb(52, 142, 171);
+  border-color: rgb(52, 142, 171);
+}
+
+.btn-danger {
+  background-color: rgb(213, 83, 93);
+  border-color: rgb(213, 83, 93);
+}
+
+[disabled] {
+  background-color: rgb(160, 160, 160) !important;
+  border-color: rgb(160, 160, 160) !important;
+  color: black !important;
+}
+
 /* Override bootstrap styles */
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
 
 body {
   background-color: rgba(253, 255, 252, 1);
+  font-family: 'Roboto', sans-serif;
 }
 
 nav {
   background-color: rgba(2, 1, 0, 1) !important;
   border-radius: 0 !important;
   box-shadow: 4px 0px 8px 2px rgba(0,0,0,.33);
+  font-weight: bold;
 }
 
 .navbar-brand {
@@ -42,6 +71,10 @@ nav {
   overflow: hidden !important;
 }
 
+.nav-link.active {
+  background-color: rgb(52, 142, 171);
+}
+
 /* End override bootstrap styles */
 
 .indented {
@@ -49,18 +82,23 @@ nav {
   text-indent: 2em;
 }
 
+#login {
+  font-weight: bold;
+}
+
 @media (min-width: 768px) {
-  #googleAccountContainer {
+  #navbarSupportedContent li {
     display: block;
   }
 }
 
 @media (min-width: 992px) {
-  #googleAccountContainer { 
+  #navbarSupportedContent li { 
     display: flex;
+    padding-left: 8px;
   }
   
-  #googleAccountContainer > *{
+  #navbarSupportedContent li > *{
     margin: auto;
   }
 }

@@ -67,8 +67,16 @@ app.get("/:userId", function (req, res) {
 });
 
 // Webpages
-app.get("/", index);
-app.get("/users", users);
+app.get("/", function(req, res) {
+  var user = req.cookies.user || false;
+  res.render("index", { 
+    title: "Home", 
+    user: user
+  });
+});
+app.get("/users", function (req, res) {
+  res.send(users);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

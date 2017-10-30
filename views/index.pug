@@ -1,25 +1,32 @@
 extends shared/layout.pug
 
+block headerCss
+  //- <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css" />
+block headerScripts
+  //- <script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
+
 block content
-  div(class="row")
-    div(class="col-2")
-    div(class="col-8")
+  div.row
+    div.col-2
+    div.col-8
       h2 About
-      p(class="indented")
+      p.indented
         | A blast to the past with a new version of the "Star Wars TIE-Fighter"
-        | game. Writting 100% in javascript, you can now run this classic game
+        | game. Written 100% javascript, you can now run this classic game
         | on any modern web-browser! Prefer a controller? Great news! This 
         | remake is fully compatible with controllers.This game takes place 
-        | inbetween Star Wars episode V - VII. Start off as a rookie TIE-Fighter
+        | inbetween Star Wars episode V - VI. Start off as a rookie TIE-Fighter
         | pilot patrolling the galaxy for pirates and smugglers and work your
         | way up to piloting the infamous TIE-Defender flying alongside the
         | 801st and Darth Vader himself! Long live the Empire!
-      p(class="indented")
+      p.indented
         | Upcoming: Stay tuned for the sequel game TIE-Predator "Fall of a
         | Republic" set in the age of the Imperial Remnant
       h2 News
       ul
         li 
           a(href="#") 10/11/2017
+        li
+          a(href="#") 10/29/2017
 
 block scripts
