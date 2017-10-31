@@ -1,12 +1,7 @@
 $(function () {
-    // Init poppers
-    // $("#enterGame").tooltip({
-    //     content: "Must be logged in to enter the game.",
-    //     html: true,
-    //     position: "bottom",
-    //     trigger: 'hover focus'
-    // });
-    $("#enterGame").popover({
+    var enterGameBttn = $("#enterGame");
+    enterGameBttn.attr("href", "#");
+    enterGameBttn.popover({
         content: "Must be logged in to enter the game.",
         position: "bottom",
         trigger: 'focus'
@@ -16,8 +11,8 @@ $(function () {
         // Using a redirect.
         firebase.auth().getRedirectResult().then(function(result) {
             if (result.credential) {
-            // This gives you a Google Access Token.
-            var token = result.credential.accessToken;
+                // This gives you a Google Access Token.
+                var token = result.credential.accessToken;
             }
             var user = result.user;
         });

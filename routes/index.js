@@ -3,14 +3,24 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", function(req, res) {
-  var user = req.cookies.G_AUTHUSER_H || false;
   res.render("index", { 
-    title: "Home", 
-    user: user
+    title: "Home"
   });
 });
 
-router.get('/game', function(req, res, next) {
+router.get("/about", function(req, res) {
+  res.render("about", {
+    title: "About"
+  });
+})
+
+router.get("/artwork", function (req, res) {
+  res.render("artwork", {
+    title: "Artwork"
+  });
+})
+
+router.get('/game', function(req, res) {
   res.render('game', {title: 'Tie Fighter'});
 });
 

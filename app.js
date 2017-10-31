@@ -11,8 +11,9 @@ var bodyParser = require('body-parser');
 // });
 
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var index = require("./routes/index");
+var account = require("./routes/account");
+var users = require("./routes/users");
 
 var app = express();
 
@@ -55,14 +56,11 @@ function errorMessageTemplate (error, optionalMessage) {
 }
 
 // Webpages
-app.all("*", function (req, res, next) {
-  
-  next();
-})
 app.get("/", index);
-app.get("/game", function (req, res) {
-  res.render('game', {title: 'Tie Fighter'});
-});
+app.get("/about", index);
+app.get("/account", account);
+app.get("/artwork", index);
+app.get("/game", index);
 app.get("/users", users);
 
 // catch 404 and forward to error handler

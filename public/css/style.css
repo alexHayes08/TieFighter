@@ -53,6 +53,11 @@
 body {
   background-color: rgba(253, 255, 252, 1);
   font-family: 'Roboto', sans-serif;
+  margin-top: 56px;
+}
+
+footer {
+  min-height: 75px;
 }
 
 nav {
@@ -62,13 +67,90 @@ nav {
   font-weight: bold;
 }
 
-.navbar-brand {
-  color: rgba(253, 255, 252, 1) !important;
-  text-shadow: 4px 4px 2px rgba(255,255,255,.33);
+.continue:hover {
+  border: 60px solid red;
+  border-bottom: 60px solid transparent;
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  bottom: 25px;
+  left: calc(50% - 60px);
+  opacity: 0;
+  position: absolute;
+
+  height: 0;
+  width: 0;
 }
 
-.navbar-collapse.collapse {
+.continue:not(:hover) {
+  animation: 1s 6s alternate infinite forwardscontinueBttnAnimation;
+}
+
+.colorSpacer > * {
+  min-height: 4px;
+}
+
+.colorSpacer > *:nth-child(1) {
+  background-color: #b70000;
+}
+
+.colorSpacer > *:nth-child(2) {
+  background-color: #ac7123;
+}
+
+.colorSpacer > *:nth-child(3) {
+  background-color: #59c2ef;
+}
+
+.colorSpacer > *:nth-child(4) {
+  background-color: #33e6ac;
+}
+.navbar-brand {
+  color: rgba(253, 255, 252, 1) !important;
+  text-shadow: 0px 4px 9px rgba(255,255,255,.33);
+}
+
+/* .navbar-collapse.collapse {
   overflow: hidden !important;
+} */
+
+.hidden {
+  display: none;
+}
+
+.imageGroup {
+  display: block;
+  list-style: none;
+}
+
+.imageGroup > * {
+  display: inline-block;
+  margin: 5px;
+
+  height: 50px;
+  width: 50px;
+}
+
+.imageGroup > * img {
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3);
+  cursor: pointer;
+
+  max-height: 100%;
+  max-width: 100%;
+
+  transition: .2s;
+}
+
+.imageGroup > * > a {
+  height: 50px;
+  width: 50px;
+}
+
+.imageGroup > * img:hover {
+  box-shadow: 0 8px 12px 0 rgba(35, 87, 137,0.14), 0 2px 20px 0 rgba(35, 87, 137,0.12), 0 3px 5px -1px rgba(0,0,0,0.3);
+}
+
+.imageGroupTitle {
+  text-shadow: 0 4px 5px rgba(0,0,0,0.14), 0 1px 10px rgba(0,0,0,0.12);
 }
 
 .nav-link.active {
@@ -80,6 +162,69 @@ nav {
 .indented {
   display: block;
   text-indent: 2em;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.usr-picture {
+  border-radius: 50%;
+  /* Shadow from http://materializecss.com/shadow.html */
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3);
+  max-width: 50px;
+  margin: 20px;
+}
+
+#artCarousel img {
+  /* box-sizing: border-box; */
+  /* box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3); */
+  max-height: auto;
+  max-width: 100%;
+}
+
+#artTitle {
+  bottom: 15%;
+  font-size: 6.5rem;
+  position: absolute;
+}
+
+#firstSeqeunce {
+  background-color: black;
+  background-image: url("/starwarsTitleSequenceBG.jpg");
+  color: #d7c078;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+
+  height: calc(100vh - 56px);
+}
+
+#firstSeqeunce > *:not(.continue) {
+  display: block;
+  margin: 0 auto;
+  max-width: 630px;
+  height: auto;
+}
+
+#firstSeqeunce > *:not(.mid):not(.continue) {
+  transform: translateY(100vh);
+}
+
+#firstSeqeunce > .top {
+  margin-top: 10%;
+  animation: 3s 1s 1 linear forwards slideinTop, 3s 3s ease-out 1 forwards makeroomTop;/*, 3s 6s linear forwards exitThruTop;*/
+}
+
+#firstSeqeunce > .mid {
+  opacity: 0;
+  transform: translateY(200%) scale(10, 10);
+  animation: 3s 3s 1 forwards enterMid;/*, 3s 6s linear forwards exitThruTop;*/
+}
+
+#firstSeqeunce > .bot {
+  transform: translateY(calc(100vh + 67px));
+  animation: 3s 1s 1 linear forwards slideinBot, 3s 3s ease-out 1 forwards makeroomBot;/*, 3s 6s linear forwards exitThruTop;*/
 }
 
 #login {
@@ -100,5 +245,54 @@ nav {
   
   #navbarSupportedContent li > *{
     margin: auto;
+  }
+}
+
+@keyframes enterMid {
+  to {
+    opacity: 1;
+    transform: translateY(200%) scale(1,1);
+  }
+}
+
+@keyframes exitThruTop {
+  to {
+    transform: translateY(-100vh);
+  }
+}
+
+@keyframes forwardscontinueBttnAnimation {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes makeroomBot {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(calc(100% + 20px));
+  }
+}
+
+@keyframes makeroomTop {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(calc(100% + -20px));
+  }
+}
+
+@keyframes slideinTop {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slideinBot {
+  to {
+    transform: translateY(calc(100% + 67px));
   }
 }
