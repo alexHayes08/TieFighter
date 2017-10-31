@@ -191,7 +191,7 @@ nav {
 
 #firstSeqeunce {
   background-color: black;
-  background-image: url("/starwarsTitleSequenceBG.jpg");
+  background-image: url("/starwarsTitleSequenceBG.svg");
   color: #d7c078;
   flex-direction: column;
   overflow: hidden;
@@ -207,8 +207,13 @@ nav {
   height: auto;
 }
 
-#firstSeqeunce > *:not(.mid):not(.continue) {
+#firstSeqeunce > *:not(.mid):not(.continue):not(.gameTitle) {
   transform: translateY(100vh);
+}
+
+#firstSeqeunce > .title {
+  /* margin-top: 10%; */
+  animation: 3s 1s 1 linear forwards mainAnim;
 }
 
 #firstSeqeunce > .top {
@@ -256,7 +261,7 @@ nav {
 }
 
 @keyframes exitThruTop {
-  to {
+  50% {
     transform: translateY(-100vh);
   }
 }
@@ -267,9 +272,15 @@ nav {
   }
 }
 
+@keyframes mainAnim {
+  25% {
+    transform: translateY(100%)
+  }
+}
+
 @keyframes makeroomBot {
   from {
-    transform: translateY(100%);
+    transform: translateY(calc(100% + 67px));
   }
   to {
     transform: translateY(calc(100% + 20px));
