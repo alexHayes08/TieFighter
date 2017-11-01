@@ -13,8 +13,43 @@ block content
       .col
       .col
     #firstSeqeunce.row
-      img.title(src="/Star_Wars_Yellow_Logo.svg")
-      img.gameTitle(src="/StarWarsTitleMiddle.png")
+      img.title.img-fluid(src="/Star_Wars_Yellow_Logo.svg")
+      img.gameTitle.img-fluid(src="/StarWarsTitleMiddle.png")
+      .openingCrawl.position-absolute.text-center
+        p
+          | At the battle of Yavin
+          br
+          | Rebel terrorists, aided by
+          br
+          | spies and traitors within the
+          br
+          | Empire, struck a cowardly
+          br
+          | blow at the new symbol of
+          br
+          | Imperial power... The Death Star!
+          br
+        p
+          | Darth Vader brought swift justice
+          br
+          | to the Rebels by destroying their
+          br
+          | main base on Hoth. The pitiful
+          br
+          | remnants of the Alliance have
+          br
+          | now scattered to the Outer Rim.
+        p
+          | In the days ahead, the Emperor
+          br
+          | will call upon the Imperial Navy
+          br
+          | to eradicate the last vestiges
+          br
+          | of rebellion and restore law
+          br
+          | and order to the galaxy!
+          br
       //- img.top(src="/StarWarsTitleTop.png")
       //- img.mid(src="/StarWarsTitleMiddle.png")
       //- img.bot(src="/StarWarsTitleBottom.png")
@@ -27,3 +62,4 @@ block content
     #secondSequence.row
 
 block scripts
+  script(src="js/home.js")
