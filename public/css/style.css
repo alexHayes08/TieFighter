@@ -67,6 +67,13 @@ nav {
   font-weight: bold;
 }
 
+@media (max-width: 768px) {
+  .colorSpacer:first-of-type,
+  #firstSeqeunce {
+    display: none;
+  }
+}
+
 .continue {
   border: 60px solid rgba(255,232,31,0.5);
   border-bottom: 60px solid transparent;
