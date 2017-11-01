@@ -14,7 +14,9 @@ html(lang="en")
     block headerScripts
   body
     nav(class="navbar fixed-top navbar-expand-md navbar-dark")
-      a(class="navbar-brand"  href="#") Tie Fighter - Imperial Remnant
+      a(class="navbar-brand"  href="#")
+        img.img-fluid(src="/Star_Wars_Yellow_Logo.svg" height="30")
+        | Tie Fighter - Beta
       button(class="navbar-toggler"  type="button"  data-toggle="collapse"  data-target="#navbarSupportedContent"  aria-controls="navbarSupportedContent"  aria-expanded="false"  aria-label="Toggle navigation")
         span(class="navbar-toggler-icon")
 
@@ -44,8 +46,8 @@ html(lang="en")
             if (title == "Account")
               a#account.hidden.active.nav-link.dropdown-toggle(data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false") Account
               .dropdown-menu
-                a.dropdown-item(href="/account") Account Info
-                a.dropdown-item(href="/account") Your Stats
+                a.dropdown-item(href="#") Account Info
+                a#yourStats.dropdown-item(href="/account/stats") Your Stats
                 a#logout.dropdown-item(href="#") Logout
             else
               a#account.hidden.nav-link.dropdown-toggle(data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false") Account

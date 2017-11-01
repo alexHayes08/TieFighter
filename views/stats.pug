@@ -1,0 +1,536 @@
+extends shared/layout.pug
+
+block content
+    .container-fluid
+        .row
+            .col-2
+            .col-8
+                h1 Your Stats
+                h2#generalStats 
+                    a(href="#generalStats") General Stats
+                table.table
+                    tbody
+                        tr
+                            td Hours flown: 
+                            td 
+                                input#hoursFlown.form-control(readonly type="number" placeholder="loading")
+                        tr
+                            td Enemies shot down: 
+                            td
+                                input#enemiesShotDown.form-control(readonly type="number" placeholder="loading")
+                        tr
+                            td Number of deaths:
+                            td
+                                input#numberOfDeaths.form-control(readonly type="number" placeholder="loading")
+                h2#campaign
+                    a(href="#campaign") Campaign Stats
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty I: Aftermath of Hoth
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Patrol Jump Point D-34
+                            td
+                            td
+                            td
+                        tr
+                            td Red Alert
+                            td
+                            td
+                            td
+                        tr
+                            td Counter-Attack
+                            td
+                            td
+                            td
+                        tr
+                            td Outpost D-34 Has Fallen
+                            td
+                            td
+                            td
+                        tr
+                            td Attack Rebel Lt.Cruiser
+                            td
+                            td
+                            td
+                        tr
+                            td Destroy the Lulsla
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty II: The Sepan Civil War
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Respond To S.O.S.
+                            td
+                            td
+                            td
+                        tr
+                            td Intercept Attack
+                            td
+                            td
+                            td
+                        tr
+                            td Rescue War Refugees
+                            td
+                            td
+                            td
+                        tr
+                            td Capture Enemies
+                            td
+                            td
+                            td
+                        tr
+                            td Guard Resupply
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty III: Battle on the Frontier
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Load Base Equipment
+                            td
+                            td
+                            td
+                        tr
+                            td Destroy Pirate Outpost
+                            td
+                            td
+                            td
+                        tr
+                            td Hold Position
+                            td
+                            td
+                            td
+                        tr
+                            td Guard Space Station NL-1
+                            td
+                            td
+                            td
+                        tr
+                            td Thrawn Inspects NL-1
+                            td
+                            td
+                            td
+                        tr
+                            td Wait for Relief Forces
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty IV: Conflict at Mylock IV
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Escort Convoy
+                            td
+                            td
+                            td
+                        tr
+                            td Attack the Nharwaak
+                            td
+                            td
+                            td
+                        tr
+                            td Defend Tech Center
+                            td
+                            td
+                            td
+                        tr
+                            td Diplomatic Meeting
+                            td
+                            td
+                            td
+                        tr
+                            td Rebel Arms Deal
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty V: Battle for Honor
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Mineclearing
+                            td
+                            td
+                            td
+                        tr
+                            td Assault Gunboat Recon
+                            td
+                            td
+                            td
+                        tr
+                            td Convoy Attack
+                            td
+                            td
+                            td
+                        tr
+                            td Tactical Superiority
+                            td
+                            td
+                            td
+                        tr
+                            td Capture Harkov
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty VI: Arms Race
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Protect Prototypes
+                            td
+                            td
+                            td
+                        tr
+                            td Prevent Rebel Ambush
+                            td
+                            td
+                            td
+                        tr
+                            td Convoy Escort
+                            td
+                            td
+                            td
+                        tr
+                            td Punitive Raid
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty VII: Treachery at Ottega
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Trap the Protector
+                            td
+                            td
+                            td
+                        tr
+                            td Destroy the Akaga
+                            td
+                            td
+                            td
+                        tr
+                            td Retribution
+                            td
+                            td
+                            td
+                        tr
+                            td TIE Defender
+                            td
+                            td
+                            td
+                        tr
+                            td Save the Emperor
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty VIII: Strategic Warfare
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Evacuate TIE Avenger Plants
+                            td
+                            td
+                            td
+                        tr
+                            td Save TIE Avenger Factory
+                            td
+                            td
+                            td
+                        tr
+                            td Secure TIE Avenger Plant
+                            td
+                            td
+                            td
+                        tr
+                            td Supply TIE Avenger Plant
+                            td
+                            td
+                            td
+                        tr
+                            td Capture Mag Pulse Weapon
+                            td
+                            td
+                            td
+                        tr
+                            td Trapped
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty IX: T/D Technology
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Capture the Platform
+                            td
+                            td
+                            td
+                        tr 
+                            td Hold Platform
+                            td
+                            td
+                            td
+                        tr 
+                            td Protect Evacuation
+                            td
+                            td
+                            td
+                        tr 
+                            td Escort to Rendezvous
+                            td
+                            td
+                            td
+                        tr 
+                            td Trapped by Pirates
+                            td
+                            td
+                            td
+                        tr 
+                            td Transfer Prototypes
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty X: New Threats
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Ransom
+                            td
+                            td
+                            td
+                        tr
+                            td Rescue
+                            td
+                            td
+                            td
+                        tr
+                            td Under the Gun
+                            td
+                            td
+                            td
+                        tr
+                            td Missile Boat Diplomacy
+                            td
+                            td
+                            td
+                        tr
+                            td Rebel Assault
+                            td
+                            td
+                            td
+                        tr
+                            td Eliminate TIE Defender Factory
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty XI: Hunt for Zaarin
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Intercept Convoy
+                            td
+                            td
+                            td
+                        tr
+                            td Preemptive Strike
+                            td
+                            td
+                            td
+                        tr
+                            td Bait and Switch
+                            td
+                            td
+                            td
+                        tr
+                            td An Unexpected Attack
+                            td
+                            td
+                            td
+                        tr
+                            td The Real Thing
+                            td
+                            td
+                            td
+                        tr
+                            td Protect Vorknkx Project
+                            td
+                            td
+                            td
+                        tr
+                            td Evacuate
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty XII: Prelude to Endor
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Escort Prison Ship
+                            td
+                            td
+                            td
+                        tr
+                            td Escort Prisoners
+                            td
+                            td
+                            td
+                        tr
+                            td Attack on Bothuwui
+                            td
+                            td
+                            td
+                        tr
+                            td Strike on Kothlis
+                            td
+                            td
+                            td
+                        tr
+                            td Bothan Treachery
+                            td
+                            td
+                            td
+                        tr
+                            td Recon Military Summit
+                            td
+                            td
+                            td
+                        tr
+                            td Delay Strike Force
+                            td
+                            td
+                            td
+                table.table
+                    thead
+                        tr
+                            th.text-center(colspan="100" scope="row") Tour of Duty XIII: The Emperor's Will
+                        tr
+                            th(scope="col") Mission Name
+                            th(scope="col") Highest Difficulty Completed
+                            th(scope="col") Best Time
+                            th(scope="col") Best Score
+                    tbody
+                        tr
+                            td Surprise Attack
+                            td
+                            td
+                            td
+                        tr
+                            td Capture the Turncoat
+                            td
+                            td
+                            td
+                        tr
+                            td Track Down Rebels
+                            td
+                            td
+                            td
+                        tr
+                            td Missile Boat Trouble
+                            td
+                            td
+                            td
+                        tr
+                            td Return to Vorknkx
+                            td
+                            td
+                            td
+                        tr
+                            td Corvette Attack
+                            td
+                            td
+                            td
+                        tr
+                            td Zaarin Takes the Bait
+                            td
+                            td
+                            td
+                        tr
+                            td The Trap is Sprung
+                            td
+                            td
+                            td

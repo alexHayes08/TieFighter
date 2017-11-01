@@ -58,7 +58,7 @@ function errorMessageTemplate (error, optionalMessage) {
 // Webpages
 app.get("/", index);
 app.get("/about", index);
-app.get("/account", account);
+app.get("/account/*", account);
 app.get("/artwork", index);
 app.get("/game", index);
 app.get("/users", users);

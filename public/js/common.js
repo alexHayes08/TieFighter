@@ -14,6 +14,7 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(functi
   console.log("Set persistence to local.");
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
+      console.log("User is logged in.")
       var db = firebase.database();
 
       // User is signed in.
@@ -33,6 +34,7 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(functi
           f(user, db);
       }
     } else {
+      console.warn("User isn't logged in.")
       // No user is signed in.
       $("#login").removeClass("hidden");
       

@@ -59,19 +59,54 @@ block content
       .col
       .col
       .col
-    #secondSequence.row
+    #secondSequence.row.align-items-center
       .col-2
       .col-8
         h1 Star Wars Tie-Fighter
-        h2 In Your Browser
-        h1 WebGL
-    //- #thirdSequence.row
-      //- .col-2
-      //- .col-8
-      //-   img.img-fluid(src="originalImageA.jpg")
-      //-   img.img-fluid(src="originalImageB.jpg")
-      //-   img.img-fluid(src="originalImageC.jpg")
-      //-   img.img-fluid(src="originalImageD.jpg")
+        h2 Now In Your Browser!
+        img.img-fluid(src="tiePredatorModelAWingsClosedRackMounted.png")
+        p.
+          Made with WebGL.
+        p.
+          Remake of the famous 1994 "Star Wars Tie-Fighter&trade;" game;
+    .colorSpacer.row
+      .col
+      .col
+      .col
+      .col
+    #thirdSequence.row.align-items-center
+      .col-2
+      .col-8
+        h1 Benchmarks
+        h3 A.K.A What to Expect
+        p.
+          The following images show off the graphics of the original game
+          (Hopefully I can do a little better).
+        #oldGameImages.carousel.slide(data-ride="carousel")
+          ol.carousel-indicators
+            li.active(data-target="#oldGameImages" data-slide-to="0")
+            li(data-target="#oldGameImages" data-slide-to="1")
+            li(data-target="#oldGameImages" data-slide-to="2")
+            li(data-target="#oldGameImages" data-slide-to="3")
+          .carousel-inner
+            .carousel-item.active
+              .cropImg
+                img.d-block.w-100(src="originalImageA.jpg" alt="First slide")
+            .carousel-item
+              .cropImg
+                img.d-block.w-100(src="originalImageB.jpg" alt="Second slide")
+            .carousel-item
+              .cropImg
+                img.d-block.w-100(src="originalImageC.jpg" alt="Third slide")
+            .carousel-item
+              .cropImg
+                img.d-block.w-100(src="originalImageD.jpg" alt="Third slide")
+          a.carousel-control-prev(href="#oldGameImages" role="button" data-slide="prev")
+            span.carousel-control-prev-icon(aria-hidden="true")
+            span.sr-only Previous
+          a.carousel-control-next(href="#oldGameImages" role="button" data-slide="next")
+            span.carousel-control-next-icon(aria-hidden="true")
+            span.sr-only Next
 
 block scripts
   script(src="js/home.js")

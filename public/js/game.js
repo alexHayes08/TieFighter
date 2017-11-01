@@ -1,3 +1,8 @@
+function loadingScreen (show) {
+    show = Boolean(show);
+    document.getElementById("mainLoading").style.display = show ? "block" : "none";
+}
+
 var canvas = {};
 var engine = {};
 var scene = {};
@@ -5,6 +10,35 @@ var camera = {};
 var cameras = [];
 var tiefighter = {};
 window.addEventListener("DOMContentLoaded", function () {
+    // First init firebase & check if user is logged in
+    var config = {
+        apiKey: "AIzaSyCgeNBTA_rTNn0NG2nCAYj401Kf5rXRgx0",
+        authDomain: "tiefighter-imperialremnant.firebaseapp.com",
+        databaseURL: "https://tiefighter-imperialremnant.firebaseio.com",
+        projectId: "tiefighter-imperialremnant",
+        storageBucket: "tiefighter-imperialremnant.appspot.com",
+        messagingSenderId: "1086585271464"
+      };
+      firebase.initializeApp(config);
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function () {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // Continue loading game
+                console.log("User is logged in.")
+                loadGame();
+                loadingScreen(false);
+            } else {
+                // Display message about needing to login
+                console.error("User isn't logged in")
+                loadingScreen(true);
+                $("#messageModal").show();
+            }
+        });
+      });
+});
+
+function loadGame () {
+
     canvas = document.getElementById("scene");
     engine = new BABYLON.Engine(canvas, true);
     
@@ -94,4 +128,4 @@ window.addEventListener("DOMContentLoaded", function () {
     engine.runRenderLoop(function () {
         scene.render();
     });
-});
+}

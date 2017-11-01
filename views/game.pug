@@ -2,13 +2,78 @@ html(xmlns="http://www.w3.org/1999/xhtml")
     head
         meta(http-equiv="Content-Type",content="text/html; charset=utf-8")
 
+        link(rel="icon" type="image/png" href="favicon.png")
+        link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
+        link(rel="stylesheet" href="/css/bootstrap-theme.css")
+        link(rel="stylesheet" href="/css/bootstrap.min.css")
         link(rel="stylesheet",href="css/game.css")
 
+        script(src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js")
         script(src="js/babylon.js")
         script(src="js/babylon.objFileLoader.min.js")
 
         title Tie Fighter
     body
+        #mainLoading.loadingScreen
+        #mainMenu.menu
+            .mainMenu
+                h1 Tie Fighter
+                hr
+                ul
+                    li
+                        ul Settings
+                            li
+                                label First Person
+                                    input(type="radio" name="viewPoint" checked)
+                                label Third Person
+                                    input(type="radio" name="viewPoint")
+                            li Flight Controls
+                                ul
+                                    li Forwards
+                                    li Reverse
+                                    li Left
+                                    li Right
+                                    li Fire
+                            li Video
+                                ul
+                                    li Resolution
+                                    li Interface Scaling
+                            li Audio
+                                ul
+                                    li Master Volume
+                                    li Combat Volume
+                                    li Music Volume
+                                    li Ambient Volume
+                                    li Character Voices Volume
+                    li
+                        button#restartMission Restart Mission
+                    li
+                        button#returnToMainMenu Return to Main Menu
+            .shipViewPort
+                input#hullIntegrity(type="range")
+                input#power(type="range")
+                input#frontSheilds(type="range")
+                input#rearSheilds(type="range")
+                input#leftSheilds(type="range")
+                input#rightSheilds(type="range")
+                input#topSheilds(type="range")
+                input#bottomSheilds(type="range")
+        #messageModal.modal(tabindex="-1" role="dialog")
+            .modal-dialog(role="document")
+                .modal-content
+                .modal-header
+                    h5.modal-title Anonymous Access Isn't Allowed
+                    button.close(type="button" data-dismiss="modal" aria-label="Close")
+                        span(aria-hidden="true") &times;
+                .modal-body
+                    p Please login/register before you start playing the game
+                .modal-footer
+                    a(href="/")
+                        button.btn.btn-primary(type="button") Ok
         canvas(id="scene")
-        script(src="js/game.js")
+        script(src="/js/xhr.js")
+        script(src="/js/jquery.min.js")
+        script(src="js/popper.js")
+        script(src="/js/bootstrap.min.js")
         script(src="js/IShip.js")
+        script(src="js/game.js")

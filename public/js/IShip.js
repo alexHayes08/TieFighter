@@ -38,7 +38,6 @@ class Destroyable {
     constructor () {
         this.isDestroyed = false;
     }
-    isDestroyed = false;
     onDestroyed () {
         for (var prop in this) {
             this[prop] = null;
