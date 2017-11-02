@@ -15,8 +15,23 @@ html(xmlns="http://www.w3.org/1999/xhtml")
         title Tie Fighter
     body
         #mainLoading.loadingScreen
-        #mainMenu.menu
-            .mainMenu
+        .topVSpacer
+        .container-fluid
+            .row
+                .col-2
+                .col-8
+            #mainMenu.menu
+                h1 Tie Fighter
+                hr
+                ul
+                    li 
+                        button.btn.btn-primary(type="button" data-toggle="collapse" data-target="#missions" aria-expanded="false" aria-controls="missions") Campaign
+                        ul#missions.collapse
+                    li 
+                        button.btn.btn-primary Multiplayer
+                    li
+                        button.btn.btn-danger Exit
+            #inGameMenu.menu
                 h1 Tie Fighter
                 hr
                 ul
@@ -49,31 +64,31 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                         button#restartMission Restart Mission
                     li
                         button#returnToMainMenu Return to Main Menu
-            .shipViewPort
-                input#hullIntegrity(type="range")
-                input#power(type="range")
-                input#frontSheilds(type="range")
-                input#rearSheilds(type="range")
-                input#leftSheilds(type="range")
-                input#rightSheilds(type="range")
-                input#topSheilds(type="range")
-                input#bottomSheilds(type="range")
-        #messageModal.modal(tabindex="-1" role="dialog")
-            .modal-dialog(role="document")
-                .modal-content
-                .modal-header
-                    h5.modal-title Anonymous Access Isn't Allowed
-                    button.close(type="button" data-dismiss="modal" aria-label="Close")
-                        span(aria-hidden="true") &times;
-                .modal-body
-                    p Please login/register before you start playing the game
-                .modal-footer
-                    a(href="/")
-                        button.btn.btn-primary(type="button") Ok
+                .shipViewPort
+                    input#hullIntegrity(type="range")
+                    input#power(type="range")
+                    input#frontSheilds(type="range")
+                    input#rearSheilds(type="range")
+                    input#leftSheilds(type="range")
+                    input#rightSheilds(type="range")
+                    input#topSheilds(type="range")
+                    input#bottomSheilds(type="range")
+            #messageModal.modal(tabindex="-1" role="dialog")
+                .modal-dialog(role="document")
+                    .modal-content
+                    .modal-header
+                        h5.modal-title Anonymous Access Isn't Allowed
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                        p Please login/register before you start playing the game
+                    .modal-footer
+                        a(href="/")
+                            button.btn.btn-primary(type="button") Ok
         canvas(id="scene")
-        script(src="/js/xhr.js")
-        script(src="/js/jquery.min.js")
-        script(src="js/popper.js")
-        script(src="/js/bootstrap.min.js")
-        script(src="js/IShip.js")
-        script(src="js/game.js")
+        script(src="../js/xhr.js")
+        script(src="../js/jquery.min.js")
+        script(src="../js/popper.js")
+        script(src="../js/bootstrap.min.js")
+        script(src="../js/IShip.js")
+        script(src="../js/game.js")

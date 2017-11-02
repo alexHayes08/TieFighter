@@ -1,3 +1,4 @@
+- var isAdmin = false;
 doctype html
 html(lang="en")
   head
@@ -48,19 +49,23 @@ html(lang="en")
               .dropdown-menu
                 a.dropdown-item(href="#") Account Info
                 a#yourStats.dropdown-item(href="/account/stats") Your Stats
+                if (isAdmin)
+                  a#yourStats.dropdown-item(href="/admin/") Admin
                 a#logout.dropdown-item(href="#") Logout
             else
               a#account.hidden.nav-link.dropdown-toggle(data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false") Account
               .dropdown-menu
-                a.dropdown-item(href="/account") Account Info
-                a.dropdown-item(href="/account") Your Stats
+                a.dropdown-item(href="/account/") Account Info
+                a.dropdown-item(href="/account/stats") Your Stats
+                if (isAdmin)
+                  a#yourStats.dropdown-item(href="/admin/") Admin
                 a#logout.dropdown-item(href="#") Logout
             a#login.nav-link.hidden(href="#") Login
     main
       block content
     footer
     script(src="/js/jquery.min.js")
-    script(src="js/popper.js")
+    script(src="/js/popper.js")
     script(src="/js/bootstrap.min.js")
     script(src="/js/xhr.js")
     script(src="/js/common.js")

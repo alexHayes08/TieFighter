@@ -1,0 +1,233 @@
+{
+    "tours": [
+        {
+            "name": "Tour of Duty I: Aftermath of Hoth",
+            "number": 0,
+            "missions": [
+                {
+                    "name": "Patrol Jump Point D-34",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Red Alert",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Counter-Attack",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Outpost D-34 Has Fallen",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Attack Rebel Lt.Cruiser",
+                    "number": 4,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Destroy the Lulsla",
+                    "number": 5,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty II: The Sepan Civil War",
+            "number": 1,
+            "missions": [
+                {
+                    "name": "Respond To S.O.S.",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Intercept Attack",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Rescue War Refugees",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Capture Enemies",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Guard Resupply",
+                    "number": 4,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty III: Battle on the Frontier",
+            "number": 2,
+            "missions": [
+                {
+                    "name": "Load Base Equipment",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Destroy Pirate Outpost",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Hold Position",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Guard Space Station NL-1",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Thrawn Inspects NL-1",
+                    "number": 4,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Wait for Relief Forces",
+                    "number": 5,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty IV: Conflict at Mylock IV",
+            "number": 3,
+            "missions": [
+                {
+                    "name": "Escort Convoy",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Attack the Nharwaak",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Defend Tech Center",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Diplomatic Meeting",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Rebel Arms Deal",
+                    "number": 4,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty V: Battle for Honor",
+            "number": 4,
+            "missions": [
+                {
+                    "name": "Mineclearing",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Assault Gunboat Recon",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Convoy Attack",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Tactical Superiority",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Capture Harkov",
+                    "number": 4,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty VI: Arms Race",
+            "number": 5,
+            "missions": [
+                {
+                    "name": "Protect Prototypes",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Prevent Rebel Ambush",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Convoy Escort",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Punitive Raid",
+                    "number": 3,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty VII: Treachery at Ottega",
+            "number": 6,
+            "missions": [
+                {
+                    "name": "Trap the Protector",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Destroy the Akaga",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Retribution",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "TIE Defender",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Save the Emperor",
+                    "number": 4,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty VIII: Strategic Warfare",
+            "number": 0,
+            "missions": [
+                
+            ]
+        }
+    ]
+}

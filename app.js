@@ -11,9 +11,9 @@ var bodyParser = require('body-parser');
 // });
 
 
-var index = require("./routes/index");
 var account = require("./routes/account");
-var users = require("./routes/users");
+var admin = require("./routes/admin");
+var home = require("./routes/home");
 
 var app = express();
 
@@ -22,7 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -56,12 +56,10 @@ function errorMessageTemplate (error, optionalMessage) {
 }
 
 // Webpages
-app.get("/", index);
-app.get("/about", index);
-app.get("/account/*", account);
-app.get("/artwork", index);
-app.get("/game", index);
-app.get("/users", users);
+app.use("/admin", admin);
+app.use("/account", account);
+app.use("/home", home)
+app.use("/", home);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

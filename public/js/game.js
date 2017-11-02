@@ -3,6 +3,105 @@ function loadingScreen (show) {
     document.getElementById("mainLoading").style.display = show ? "block" : "none";
 }
 
+class Mission {
+    constructor () {
+
+    }
+    get name () {
+
+    }
+    get missionBriefing () {
+        
+    }
+}
+
+class Tour {
+    constructor (name, missions) {
+        this._name = name;
+        this._missions = missions;
+        Object.freeze(this._name);
+        Object.freeze(this._missions);
+    }
+    get name () {
+        return this._name;
+    }
+    get missions () {
+        return this._missions;
+    }
+}
+
+var TieFighter = {
+    menus: {
+        mainMenu: {
+            init (tours) {
+                for (var tour of tours) {
+
+                    // Check if the variable is an instance of Tour
+                    if (!(tour instanceof Tour)) {
+                        continue; // Not an instance
+                    } else {
+                        for (var mission of tour.missions) {
+                            var missionButton = document.createElement("button");
+                        }
+                    }
+                }
+            },
+            show () {
+                $("#mainMenu").show();
+            },
+            hide () {
+                $("#mainMenu").hide();
+            }
+        },
+        inGameMenu: {
+            show () {
+                $("#inGameMenu").show();
+            },
+            hide () {
+                $("#inGameMenu").hide();
+            }
+        },
+        settings: {
+            pointOfView: {
+                options: [
+                    "first person",
+                    "third person"
+                ],
+                indexOfActiveOption: 0
+            },
+            flightControls: {
+                forwards: {
+
+                },
+                reverse: {
+
+                },
+                left: {
+
+                },
+                right: {
+
+                },
+                pitch: {
+
+                },
+                yaw: {
+
+                },
+                roll: {
+
+                },
+                fire: {
+
+                }
+            }
+        }
+    },
+    userSettings: {
+        resolution: ""
+    }
+}
+
 var canvas = {};
 var engine = {};
 var scene = {};
@@ -25,7 +124,10 @@ window.addEventListener("DOMContentLoaded", function () {
             if (user) {
                 // Continue loading game
                 console.log("User is logged in.")
-                loadGame();
+                // loadGame();
+                
+                // Show menu
+                TieFighter.menus.mainMenu.show();
                 loadingScreen(false);
             } else {
                 // Display message about needing to login
@@ -125,6 +227,7 @@ function loadGame () {
 
     var scene = createScene();
 
+    // Scene starts
     engine.runRenderLoop(function () {
         scene.render();
     });
