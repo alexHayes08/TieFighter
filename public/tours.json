@@ -224,9 +224,233 @@
         },
         {
             "name": "Tour of Duty VIII: Strategic Warfare",
-            "number": 0,
+            "number": 7,
             "missions": [
-                
+                {
+                    "name": "Evacuate TIE Avenger Plants",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Save TIE Avenger Factory",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Secure TIE Avenger Plant",
+                    "number": 2,
+                    "missionBriefing": "Supply TIE Avenger Plant"
+                },
+                {
+                    "name": "Capture Mag Pulse Weapon",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Trapped",
+                    "number": 4,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty IX: T/D Technology",
+            "number": 8,
+            "missions": [
+                {
+                    "name": "Capture the Platform",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Hold Platform",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Protect Evacuation",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Escort to Rendezvous",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Trapped by Pirates",
+                    "number": 4,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Transfer Prototypes",
+                    "number": 5,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty X: New Threats",
+            "number": 9,
+            "missions": [
+                {
+                    "name": "Ransom",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Rescue",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Under the Gun",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Missile Boat Diplomacy",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Rebel Assault",
+                    "number": 4,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Eliminate TIE Defender Factory",
+                    "number": 5,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty XI: Hunt for Zaarin",
+            "number": 10,
+            "missions": [
+                {
+                    "name": "Intercept Convoy",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Preemptive Strike",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Bait and Switch",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "An Unexpected Attack",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "The Real Thing",
+                    "number": 4,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Protect Vorknkx Project",
+                    "number": 5,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Evacuate",
+                    "number": 6,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty XII: Prelude to Endor",
+            "number": 11,
+            "missions":[
+                {
+                    "name": "Escort Prison Ship",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Escort Prisoners",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Attack on Bothuwui",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Strike on Kothlis",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Bothan Treachery",
+                    "number": 4,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Recon Military Summit",
+                    "number": 5,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Delay Strike Force",
+                    "number": 6,
+                    "missionBriefing": ""
+                }
+            ]
+        },
+        {
+            "name": "Tour of Duty XIII: The Emperor's Will",
+            "number": 12,
+            "missions":[
+                {
+                    "name": "Surprise Attack",
+                    "number": 0,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Capture the Turncoat",
+                    "number": 1,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Track Down Rebels",
+                    "number": 2,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Missile Boat Trouble",
+                    "number": 3,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Return to Vorknkx",
+                    "number": 4,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Corvette Attack",
+                    "number": 5,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "Zaarin Takes the Bait",
+                    "number": 6,
+                    "missionBriefing": ""
+                },
+                {
+                    "name": "The Trap is Sprung",
+                    "number": 7,
+                    "missionBriefing": ""
+                }
             ]
         }
     ]

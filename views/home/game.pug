@@ -9,6 +9,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
         link(rel="stylesheet",href="css/game.css")
 
         script(src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js")
+        //- script(src="js/babylon.custom.js")
         script(src="js/babylon.js")
         script(src="js/babylon.objFileLoader.min.js")
 
@@ -24,6 +25,8 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                 h1 Tie Fighter
                 hr
                 ul
+                    li
+                        button#tutorial.btn.btn-primary(type="button") Tutorial
                     li 
                         button.btn.btn-primary(type="button" data-toggle="collapse" data-target="#missions" aria-expanded="false" aria-controls="missions") Campaign
                         ul#missions.collapse

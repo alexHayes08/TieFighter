@@ -3,15 +3,40 @@ function loadingScreen (show) {
     document.getElementById("mainLoading").style.display = show ? "block" : "none";
 }
 
-class Mission {
-    constructor () {
+class EventListenerWrapper {
+    constructor(element, on, func) {
+        this._element = element;
+        this._on = on;
+        this._func = func;
+        this._isDestroyed = false;
+        element.addEventListener(on, func);
+    }
+    get isDestroyed () {
+        return this._isDestroyed;
+    }
+    destroy () {
+        if (!this.isDestroyed) {
+            this._element.removeEventListener(on, func);
+            this._isDestroyed = true;
+        }
+    }
+}
 
+class Mission {
+    constructor (name, number, briefing) {
+        this._name = name;
+        this._number = number;
+        this._missionBriefing = briefing;
+
+        Object.freeze(this._name);
+        Object.freeze(this._number);
+        Object.freeze(this._missionBriefing);
     }
     get name () {
-
+        return this._name;
     }
     get missionBriefing () {
-        
+        return this._missionBriefing;
     }
 }
 
@@ -127,6 +152,45 @@ window.addEventListener("DOMContentLoaded", function () {
                 // loadGame();
                 
                 // Show menu
+                var tours = [];
+                XMLHttpRequestPromise("GET","/tours.json")
+                    .then(function (response) {
+                        var json = JSON.parse(response).tours;
+                        for (var t of json) {
+                            var missions = [];
+                            for (var m of t.missions) {
+                                missions.push(new Mission(m.name, m.number, m.missionBriefing));
+                            }
+
+                            tours.push(new Tour(t.name, missions));
+                        }
+
+                        var missionListEl = $("#missions");
+                        for (var tour of tours) {
+                            var container = document.createElement("div");
+                            var title = document.createElement("div");
+                            var ul = document.createElement("ul")
+
+                            title.innerText = tour.name;
+                            for (var mission of tour.missions) {
+                                var liEl = document.createElement("li");
+                                liEl.innerText = mission.name;
+                                ul.appendChild(liEl)
+                            }
+
+                            container.appendChild(title);
+                            container.appendChild(ul);
+                            missionListEl.append(container);
+                        }
+                    }).catch(function (error) {
+                        console.error("Failed to retrieve tours!");
+                    });
+                $("#tutorial").on("click", function () {
+                    loadingScreen(true);
+                    TieFighter.menus.mainMenu.hide();
+                    loadGame();
+                    loadingScreen(false);
+                });
                 TieFighter.menus.mainMenu.show();
                 loadingScreen(false);
             } else {
@@ -143,6 +207,7 @@ function loadGame () {
 
     canvas = document.getElementById("scene");
     engine = new BABYLON.Engine(canvas, true);
+    var skybox = {}
     
     // var loader = new BABYLON.AssetsManager(canvas);
     // var tiefighter = loader.addMeshTask("tiefighter", "", "/public", "tiefighter.stl")
@@ -157,6 +222,17 @@ function loadGame () {
 
         camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, false);
+        skybox = BABYLON.Mesh.CreateBox("skybox", 100, scene);
+        var skyboxMaterial = new BABYLON.StandardMaterial("skybox", scene);
+        skyboxMaterial.backFaceCulling = false;
+        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("/textures/backgroundB", scene, ["_px.png","_py.png","_pz.png","_nx.png","_ny.png","_pz.png"]);
+        skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+        skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+        skyboxMaterial.reflectionTexture.hasAlpha = true;
+        skyboxMaterial.disableLighting = true;
+        skybox.material = skyboxMaterial;
+        skybox.parent = camera;
         var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0,1,0), scene);
         // var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
         // sphere.position.y = 1;
@@ -219,13 +295,45 @@ function loadGame () {
             tiefighter = newMesh[0];
             for (var i = 1; i < newMesh.length; i++)
                 newMesh[i].parent = tiefighter;
-            console.log(newMesh);
+            camera.attachControl(tiefighter);
+            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {
+                map[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
+        
+            }));
         });
 
         return scene;
     }
 
     var scene = createScene();
+    
+    // object for multiple key presses
+    var map = {};
+    scene.actionManager = new BABYLON.ActionManager(scene);
+    scene.registerAfterRender(function () {
+
+        // Update transforms
+        if ((map["w"] || map["W"])) {
+            tiefighter.position.z += 0.1;
+        };
+
+        if ((map["z"] || map["Z"])) {
+            tiefighter.position.z -= 0.1;
+        };
+
+        if ((map["a"] || map["A"])) {
+            tiefighter.position.x -= 0.1;
+        };
+
+        if ((map["s"] || map["S"])) {
+            tiefighter.position.x += 0.1;
+        };
+
+        // Keep skybox from rotating
+        skybox.rotation.x = 0;
+        skybox.rotation.y = 0;
+        skybox.rotation.z = 0;
+    });
 
     // Scene starts
     engine.runRenderLoop(function () {
