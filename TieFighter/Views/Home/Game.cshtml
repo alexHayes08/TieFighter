@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="icon" type="image/png" href="~/favicon.png" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/game.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+    <script src="~/js/babylon.js"></script>
+    <script src="~/js/babylon.objFileLoader.min.js"></script>
+
+    <title>Tie Fighter</title>
+</head>
+<body>
+    <div class="loadingScreen" id="mainLoading"></div>
+    <div class="topVSpacer"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8"></div>
+        </div>
+        <div class="menu" id="mainMenu">
+            <h1>Tie Fighter</h1>
+            <hr />
+            <ul>
+                <li>
+                    <button class="btn btn-primary" id="tutorial" type="button">Tutorial</button>
+                </li>
+                <li>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#missions" aria-expanded="false" aria-controls="missions">Campaign</button>
+                    <ul class="collapse" id="missions"></ul>
+                </li>
+                <li>
+                    <button class="btn btn-primary">Multiplayer</button>
+                </li>
+                <li>
+                    <button class="btn btn-danger">Exit</button>
+                </li>
+            </ul>
+        </div>
+        <div class="menu" id="inGameMenu">
+            <h1>Tie Fighter</h1>
+            <hr />
+            <ul>
+                <li>
+                    <ul>
+                        Settings
+                        <li>
+                            <label>
+                                First Person
+                                <input type="radio" name="viewPoint" checked="checked" />
+                            </label>
+                            <label>
+                                Third Person
+                                <input type="radio" name="viewPoint" />
+                            </label>
+                        </li>
+                        <li>
+                            Flight Controls
+                            <ul>
+                                <li>Forwards</li>
+                                <li>Reverse</li>
+                                <li>Left</li>
+                                <li>Right</li>
+                                <li>Fire</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Video
+                            <ul>
+                                <li>Resolution</li>
+                                <li>Interface Scaling</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Audio
+                            <ul>
+                                <li>Master Volume</li>
+                                <li>Combat Volume</li>
+                                <li>Music Volume</li>
+                                <li>Ambient Volume</li>
+                                <li>Character Voices Volume</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <button id="restartMission">Restart Mission</button>
+                </li>
+                <li>
+                    <button id="returnToMainMenu">Return to Main Menu</button>
+                </li>
+            </ul>
+            <div class="shipViewPort">
+                <input id="hullIntegrity" type="range" />
+                <input id="power" type="range" />
+                <input id="frontSheilds" type="range" />
+                <input id="rearSheilds" type="range" />
+                <input id="leftSheilds" type="range" />
+                <input id="rightSheilds" type="range" />
+                <input id="topSheilds" type="range" />
+                <input id="bottomSheilds" type="range" />
+            </div>
+        </div>
+        <div class="modal" id="messageModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content"></div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Anonymous Access Isn't Allowed</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>Please login/register before you start playing the game</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#">
+                        <button class="btn btn-primary" type="button">Ok</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <canvas id="scene"></canvas>
+    <script src="~/js/game.js"></script>
+</body>
+</html>

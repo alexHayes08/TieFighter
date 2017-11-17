@@ -1,0 +1,36 @@
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.deps.json
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.json
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.dev.json
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.dll
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csprojResolveAssemblyReference.cache
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csproj.CoreCompileInputs.cache
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfoInputs.cache
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfo.cs
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.pdb
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.dll
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.pdb
+C:\Users\alexc\OneDrive\Documents\Visual Studio 2017\Projects\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+D:\Documents\School\DotNet\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.deps.json
+D:\Documents\School\DotNet\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.json
+D:\Documents\School\DotNet\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.dev.json
+D:\Documents\School\DotNet\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.dll
+D:\Documents\School\DotNet\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.pdb
+D:\Documents\School\DotNet\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csprojResolveAssemblyReference.cache
+D:\Documents\School\DotNet\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csproj.CoreCompileInputs.cache
+D:\Documents\School\DotNet\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfoInputs.cache
+D:\Documents\School\DotNet\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfo.cs
+D:\Documents\School\DotNet\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.dll
+D:\Documents\School\DotNet\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.pdb
+D:\Documents\School\DotNet\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.deps.json
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.json
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.dev.json
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.dll
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.pdb
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csprojResolveAssemblyReference.cache
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csproj.CoreCompileInputs.cache
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfoInputs.cache
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfo.cs
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.dll
+C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.pdb

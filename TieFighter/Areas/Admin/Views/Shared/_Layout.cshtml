@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width  initial-scale=1  shrink-to-fit=no">
+    <title></title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-md navbar-dark">
+            <a class="navbar-brand" href="#"><img class="img-fluid" src="~/images/Star_Wars_Yellow_Logo.svg" height="30">Tie Fighter - Beta</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="justify-content-end w-100 nav nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Users">User Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Tours">Campaign Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Public Site</a>
+                    </li>
+                    <li>
+                        @await Html.PartialAsync("_LoginPartial")
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="container-fluid">
+        @RenderBody()
+    </main>
+    <footer></footer>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/xhr.js"></script>
+    <script src="~/js/common.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
