@@ -1,2 +1,0 @@
-﻿# Command for scaffolding ef migrations:
-Scaffold-DbContext -Connection "Data Source=bitsql.wctc.edu;Initial Catalog=TieFighter;Persist Security Info=True;User ID=ahayes13;Password=000415469" -OutputDir "Data/Migrations" -Provider "Microsoft.EntityFrameworkCore.SqlServer"

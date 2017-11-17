@@ -1,0 +1,12 @@
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\bin\Debug\netcoreapp2.0\TestingIdentity.deps.json
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\bin\Debug\netcoreapp2.0\TestingIdentity.runtimeconfig.json
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\bin\Debug\netcoreapp2.0\TestingIdentity.runtimeconfig.dev.json
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\bin\Debug\netcoreapp2.0\TestingIdentity.dll
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\bin\Debug\netcoreapp2.0\TestingIdentity.pdb
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\obj\Debug\netcoreapp2.0\TestingIdentity.csprojResolveAssemblyReference.cache
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\obj\Debug\netcoreapp2.0\TestingIdentity.csproj.CoreCompileInputs.cache
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\obj\Debug\netcoreapp2.0\TestingIdentity.AssemblyInfoInputs.cache
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\obj\Debug\netcoreapp2.0\TestingIdentity.AssemblyInfo.cs
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\obj\Debug\netcoreapp2.0\TestingIdentity.dll
+c:\users\alexander\source\repos\TestingIdentity\TestingIdentity\obj\Debug\netcoreapp2.0\TestingIdentity.pdb

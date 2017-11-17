@@ -1,0 +1,64 @@
+﻿@using TieFighter.Models
+@model ApplicationUser
+
+<div class="topVSpacer"></div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h2 class="text-center">Account<img class="usr-picture img-fluid" id="userPicture" src="@ViewBag.ThumbnailSrc" /></h2>
+        <hr />
+        <h3>Info</h3>
+        <div class="row">
+            <div class="input-group">
+                <span class="input-group-addon">Email:</span>
+                <input class="form-control" id="email" type="text" readonly="readonly" value="@Model.Email"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group" data-toggle="tooltip" title="The display name is what other players will see you as. If empty then your email address is used.">
+                <span class="input-group-addon">Display Name:</span>
+                <input class="form-control" id="displayName" type="text" placeholder="Your display name..." value="@Model.DisplayName"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-success" id="updateDisplayName" type="button">Update</button>
+                </span>
+            </div>
+        </div>
+        <div class="row align-content-center">
+            <div class="col">
+                <span id="attemptToUpdateDisplayNameResult" class="results"></span>
+            </div>
+        </div>
+        <hr />
+        <h3>Manage Account</h3>
+        <div class="row">
+            <button class="btn btn-warning" type="button">Logout</button>
+        </div>
+        <div class="row">
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#removeAccount">Remove Account</button>
+            <div class="modal fade" id="removeAccount" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Remove Account?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Warning: Removing your account will delete all stats
+                            and progress in the game! This action cannot be undone.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" data-dismiss="modal">Remove Account</button>
+                        <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/account.js"></script>
+}

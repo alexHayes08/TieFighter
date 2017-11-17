@@ -1,0 +1,861 @@
+﻿@model TieFighter.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "YourStats";
+    var displayedName = Model.DisplayName ?? Model.Email;
+    var nextLevel = Model.DisplayLevel + 1;
+}
+
+<div class="topVSpacer"></div>
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <h2 class="text-center">
+            @displayedName
+            <img class="usr-picture img-fluid" src="@Model.Thumbnail" />
+        </h2>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h4 class="text-center">Level @Model.DisplayLevel</h4>
+                            </td>
+                            <td class="d-none d-lg-table-cell w-75">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                                        <span class="sr-only">70% Complete</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <h1>Awards</h1>
+        <ul class="awardList">
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg"/>
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+            <li>
+                <img class="award" src="~/images/Imperial_Emblem.svg" />
+                <div class="qtyWon">3</div>
+                <div class="awardDetails">
+                    <div class="title">Award Title</div>
+                    <div class="awardDesc">To achieve this award you must do x y z</div>
+                </div>
+            </li>
+        </ul>
+        <h1>Locked Awards</h1>
+        <ul class="awardList">
+            <li>
+                <img class="award" src="" />
+            </li>
+            <li>
+                <img class="award" src="" />
+            </li>
+            <li>
+                <img class="award" src="" />
+            </li>
+        </ul>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h1>Your Stats</h1>
+        <h2 id="generalStats"> <a href="#generalStats">General Stats</a></h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Hours flown: </td>
+                    <td>
+                        <input class="form-control" id="hoursFlown" readonly="readonly" type="number" placeholder="loading" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Enemies shot down: </td>
+                    <td>
+                        <input class="form-control" id="enemiesShotDown" readonly="readonly" type="number" placeholder="loading" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Number of deaths:</td>
+                    <td>
+                        <input class="form-control" id="numberOfDeaths" readonly="readonly" type="number" placeholder="loading" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2 id="campaign"><a href="#campaign">Campaign Stats</a></h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty I: Aftermath of Hoth</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Patrol Jump Point D-34</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Red Alert</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Counter-Attack</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Outpost D-34 Has Fallen</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Attack Rebel Lt.Cruiser</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Destroy the Lulsla</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty II: The Sepan Civil War</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Respond To S.O.S.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Intercept Attack</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Rescue War Refugees</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Capture Enemies</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Guard Resupply</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty III: Battle on the Frontier</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Load Base Equipment</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Destroy Pirate Outpost</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Hold Position</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Guard Space Station NL-1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Thrawn Inspects NL-1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Wait for Relief Forces</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty IV: Conflict at Mylock IV</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Escort Convoy</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Attack the Nharwaak</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Defend Tech Center</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Diplomatic Meeting</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Rebel Arms Deal</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty V: Battle for Honor</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mineclearing</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Assault Gunboat Recon</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Convoy Attack</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tactical Superiority</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Capture Harkov</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty VI: Arms Race</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Protect Prototypes</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Prevent Rebel Ambush</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Convoy Escort</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Punitive Raid</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty VII: Treachery at Ottega</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Trap the Protector</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Destroy the Akaga</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Retribution</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>TIE Defender</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Save the Emperor</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty VIII: Strategic Warfare</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Evacuate TIE Avenger Plants</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Save TIE Avenger Factory</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Secure TIE Avenger Plant</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Supply TIE Avenger Plant</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Capture Mag Pulse Weapon</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Trapped</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty IX: T/D Technology</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Capture the Platform</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Hold Platform</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Protect Evacuation</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Escort to Rendezvous</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Trapped by Pirates</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Transfer Prototypes</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty X: New Threats</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ransom</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Rescue</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Under the Gun</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Missile Boat Diplomacy</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Rebel Assault</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Eliminate TIE Defender Factory</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty XI: Hunt for Zaarin</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Intercept Convoy</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Preemptive Strike</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Bait and Switch</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>An Unexpected Attack</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>The Real Thing</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Protect Vorknkx Project</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Evacuate</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty XII: Prelude to Endor</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Escort Prison Ship</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Escort Prisoners</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Attack on Bothuwui</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Strike on Kothlis</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Bothan Treachery</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Recon Military Summit</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Delay Strike Force</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" colspan="100" scope="row">Tour of Duty XIII: The Emperor's Will</th>
+                </tr>
+                <tr>
+                    <th scope="col">Mission Name</th>
+                    <th scope="col">Highest Difficulty Completed</th>
+                    <th scope="col">Best Time</th>
+                    <th scope="col">Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Surprise Attack</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Capture the Turncoat</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Track Down Rebels</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Missile Boat Trouble</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Return to Vorknkx</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Corvette Attack</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Zaarin Takes the Bait</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>The Trap is Sprung</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
