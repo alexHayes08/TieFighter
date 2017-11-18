@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using TieFighter.Data;
 using TieFighter.Models;
+using TieFighterV2.Models;
 
 namespace TieFighter
 {
@@ -11,7 +12,7 @@ namespace TieFighter
     {
         public static async Task InitializeAsync(IServiceProvider provider)
         {
-            var _context = provider.GetRequiredService<ApplicationDbContext>();
+            var _context = provider.GetRequiredService<TieFighterContext>();
             var userManager = provider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
 
