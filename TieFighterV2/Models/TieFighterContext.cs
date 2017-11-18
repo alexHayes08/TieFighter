@@ -17,10 +17,6 @@ namespace TieFighterV2.Models
         public virtual DbSet<Medal> Medals { get; set; }
         public virtual DbSet<UsersToMedals> UsersToMedals { get; set; }
 
-        public TieFighterContext(DbContextOptions<TieFighterContext> options)
-           : base(options)
-        { }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

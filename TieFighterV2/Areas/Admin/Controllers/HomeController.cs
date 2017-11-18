@@ -43,8 +43,8 @@ namespace TieFighter.Areas.Admin.Controllers
         public IActionResult Tours()
         {
             ViewBag.Admin = true;
-            Func<Tours, int> sortByTour = (el => el.TourId);
-            var tours = GetPaginatedItems(0, 10, false, sortByTour, _context.Tours.ToList());
+            Func<Tour, int> sortByTour = (el => el.TourID);
+            var tours = GetPaginatedItems<Tour, int>(0, 10, false, sortByTour, _context.Tours.ToList());
             return View(tours);
         }
 
