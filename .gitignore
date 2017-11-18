@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/TieFighter/v15
+/.vs/TieFighterV2/v15/Server/sqlite3
+/TieFighter/bin/Debug/netcoreapp2.0
+/TieFighter/obj
+/.vs/TieFighterV2/v15

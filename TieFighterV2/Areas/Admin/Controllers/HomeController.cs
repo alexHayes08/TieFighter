@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TieFighter.Data;
 using TieFighter.Models;
@@ -43,8 +44,8 @@ namespace TieFighter.Areas.Admin.Controllers
         public IActionResult Tours()
         {
             ViewBag.Admin = true;
-            Func<Tour, int> sortByTour = (el => el.TourID);
-            var tours = GetPaginatedItems<Tour, int>(0, 10, false, sortByTour, _context.Tours.ToList());
+            Func<Tours, int> sortByTour = (el => el.TourId);
+            var tours = GetPaginatedItems(0, 10, false, sortByTour, _context.Tours.ToList());
             return View(tours);
         }
 

@@ -4,6 +4,11 @@ namespace TieFighterV2.Models
 {
     public partial class TieFighterContext : DbContext
     {
+        public TieFighterContext(DbContextOptions<TieFighterContext> options) 
+            : base(options)
+        {
+        }
+
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -14,10 +19,10 @@ namespace TieFighterV2.Models
         public virtual DbSet<Missions> Missions { get; set; }
         public virtual DbSet<Ships> Ships { get; set; }
         public virtual DbSet<Tours> Tours { get; set; }
-        public virtual DbSet<Medal> Medals { get; set; }
+        public virtual DbSet<Medals> Medals { get; set; }
         public virtual DbSet<UsersToMedals> UsersToMedals { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {

@@ -3,6 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-TestingIdentity-23B9A2EF-C98E-4C62-AA34-2B1CBBFE8414</UserSecretsId>
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <RootNamespace>TieFighter</RootNamespace>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+    <AssemblyName>TieFighter</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
 
