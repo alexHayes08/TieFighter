@@ -10,6 +10,6 @@ namespace TieFighter.Models
         public double DisplayLevel { get; set; }
         public string Thumbnail { get; set; }
 
-        public ICollection<Medal> Medals { get; set; }
+        public ICollection<Medals> Medals { get; set; }
     }
 }
