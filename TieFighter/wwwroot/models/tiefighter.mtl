@@ -1,0 +1,65 @@
+# Blender MTL File: 'TieFighter.blend'
+# Material Count: 6
+
+newmtl CockpitGlass
+Ns 96.078431
+Ka 0.103182 0.153412 0.250000
+Kd 0.132954 0.024653 0.640000
+Ks 0.102117 0.292484 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 3
+
+newmtl PreviewOfWing.Outer
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd tie-fighter-wing-outer.jpeg
+
+newmtl TieFighterMetal
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.451769 0.493765 0.537955
+Ks 0.067765 0.074353 0.080471
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\alexc\Source\Repos\TieFighter\TieFighter\wwwroot\metal.png
+
+newmtl TieFighterMetal.001
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.451769 0.493765 0.537955
+Ks 0.067765 0.074353 0.080471
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl TieFighterMetal_NONE
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.451769 0.493765 0.537955
+Ks 0.067765 0.074353 0.080471
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl TieFighterMetal_tieFighterEntraceCappng.png
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.451769 0.493765 0.537955
+Ks 0.067765 0.074353 0.080471
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\alexc\Source\Repos\TieFighter\TieFighter\wwwroot\tieFighterEntraceCappng.png

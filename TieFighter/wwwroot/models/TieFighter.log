@@ -1,0 +1,50 @@
+Exporter version: 5.4.2, Blender version: 2.78 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used:
+		selected layers only:  false
+		flat shading entire scene:  false
+		inline textures:  false
+		texture directory:  C:\Users\alexc\Source\Repos\TieFighter\TieFighter\wwwroot\models\
+	Python World class constructor completed
+	WARNING: The following camera not visible in scene thus ignored: Camera
+	processing begun of mesh:  CockPitGlass
+		processing begun of Standard material:  CockpitGlass
+		num positions      :  41
+		num normals        :  41
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  72
+	processing begun of mesh:  TIeFighterBallSection
+		processing begun of Standard material:  TieFighterMetal
+		num positions      :  3277
+		num normals        :  3277
+		num uvs            :  6554
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  6363
+		WARNING: # of 0 area faces found:  57
+	processing begun of mesh:  TieFighterWingLeft
+		registered as also a user of material:  TieFighterMetal
+		num positions      :  1023
+		num normals        :  1023
+		num uvs            :  2046
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  1317
+	processing begun of mesh:  TieFighterWingRight
+		processing begun of Standard material:  TieFighterMetal.002
+		num positions      :  1023
+		num normals        :  1023
+		num uvs            :  2046
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  1317
+	WARNING: The following lamp not visible in scene thus ignored: Spot
+	WARNING: The following lamp not visible in scene thus ignored: Spot.001
+	WARNING: The following lamp not visible in scene thus ignored: Spot.002
+	WARNING: The following lamp not visible in scene thus ignored: Spot.003
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 0.9321 secs

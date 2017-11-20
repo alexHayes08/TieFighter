@@ -1,0 +1,12 @@
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.deps.json
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.json
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.dev.json
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.dll
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.pdb
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csprojResolveAssemblyReference.cache
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csproj.CoreCompileInputs.cache
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfoInputs.cache
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfo.cs
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.dll
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.pdb
