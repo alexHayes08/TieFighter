@@ -15,7 +15,7 @@
                 var user = (await SignInManager.UserManager.GetUserAsync(User));
                 if ((await SignInManager.UserManager.GetRolesAsync(user)).Contains("admin"))
                 {
-                <a id="admin" class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                <a id="admin" class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
 
                 }
             }*@

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Google.Cloud.Datastore.V1;
 using Microsoft.Extensions.Configuration;
 using Google.Apis.Services;
+using Google.Apis.Auth.OAuth2;
+using System.IO;
 
 namespace TieFighter.Models
 {
@@ -618,7 +620,7 @@ namespace TieFighter.Models
             var existingUsers = db.Users.ToList();
             foreach (var u in existingUsers)
             {
-                var shipUnlocked = new List<int>();
+                var shipUnlocked = new List<string>();
                 var tieFighter = dbContext.db.RunQuery(new Query("Ship")
                 {
                     Filter = Filter.Equal("DisplayName", new Value()
@@ -626,7 +628,7 @@ namespace TieFighter.Models
                         StringValue = "TIE-Fighter"
                     })
                 });
-                shipUnlocked.Add(int.Parse(tieFighter.Entities?[0]["Id"].StringValue));
+                shipUnlocked.Add(tieFighter.Entities?[0]?["DisplayName"]?.StringValue);
 
                 users.Add(new ApplicationUserDatastoreModel()
                 {
@@ -646,7 +648,7 @@ namespace TieFighter.Models
                     {
                         ["ShipId"] = new Value()
                         {
-                            IntegerValue = u.ShipsUnlocked[i]
+                            StringValue = u.ShipsUnlocked[i]
                         }
                     };
                 }
@@ -657,12 +659,12 @@ namespace TieFighter.Models
                     ["MedalsWon"] = new Value()
                     {
                         ArrayValue = userMedalEntities,
-                        ExcludeFromIndexes = true
+                        //ExcludeFromIndexes = true
                     },
                     ["ShipsUnlocked"] = new Value()
                     {
                         ArrayValue = userShipEntities,
-                        ExcludeFromIndexes = true
+                        //ExcludeFromIndexes = true
                     }
                 });
             }

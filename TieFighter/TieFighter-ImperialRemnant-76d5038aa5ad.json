@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "tiefighter-imperialremnant",
+  "private_key_id": "76d5038aa5ad8c96fba0abb07a48a180fed0ed49",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDEUR1s+flvEakw\nqee/kcT9HwVwS/0ell7AG6ixaja0QSQq9eNaSvyExtfkXHPZTXVaaXz5bSqNjGjo\not0ty1VRpxtaN5ooBd0dpk+gvID8MZAqNbWfAGJpRz80kpYbdbg9eNw5nV4f3Ypz\nWi52SFJ4fIWAhilW2hUC87IIQGcccORNpyoDklNxAEOvX1gXz1a5PmLLIgCbsykF\nFR9H+fadrlkYTFHCyNXaUgd337h/nQjSVWirpEV3K8PRCoA7CnEjqRA/2YZsbgtC\nl8CXsK7imfHo6JXGHQkIx8UkB2VsLEAZn3DNfzeg4DG3Wn8SKo++SWOZarPjMk7X\ndVLrOBNxAgMBAAECggEAE4vMeVnTsA9y+B+IjZIwye91YgqM0Ydw+GFgnMZ5mx2b\nwWPBPs+VwA4Qt4HNfoqn5yg221o3SQfcd6Ikka9Lp8Eyt9sun/LCgtXY2oT+Ni3k\nn9FAa6v1AGypsj0wkRwZy5QNoDZnBVbwVp8ZXmlBvdGPFL523fkBa81x8cCgy4vU\nuZcq07ltTOkpnB6pYmmtzwLQ25995iw3Dfb4D+jveLWs9PCAdyNz+Op57vMmsH3/\nFKit90A9TmEYCEMd97YF3I+eM3AaEZ5jJEkyzDrRQUujE2gS7r9j+UDDUFBsBytl\njZSwChC//xVw9190+0wgmBevAp7GojPhCFIFRSNtaQKBgQDsL8Adc6xqK9ibfkBU\nkHTy3gmom48ZTEgiZYOvN6TqGm5twVTw6abX57FlaLRnUh8kcbgWajswIH/LV/iE\nW50FS521I3xL5HumZLggNR8Gv2sU7xEDJqVmPwGPcE4/qogZ1+2hkyl3/yBG3NIK\noQCFY2scW2ULxFCAgLIOnZekSQKBgQDUySOX+w7QxUbJnLi7uDwguySRhfS9aauV\nqN7MmDc3hCGtydoUdgOOvLz0ka8k6tPiC/gRMf0gb9Qz25BLkku44mXTn1nmAnpg\nA76ZT6s7fLPD1zLKcZdgYXlUhXubYhAXGA3V4zYyq159e/1PoGvDy6+9Mu/3NJAL\ni1j5680l6QKBgEm8LpIDRtRuk9UXeSXtY1VfFEzbI7WWJv72CkJtcMLVNZx2Ovpr\nN3c4Eh3Crm+DJ83M4te8mnXP75WgBSntH/xDOx0N0wQudJvh3cnQS7tjjx6d9AWz\nzvc4vFf3i7Y8mvjWfI1w0AVyVLVKwxgmY29BNnNH5SfjRe6YPv5pHKphAoGAdj0i\nkzRFwkqtECEPIfi5KLL1GgwmuA3885e33laC8E1y7YApt47wYSONmBVQDqKShJyE\nBwIRFzIs53gNUYEEpMLhNFvq933PBIVwJv73NoIP3jY5mfbO2Bax9f6KdghiyoJq\nRb0RA8zoH7CDTPjmiREpIWgpoeNKW6/eDFo0T+kCgYAY2m8TZ5iUVZ51vR0/forC\nIJXjXwyYsMCrz1Au83wKcA/niCMV5LTNmxj+BRZCA9nT4K6DCOT/dnG+zmL0DbLV\nSZzih7D26mvmI5vV+877C2MHXm9UuJKA6MJDVy1zD/IhWfptuHXmPaGn2QTtvlXw\nOGT0qKVlJWnPQustVA9xsg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "datastoreuser@tiefighter-imperialremnant.iam.gserviceaccount.com",
+  "client_id": "109955276739951169609",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/datastoreuser%40tiefighter-imperialremnant.iam.gserviceaccount.com"
+}

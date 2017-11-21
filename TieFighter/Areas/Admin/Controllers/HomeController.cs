@@ -10,7 +10,7 @@ using static TieFighter.Extensions.ExtensionMethods;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class HomeController : Controller
     {

@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using TieFighter.Data;
-using TieFighter.Models;
 using TieFighter.Models;
 
 namespace TieFighter
@@ -12,7 +10,7 @@ namespace TieFighter
     {
         public static async Task InitializeAsync(IServiceProvider provider)
         {
-            var _context = provider.GetRequiredService<TieFighterContext>();
+            //var _context = provider.GetRequiredService<TieFighterContext>();
             var userManager = provider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
 
@@ -48,6 +46,14 @@ namespace TieFighter
                 {
                     await userManager.AddToRoleAsync(user, "Registered");
                 }
+
+                //if (user.Email == "alex.c.hayes08@gmail.com")
+                //{
+                //    if (!await userManager.IsInRoleAsync(user, "Admin"))
+                //    {
+                //        await userManager.AddToRoleAsync(user, "Admin");
+                //    }
+                //}
             }
         }
     }

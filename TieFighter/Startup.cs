@@ -66,6 +66,13 @@ namespace TieFighter
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            var optionsBuilder = new DbContextOptionsBuilder<TieFighterContext>();
+            optionsBuilder.UseSqlServer(@"Server=bitsql.wctc.edu;Database=TieFighter;User Id=ahayes13;Password=000415469;");
+            using (var db = new TieFighterContext(optionsBuilder.Options))
+            {
+                TieFighterDatastoreContext.InitializeDbAsync(Configuration, db).Wait();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,6 +108,16 @@ namespace TieFighter
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                  name: "areas",
+                  template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+            });
+
+            Seed.InitializeAsync(app.ApplicationServices).Wait();
         }
     }
 }

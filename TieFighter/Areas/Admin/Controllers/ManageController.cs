@@ -12,7 +12,7 @@ using TieFighter.Services;
 namespace TieFighter.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin")]
     public class ManageController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

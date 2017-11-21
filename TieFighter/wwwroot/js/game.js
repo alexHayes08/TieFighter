@@ -377,19 +377,23 @@ function loadGame () {
 
         // Update transforms
         if ((map["w"] || map["W"])) {
-            camera.rotation.x += Math.PI / 360;
-        };
-
-        if ((map["d"] || map["D"])) {
-            camera.rotation.y += Math.PI / 360;
-        };
-
-        if ((map["a"] || map["A"])) {
-            camera.rotation.y -= Math.PI / 360;
+            //camera.rotation.x += Math.PI / 360;
+            camera.rotatePOV(Math.PI / 360, 0, 0);
         };
 
         if ((map["s"] || map["S"])) {
-            camera.rotation.x -= Math.PI / 360;
+            //camera.rotation.x -= Math.PI / 360;
+            camera.rotatePOV(-Math.PI / 360, 0, 0);
+        };
+
+        if ((map["a"] || map["A"])) {
+            //camera.rotation.y -= Math.PI / 360;
+            camera.rotatePOV(0, Math.PI / 360, 0);
+        };
+
+        if ((map["d"] || map["D"])) {
+            //camera.rotation.y += Math.PI / 360;
+            camera.rotatePOV(0, -Math.PI / 360, 0);
         };
 
         if ((map[" "])) {
@@ -459,8 +463,8 @@ var lasers = [];
 function fireFrom(source) {
     console.log("firing laser");
     var cylinder = BABYLON.MeshBuilder.CreateCylinder("cone", { diameter: 10, tessellation: 4 }, scene);
-    cylinder.position.x = source.position.x;
-    cylinder.position.y = source.position.y;
-    cylinder.position.z = source.position.z;
+    var pos = source.getAbsolutePosition();
+    cylinder.setAbsolutePosition(pos);
+    cylinder.
     lasers.push(cylinder);
 }

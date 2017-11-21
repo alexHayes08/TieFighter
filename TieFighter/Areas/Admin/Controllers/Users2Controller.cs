@@ -8,7 +8,7 @@ using TieFighter.Models;
 namespace TieFighter.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin")]
     public class Users2Controller : Controller
     {
         public Users2Controller(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)

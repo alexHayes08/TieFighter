@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TieFighter.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         // GET: Users
