@@ -6,8 +6,10 @@ namespace TieFighter.Models
     public class Mission
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string DisplayName { get; set; }
+        public int PositionInTour { get; set; }
+        public string MissionBriefing { get; set; }
         [ForeignKey("TourID")]
         public Tour Tour { get; set; }
     }

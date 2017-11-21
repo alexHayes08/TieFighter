@@ -43,10 +43,10 @@
                     <ul class="collapse" id="missions"></ul>
                 </li>
                 <li>
-                    <button class="btn btn-primary">Multiplayer</button>
+                    <button class="btn btn-primary disabled" disabled>Multiplayer</button>
                 </li>
                 <li>
-                    <button class="btn btn-danger">Exit</button>
+                    <button id="ExitGame" class="btn btn-danger" data-toggle="tooltip" title="Return to the site">Exit</button>
                 </li>
             </ul>
         </div>
@@ -103,15 +103,30 @@
                     <button id="returnToMainMenu">Return to Main Menu</button>
                 </li>
             </ul>
-            <div class="shipViewPort">
-                <input id="hullIntegrity" type="range" />
-                <input id="power" type="range" />
-                <input id="frontSheilds" type="range" />
-                <input id="rearSheilds" type="range" />
-                <input id="leftSheilds" type="range" />
-                <input id="rightSheilds" type="range" />
-                <input id="topSheilds" type="range" />
-                <input id="bottomSheilds" type="range" />
+        </div>
+        <div id="shipViewPort">
+            <div id="power" class="progress">
+                <div class="progress-bar"></div>
+            </div>
+            <div id="sensorsLeft"></div>
+            <div id="sensorsRight"></div>
+            <div id="mainDisplay">
+                <div id="hullIntegrity" class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="display">
+                    <input class="custom-checkbox toggleDisplay" type="checkbox" value="false" />
+                    <div id="target"></div>
+                </div>
+            </div>
+            <div id="missileLock"></div>
+            <div id="yourSheilds">
+                <div id="frontSheilds" class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <div id="rearSheilds" class="progress">
+                    <div class="progress-bar"></div>
+                </div>
             </div>
         </div>
         <div class="modal" id="messageModal" tabindex="-1" role="dialog">

@@ -58,6 +58,96 @@ canvas {
     z-index: 900;
 }
 
+#shipViewPort {
+    display: none;
+    z-index: 11;
+}
+
+#shipViewPort * {
+    background-color: black;
+    position: fixed;
+}
+
+#shipViewPort #sensorsLeft,
+#shipViewPort #sensorsRight {
+    border: 2px solid red;
+    border-radius: 50%;
+    
+    height: 100px;
+    width: 100px;
+    top: 5%;
+}
+
+#shipViewPort #sensorsLeft {
+    left: 5%;
+}
+
+#shipViewPort #sensorsRight {
+    right: 5%;
+}
+
+#shipViewPort #power {
+    left: 0;
+    top: 50%;
+    width: 30%;
+    transform: translateY(-50%) rotate(90deg);
+}
+
+#shipViewPort #mainDisplay {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    height: 45px;
+    width: 40%;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: .2s;
+}
+
+#shipViewPort #mainDisplay:hover,
+#shipViewPort #mainDisplay.open {
+    height: 33%;
+}
+
+#shipViewPort #hullIntegrity {
+    margin: auto;
+    margin-bottom: 8px;
+    position: relative;
+    min-height: 16px;
+    width: 100%;
+}
+
+#shipViewPort #mainDisplay:not(:hover):not(.open) *:not(#hullIntegrity) {
+    display: none;
+}
+
+#shipViewPort #mainDisplay .display {
+    background-color: white;
+    flex-grow: 1;
+    opacity: .8;
+    position: relative;
+    width: 100%;
+}
+
+#shipViewPort #mainDisplay #target {
+    background-color: aqua;
+    margin: auto;
+    margin-top: 15%;
+    padding-bottom: 33%;
+    position: relative;
+    width: 33%;
+}
+
+#shipViewPort #mainDisplay input.toggleDisplay {
+    right: 25px;
+    top: calc(25px + 24px);
+}
+
+/*#shipViewPort #mainDisplay:hover .display {
+    height: 100%;
+}*/
+
 #messageModal,
 #messageModal * {
     z-index: 2000;

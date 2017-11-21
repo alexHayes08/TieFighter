@@ -1,4 +1,19 @@
-function loadingScreen (show) {
+$('[data-toggle="tooltip"]').tooltip();
+$("#ExitGame").on("click", function () {
+    // FIXME: Replace this function
+    window.location.assign(window.location.origin);
+});
+
+var mainDisplay = $("#mainDisplay")
+$("#shipViewPort #mainDisplay input.toggleDisplay").on("change", function () {
+    if (this.checked) {
+        mainDisplay.addClass("open");
+    } else {
+        mainDisplay.removeClass("open");
+    }
+});
+
+function loadingScreen(show) {
     show = Boolean(show);
     document.getElementById("mainLoading").style.display = show ? "block" : "none";
 }
@@ -127,6 +142,8 @@ var TieFighter = {
     }
 }
 
+var loadedMeshes = [];
+
 var canvas = {};
 var engine = {};
 var scene = {};
@@ -205,7 +222,7 @@ window.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadGame () {
-
+    document.getElementById("shipViewPort").style.display = "block";
     canvas = document.getElementById("scene");
     engine = new BABYLON.Engine(canvas, true);
     var skybox = {}
@@ -220,6 +237,12 @@ function loadGame () {
         scene = new BABYLON.Scene(engine);
         var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 100, 100), scene);
         //camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
+        camera = new BABYLON.UniversalCamera("Camera", BABYLON.Vector3.Zero(), scene);
+        camera.attachControl(canvas, true);
+        camera.keysDown = [];
+        camera.keysUp = [];
+        camera.keysLeft = [];
+        camera.keysRight = [];
         scene.clearColor = BABYLON.Color3.Black();
         //skybox = BABYLON.Mesh.CreateBox("skybox", 100, scene);
         //var skyboxMaterial = new BABYLON.StandardMaterial("skybox", scene);
@@ -307,12 +330,19 @@ function loadGame () {
             //camera.setTarget(BABYLON.Vector3.Zero(), true, true);
             //camera.attachControl(canvas, false);
 
+            tiefighter.parent = camera;
+            tiefighter.position.x = 0;
+            tiefighter.position.y = -20;
+            tiefighter.position.z = 120;
+            tiefighter.addRotation(Math.PI, 0, 0);
+
+            camera.rotation.y = Math.PI;
+
             // Scene starts
             engine.runRenderLoop(function () {
                 scene.render();
             });
         }, null, function (error) {
-            console.error(error);
             throw error;
         });
 
@@ -332,33 +362,104 @@ function loadGame () {
         return scene;
     }
 
-    var scene = createScene();
+    scene = createScene();
     
     // object for multiple key presses
     var map = {};
     scene.actionManager = new BABYLON.ActionManager(scene);
-    //scene.registerAfterRender(function () {
+    scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {
+        map[evt.sourceEvent.key] = true;
+    }));
+    scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyUpTrigger, function (evt) {
+        delete map[evt.sourceEvent.key];
+    }));
+    scene.registerAfterRender(function (test) {
 
-    //    // Update transforms
-    //    if ((map["w"] || map["W"])) {
-    //        tiefighter.position.z += 0.1;
-    //    };
+        // Update transforms
+        if ((map["w"] || map["W"])) {
+            camera.rotation.x += Math.PI / 360;
+        };
 
-    //    if ((map["z"] || map["Z"])) {
-    //        tiefighter.position.z -= 0.1;
-    //    };
+        if ((map["d"] || map["D"])) {
+            camera.rotation.y += Math.PI / 360;
+        };
 
-    //    if ((map["a"] || map["A"])) {
-    //        tiefighter.position.x -= 0.1;
-    //    };
+        if ((map["a"] || map["A"])) {
+            camera.rotation.y -= Math.PI / 360;
+        };
 
-    //    if ((map["s"] || map["S"])) {
-    //        tiefighter.position.x += 0.1;
-    //    };
+        if ((map["s"] || map["S"])) {
+            camera.rotation.x -= Math.PI / 360;
+        };
 
-    //    // Keep skybox from rotating
-    //    skybox.rotation.x = 0;
-    //    skybox.rotation.y = 0;
-    //    skybox.rotation.z = 0;
-    //});
+        if ((map[" "])) {
+            fireFrom(tiefighter);
+        }
+
+        // Keep skybox from rotating
+        //skybox.rotation.x = 0;
+        //skybox.rotation.y = 0;
+        //skybox.rotation.z = 0;
+    });
+}
+
+/**
+ * Checks if the modal is already loaded, if not imports the modal and stores
+ * it.
+ * @param {any} modalFileName The name of the modal to load
+ */
+function loadMeshModal(modalFileName) {
+    return new Promise(function (resolve, reject) {
+        var foundMesh = false;
+        var meshModalName = modalFileName.replace(".babylon", "Modal");
+        var parentMesh = {};
+
+        for (var loadedMesh of loadedMeshes) {
+            if (loadedMesh.name == meshModalName) {
+                foundMesh = true;
+                parentMesh = loadedMesh;
+                break;
+            }
+        }
+
+        if (foundMesh) {
+            resolve(parentMesh);
+        } else {
+            try {
+                BABYLON.SceneLoader.ImportMesh("", "/models/", modalFileName, null, function (newMesh) {
+                    parentMesh = newMesh[0];
+                    for (var i = 1; i < newMesh.length; i++) {
+                        newMesh[i].parent = parentMesh;
+                    }
+
+                    loadedMeshes.push(parentMesh);
+                    resolve(newMesh);
+                });
+            } catch (error) {
+                reject(error);
+            }
+        }
+    });
+}
+
+function unloadMeshModal(modalFileName) {
+    var foundMesh = false;
+
+    for (var loadedMesh of loadedMeshes) {
+        if (loadedMesh.name == meshModalName) {
+            foundMesh = true;
+            break;
+        }
+    }
+
+    return foundMesh;
+}
+
+var lasers = [];
+function fireFrom(source) {
+    var cylinder = BABYLON.MeshBuilder.CreateCylinder("cone", { diameter: 10, tessellation: 4 }, scene);
+    cylinder.position.x = source.position.x;
+    cylinder.position.y = source.position.y;
+    cylinder.position.z = source.position.z;
+    lasers.push(cylinder);
 }

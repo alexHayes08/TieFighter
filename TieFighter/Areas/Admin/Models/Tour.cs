@@ -9,6 +9,6 @@ namespace TieFighter.Models
         public int TourID { get; set; }
         public string TourName { get; set; }
 
-        ICollection<Mission> Missions { get; set; }
+        public IList<Mission> Missions { get; set; }
     }
 }

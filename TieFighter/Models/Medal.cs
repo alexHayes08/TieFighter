@@ -11,6 +11,7 @@ namespace TieFighter.Models
         [MaxLength(200)]
         public string Description { get; set; }
         [Range(0, double.MaxValue)]
-        public int PointsWorth { get; set; }
+        public double PointsWorth { get; set; }
+        public string FileLocation { get; set; }
     }
 }
