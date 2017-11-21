@@ -334,7 +334,7 @@ function loadGame () {
             tiefighter.position.x = 0;
             tiefighter.position.y = -20;
             tiefighter.position.z = 120;
-            tiefighter.addRotation(Math.PI, 0, 0);
+            tiefighter.addRotation(Math.PI, 0, Math.PI  );
 
             camera.rotation.y = Math.PI;
 
@@ -457,6 +457,7 @@ function unloadMeshModal(modalFileName) {
 
 var lasers = [];
 function fireFrom(source) {
+    console.log("firing laser");
     var cylinder = BABYLON.MeshBuilder.CreateCylinder("cone", { diameter: 10, tessellation: 4 }, scene);
     cylinder.position.x = source.position.x;
     cylinder.position.y = source.position.y;
