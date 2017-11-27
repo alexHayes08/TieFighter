@@ -1,0 +1,97 @@
+﻿{
+  "filename": "TieFighter.babylon",
+  "accelerations": {
+    "translation": {
+      "forward": 5,
+      "lateral": 5,
+      "vertical": 5
+    },
+    "rotation": {
+      "pitch": 5,
+      "yaw": 5,
+      "roll": 5
+    }
+  },
+  "meshes": [
+    {
+      "id": "TIeFighterBallSection",
+      "shieldStrength": {
+        "maxShieldStrength": 0,
+        "currentShieldStrength": 0
+      },
+      "armorStrength": {
+        "maxArmorStrength": 10,
+        "currentArmorStrength": 10
+      },
+      "mass": 50,
+      "weapons": [
+        {
+          "typeOfWeapon": "L-s1 Laser Cannon"
+        },
+        {
+          "typeOfWeapon": "L-s1 Laser Cannon"
+        }
+      ],
+      "engines": [
+        {
+          "direction": "z",
+          "typeOfEngine": "P-s4 Twin Ion Engines"
+        },
+        {
+          "direction": "y",
+          "typeOfEngine": "P-w401 Ion Maneuvering Jet"
+        },
+        {
+          "direction": "x",
+          "typeOfEngine": "P-w401 Ion Maneuvering Jet"
+        }
+      ]
+    },
+    {
+      "id": "CockPitGlass",
+      "shieldStrength": {
+        "maxShieldStrength": 0,
+        "currentShieldStrength": 0
+      },
+      "armorStrength": {
+        "maxArmorStrength": 2,
+        "currentArmorStrength": 2
+      },
+      "mass": 5,
+      "weapons": [],
+      "engines": []
+    },
+    {
+      "id": "TieFighterWingLeft",
+      "shieldStrength": {
+        "maxShieldStrength": 0,
+        "currentShieldStrength": 0
+      },
+      "armorStrength": {
+        "maxArmorStrength": 20,
+        "currentArmorStrength": 20
+      },
+      "mass": 50,
+      "weapons": [],
+      "engines": []
+    },
+    {
+      "id": "TieFighterWingRight",
+      "shieldStrength": {
+        "maxShieldStrength": 0,
+        "currentShieldStrength": 0
+      },
+      "armorStrength": {
+        "maxArmorStrength": 20,
+        "currentArmorStrength": 20
+      },
+      "mass": 50,
+      "weapons": [],
+      "engines": []
+    }
+  ],
+  "power": {
+    "maxFuel": 100,
+    "currentFuel": 100
+  }
+}

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Google.Apis.Services;
 using Google.Apis.Auth.OAuth2;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace TieFighter.Models
 {
@@ -14,9 +15,9 @@ namespace TieFighter.Models
     {
         #region Constructors
 
-        public TieFighterDatastoreContext(IConfiguration configuration)
+        public TieFighterDatastoreContext(string projectId)
         {
-            string projectId = configuration["Authentication:Google:ProjectId"];
+            //string projectId = configuration["Authentication:Google:ProjectId"];
             db = DatastoreDb.Create(projectId);
             
             medals = new List<Medal>();
@@ -51,9 +52,9 @@ namespace TieFighter.Models
 
         #region Seed db with data
 
-        public static async Task InitializeDbAsync(IConfiguration configuration, TieFighterContext db)
+        public static async Task InitializeDbAsync(UserManager<ApplicationUser> userManager)
         {
-            var dbContext = new TieFighterDatastoreContext(configuration);
+            var dbContext = new TieFighterDatastoreContext("1086585271464");
             var medalKeyFactory = dbContext.db.CreateKeyFactory(medalKindName);
 
             // Upsert medals
@@ -617,7 +618,7 @@ namespace TieFighter.Models
             var userEntities = new List<Entity>();
             var users = new List<ApplicationUserDatastoreModel>();
 
-            var existingUsers = db.Users.ToList();
+            var existingUsers = userManager.Users.ToList();
             foreach (var u in existingUsers)
             {
                 var shipUnlocked = new List<string>();

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<TieFighter.Models.GameViewModals.GameTitleViewModal>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="checkerboard">
+    @foreach (var game in Model)
+    {
+        <div class="colorSpacer row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+        <div class="row checkerboard-row">
+            <div class="black firstBG position-relative">
+                <div class="centerAbsoluteChildElement">
+                    <h1 class="text-center">@game.Title</h1>
+                    <div>@game.Description</div>
+                    @if (!game.IsReleased)
+                    {
+                        <span class="text-center mt-5 d-block">Coming soon...</span>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-warning mt-5 mx-auto d-block" href="@game.GameUrl">Enter @game.Title Game!</a>
+                    }
+                </div>
+            </div>
+            <div class="white fifthBG d-inline-flex">
+                <img class="img-fluid align-middle softTransition z-depth-2-inverted z-depth-4-inverted-hover" src=@game.CoverPicture>
+            </div>
+        </div>
+    }
+    <div class="colorSpacer row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+    <div class="row checkerboard-row">
+        <div class="black firstBG position-relative"></div>
+        <div class="white fifthBG d-inline-flex"></div>
+    </div>
+</div>

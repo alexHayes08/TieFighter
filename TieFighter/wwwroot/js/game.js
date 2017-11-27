@@ -4,6 +4,10 @@ $("#ExitGame").on("click", function () {
     window.location.assign(window.location.origin);
 });
 
+$("#returnToMainMenu").on("click", function () {
+    window.location.assign(window.location.origin + "/Game/TieFighter");
+});
+
 var mainDisplay = $("#mainDisplay")
 $("#shipViewPort #mainDisplay input.toggleDisplay").on("change", function () {
     if (this.checked) {
@@ -13,9 +17,45 @@ $("#shipViewPort #mainDisplay input.toggleDisplay").on("change", function () {
     }
 });
 
+$("#resumeGame").on("click", resumeGame);
+
 function loadingScreen(show) {
     show = Boolean(show);
     document.getElementById("mainLoading").style.display = show ? "block" : "none";
+}
+
+class WeaponDefinition {
+    constructor(name, dmg, dmgRadius, dmgFalloff = null) {
+
+    }
+    get name() {
+        return this._name;
+    }
+    get dmg() {
+        return this._dmg;
+    }
+    get dmgRadius() {
+        return this._dmgRadius;
+    }
+    get dmgFalloff() {
+        return this._dmgFalloff;
+    }
+}
+
+class EngineDefinition {
+    constructor(name, fuelConsumedPerSecond) {
+        this._name = name;
+        this._fuelConsumedPerSecond = Number(fuelConsumedPerSecond);
+    }
+    get name() {
+        return this._name;
+    }
+    get fuelConsumedPerSecond() {
+
+    }
+    calculateFuelConsumed(seconds) {
+        return this.fuelConsumedPerSecond * seconds;
+    }
 }
 
 class EventListenerWrapper {
@@ -70,7 +110,125 @@ class Tour {
     }
 }
 
-var TieFighter = {
+class Accelerations {
+    constructor(translationVector, rotationVector) {
+        if (!(translationVector instanceof BABYLON.Vector3) ||
+            !(rotationVector instanceof BABYLON.Vector3))
+        {
+            throw new Error("The arguments 'translationVector' and 'rotationVector' must be instances of BABYLON.Vector3");
+        }
+
+        this._x = translationVector.x;
+        this._y = translationVector.y;
+        this._z = translationVector.z;
+        this._pitch = rotationVector.x;
+        this._yaw = rotationVector.y;
+        this._roll = rotationVector.z;
+    }
+    get x() {
+        return this._x;
+    }
+    get y() {
+        return this._y;
+    }
+    get z() {
+        return this._z;
+    }
+    get pitch() {
+        return this._pitch;
+    }
+    get yaw() {
+        return this._yaw;
+    }
+    get roll() {
+        return this.roll;
+    }
+}
+
+class Power {
+    constructor(maxFuel, currentFuel = null) {
+        this._maxFuel = Number(maxFuel);
+        if (currentFuel == null) {
+            this._currentFuel = this.maxFuel;
+        } else {
+            this._currentFuel = Number(currentFuel);
+        }
+    }
+    get maxFuel() {
+        return this._maxFuel;
+    }
+    get currentFuel() {
+        return this._currentFuel;
+    }
+}
+
+class Ship {
+    constructor(filename, accelerations, meshes, power) {
+        if (arguments.length == 1) {
+
+            // Argument is json
+            var parsedJson = JSON.parse(arguments[0]);
+            filename = parsedJson.filename;
+            accelerations = parsedJson.accelerations;
+            meshes = parsedJson.meshes;
+            power = parsedJson.power;
+        }
+
+        // Validate
+
+        if (filename == null || filename == "") {
+            throw new Error("The argument 'filename' cannot be null nor empty.")
+        }
+        else if (accelerations == null ||
+            !(accelerations instanceof Accelerations)) {
+            throw new Error("The argument 'accelerations' cannot be null "
+                + "and must be an instance of Accelerations.");
+        }
+        else if (meshes == null || !(meshes instanceof Array)) {
+            throw new Error("The argument 'meshes' cannot be null and must "
+                + "be an Array.");
+        }
+        else if (power == null || !(power instanceof Power)) {
+            throw new Error("The argument 'power' cannot be null and must "
+                + "be an instance of Power");
+        }
+
+        this.modalFileName = filename;
+        this.modalName = filename.replace(".babylon", "");
+
+        Object.freeze(this.modalFileName);
+        Object.freeze(this.modalName);
+
+        throw Game.events.shipLoading(this.modalName);
+
+        this.accelerations = accelerations;
+        this.meshes = meshes;
+        this.power = power;
+
+        // Import mesh
+        loadMeshModal(this.modalFileName)
+            .then(function(mesh) {
+                console.log("Loaded mesh ok.");
+                this.BABYLON_mesh = mesh;
+                throw Game.events.finishedShipLoading(this.modalName);
+            }).catch(function (error) {
+                throw Game.events.errorLoadingShip(this.modalName);
+            });
+    }
+}
+
+var Game = {
+    events: {
+        shipLoading: function (shipName) {
+            return new CustomEvent("shipLoading", { shipName: shipName });
+        },
+        finishedShipLoading: function (shipName) {
+            return new CustomEvent("finishedShipLoading", { shipName: shipName });
+        },
+        errorLoadingShip: function (shipName) {
+            return new CustomEvent("errorLoadingShip", { shipName: shipName });
+        }
+    },
     menus: {
         mainMenu: {
             init (tours) {
@@ -152,73 +310,48 @@ var cameras = [];
 var tiefighter = {};
 var stardestroyer = {};
 window.addEventListener("DOMContentLoaded", function () {
-    // First init firebase & check if user is logged in
-    var config = {
-        apiKey: "AIzaSyCgeNBTA_rTNn0NG2nCAYj401Kf5rXRgx0",
-        authDomain: "tiefighter-imperialremnant.firebaseapp.com",
-        databaseURL: "https://tiefighter-imperialremnant.firebaseio.com",
-        projectId: "tiefighter-imperialremnant",
-        storageBucket: "tiefighter-imperialremnant.appspot.com",
-        messagingSenderId: "1086585271464"
-      };
-      firebase.initializeApp(config);
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function () {
-        firebase.auth().onAuthStateChanged(function() {
-            if (user) {
-                // Continue loading game
-                console.log("User is logged in.")
-                // loadGame();
-                
-                // Show menu
-                var tours = [];
-                XMLHttpRequestPromise("GET","/tours.json")
-                    .then(function (response) {
-                        var json = JSON.parse(response).tours;
-                        for (var t of json) {
-                            var missions = [];
-                            for (var m of t.missions) {
-                                missions.push(new Mission(m.name, m.number, m.missionBriefing));
-                            }
+    // Show menu
+    var tours = [];
+    XMLHttpRequestPromise("GET", "/tours.json")
+        .then(function (response) {
+            var json = JSON.parse(response).tours;
+            for (var t of json) {
+                var missions = [];
+                for (var m of t.missions) {
+                    missions.push(new Mission(m.name, m.number, m.missionBriefing));
+                }
 
-                            tours.push(new Tour(t.name, missions));
-                        }
-
-                        var missionListEl = $("#missions");
-                        for (var tour of tours) {
-                            var container = document.createElement("div");
-                            var title = document.createElement("div");
-                            var ul = document.createElement("ul")
-
-                            title.innerText = tour.name;
-                            for (var mission of tour.missions) {
-                                var liEl = document.createElement("li");
-                                liEl.innerText = mission.name;
-                                ul.appendChild(liEl)
-                            }
-
-                            container.appendChild(title);
-                            container.appendChild(ul);
-                            missionListEl.append(container);
-                        }
-                    }).catch(function (error) {
-                        console.error("Failed to retrieve tours!");
-                    });
-                $("#tutorial").on("click", function () {
-                    loadingScreen(true);
-                    TieFighter.menus.mainMenu.hide();
-                    loadGame();
-                    loadingScreen(false);
-                });
-                TieFighter.menus.mainMenu.show();
-                loadingScreen(false);
-            } else {
-                // Display message about needing to login
-                console.error("User isn't logged in")
-                loadingScreen(true);
-                $("#messageModal").show();
+                tours.push(new Tour(t.name, missions));
             }
+
+            var missionListEl = $("#missions");
+            for (var tour of tours) {
+                var container = document.createElement("div");
+                var title = document.createElement("div");
+                var ul = document.createElement("ul")
+
+                title.innerText = tour.name;
+                for (var mission of tour.missions) {
+                    var liEl = document.createElement("li");
+                    liEl.innerText = mission.name;
+                    ul.appendChild(liEl)
+                }
+
+                container.appendChild(title);
+                container.appendChild(ul);
+                missionListEl.append(container);
+            }
+        }).catch(function (error) {
+            console.error("Failed to retrieve tours!");
         });
-      });
+    $("#tutorial").on("click", function () {
+        loadingScreen(true);
+        Game.menus.mainMenu.hide();
+        loadGame();
+        loadingScreen(false);
+    });
+    Game.menus.mainMenu.show();
+    loadingScreen(false);
 });
 
 function loadGame () {
@@ -235,10 +368,12 @@ function loadGame () {
         // var camera = new BABYLON.FreeCamera("MainCamera", new BABYLON.Vector3(0,5,-10));
 
         scene = new BABYLON.Scene(engine);
+        var gravityVector = new BABYLON.Vector3(0, 0, 0);
+        scene.enablePhysics(gravityVector);
         var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 100, 100), scene);
-        //camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
-        camera = new BABYLON.UniversalCamera("Camera", BABYLON.Vector3.Zero(), scene);
-        camera.attachControl(canvas, true);
+        camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
+        //camera = new BABYLON.UniversalCamera("Camera", BABYLON.Vector3.Zero(), scene);
+        camera.attachControl(canvas, false);
         camera.keysDown = [];
         camera.keysUp = [];
         camera.keysLeft = [];
@@ -314,9 +449,18 @@ function loadGame () {
 
         BABYLON.SceneLoader.ImportMesh("", "/models/", "tiefighter.babylon", scene, function (newMesh) {
             // camera.setTarget(newMesh);
-            tiefighter = newMesh[0];
-            for (var i = 1; i < newMesh.length; i++)
+
+            tiefighter = BABYLON.MeshBuilder.CreateBox("tiefighterParent", {}, scene);
+            tiefighter.visibility = 0;
+            //tiefighter.scaling.x = 5;
+            //tiefighter.scaling.y = 5;
+            //tiefighter.scaling.z = 5;
+            for (var i = 0  ; i < newMesh.length; i++) {
                 newMesh[i].parent = tiefighter;
+                //newMesh[i].scaling.x = -5;
+                //newMesh[i].scaling.y = -5;
+                //newMesh[i].scaling.z = -5;
+            }
 
             //camera.setTarget(tiefighter, new BABYLON.Vector3.Zero());
             //camera.attachControl(tiefighter);
@@ -330,13 +474,20 @@ function loadGame () {
             //camera.setTarget(BABYLON.Vector3.Zero(), true, true);
             //camera.attachControl(canvas, false);
 
-            tiefighter.parent = camera;
+            //tiefighter.parent = camera;
+            camera.parent = tiefighter;
+            //camera.lockTarget = tiefighter;
             tiefighter.position.x = 0;
             tiefighter.position.y = -20;
             tiefighter.position.z = 120;
-            tiefighter.addRotation(Math.PI, 0, Math.PI  );
-
+            //tiefighter.addRotation(Math.PI, 0, Math.PI);
+            tiefighter.physicsImpostor = new BABYLON.PhysicsImpostor(tiefighter, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene);
             camera.rotation.y = Math.PI;
+
+            // Scroll evt listener
+            window.addEventListener("scroll", function (evt) {
+                console.log(evt);
+            });
 
             // Scene starts
             engine.runRenderLoop(function () {
@@ -375,36 +526,131 @@ function loadGame () {
     }));
     scene.registerAfterRender(function (test) {
 
+        var elapsed = engine.getDeltaTime() / 1000;
+
+        var zRot = 0;
+        var xRot = 0;
+        var yRot = 0;
+
         // Update transforms
         if ((map["w"] || map["W"])) {
             //camera.rotation.x += Math.PI / 360;
-            camera.rotatePOV(Math.PI / 360, 0, 0);
+            //tiefighter.physicsImpostor.applyImpulse(new BABYLON.Vector3(10, 10, 0), tiefighter.getAbsolutePosition());
+            //tiefighter.rotatePOV(Math.PI / 360, 0, 0);
+            //xRot += elapsed * turnSpeed;
+            xRot += elapsed * 2;
         };
 
         if ((map["s"] || map["S"])) {
             //camera.rotation.x -= Math.PI / 360;
-            camera.rotatePOV(-Math.PI / 360, 0, 0);
-        };
-
-        if ((map["a"] || map["A"])) {
-            //camera.rotation.y -= Math.PI / 360;
-            camera.rotatePOV(0, Math.PI / 360, 0);
+            //tiefighter.rotatePOV(-Math.PI / 360, 0, 0);
+            //xRot -= elapsed * turnSpeed;
+            xRot -= elapsed * 2;
         };
 
         if ((map["d"] || map["D"])) {
             //camera.rotation.y += Math.PI / 360;
-            camera.rotatePOV(0, -Math.PI / 360, 0);
+            //tiefighter.rotatePOV(0, 0, -Math.PI / 360);
+            //yRot += elapsed * turnSpeed;
+            yRot += elapsed * 2;
         };
+
+        if ((map["a"] || map["A"])) {
+            //camera.rotation.y -= Math.PI / 360;
+            //tiefighter.rotatePOV(0, 0, Math.PI / 360);
+            //yRot -= elapsed * turnSpeed;
+            yRot -= elapsed * 2;
+        };
+
+        if ((map["q"] || map["Q"])) {
+            zRot += elapsed * 2/*turnSpeed*/;
+        }
+
+        if ((map["e"] || map["E"])) {
+            zRot -= elapsed * 2/*turnSpeed*/;
+        }
+
+        if (map["ArrowUp"]) {
+            //tiefighter.movePOV(0, 0, 10);
+        }
+
+        if (map["ArrowDown"]) {
+            //tiefighter.movePOV(0, 0, -10);
+        }
 
         if ((map[" "])) {
             fireFrom(tiefighter);
+        }
+
+        if ((map["Escape"])) {
+            pauseGame();
         }
 
         // Keep skybox from rotating
         //skybox.rotation.x = 0;
         //skybox.rotation.y = 0;
         //skybox.rotation.z = 0;
+
+        // Example code
+        //var elapsed = engine.getDeltaTime() / 1000;
+
+        //// handle keys here
+        //if (keysDown[87]) {
+        //    // W, rotate in the negative direction about the x axis
+        //    xRot += elapsed * turnSpeed;
+        //}
+
+        //if (keysDown[83]) {
+        //    // S, rotate in the positive direction about the x axis
+        //    xRot -= elapsed * turnSpeed;
+        //}
+
+        //if (keysDown[65]) {
+        //    // A, rotate left
+        //    yRot -= elapsed * turnSpeed;
+        //    if (autocoord) {
+        //        zRot += elapsed * turnSpeed;
+        //    }
+        //}
+
+        //if (keysDown[68]) {
+        //    // D, rotate right
+        //    yRot += elapsed * turnSpeed;
+        //    if (autocoord) {
+        //        zRot -= elapsed * turnSpeed;
+        //    }
+        //}
+
+        //if (keysDown[81]) {
+        //    // Q, rotate in the positive direction about the z axis
+        //    zRot += elapsed * turnSpeed;
+        //}
+
+        //if (keysDown[69]) {
+        //    // E, rotate in the negative direction about the z axis
+        //    zRot -= elapsed * turnSpeed;
+        //}
+
+        //var craft = scene.getMeshByName("craftparent");
+        //var cam = scene.getCameraByID("Camera");
+
+        //tiefighter.translate(BABYLON.Axis.Z, elapsed + tiefighter.accelerations.forward, BABYLON.Space.LOCAL);
+        tiefighter.translate(BABYLON.Axis.Z, -1 * (elapsed + 1), BABYLON.Space.LOCAL);
+        tiefighter.rotation = new BABYLON.Vector3(xRot, yRot, zRot);
+        //craft.translate(BABYLON.Axis.Z, elapsed + airSpeed, BABYLON.Space.LOCAL);
+        //craft.rotation = new BABYLON.Vector3(xRot, yRot, zRot);
     });
+}
+
+function loadShip(shipFileName) {
+    XMLHttpRequestPromise("GET", shipFileName)
+        .then(function (response) {
+            var parsedJSON = JSON.parse(response);
+            console.log(parsedJSON);
+        }).catch(function (error) {
+            console.warn(`Failed to load ship ${shipFileName}`);
+            console.error(error);
+        })
 }
 
 /**
@@ -460,11 +706,68 @@ function unloadMeshModal(modalFileName) {
 }
 
 var lasers = [];
+var canFire = true;
+var burnOutVal = 0;
+var maxBurnOut = 10;
 function fireFrom(source) {
-    console.log("firing laser");
-    var cylinder = BABYLON.MeshBuilder.CreateCylinder("cone", { diameter: 10, tessellation: 4 }, scene);
-    var pos = source.getAbsolutePosition();
-    cylinder.setAbsolutePosition(pos);
-    cylinder.
-    lasers.push(cylinder);
+    if (canFire && (burnOutVal < maxBurnOut)) {
+        function unlockFire() {
+            setTimeout(function () {
+                canFire = true;
+            }, 200);
+        }
+
+        burnOutVal++;
+        canFire = false;
+        unlockFire();
+
+        console.log("firing laser");
+        var forwardRay = camera.getForwardRay();
+        let laser = BABYLON.MeshBuilder.CreateCylinder("laser", { diameter: 1, tessellation: 4, height: 10 }, scene);
+        laser.physicsImpostor = new BABYLON.PhysicsImpostor(laser, BABYLON.PhysicsImpostor.CylinderImpostor, { mass: 1, restitution: 0.9 }, scene);
+        laser.rotation.x = Math.PI / 4;
+        var pos = source.getAbsolutePosition();
+        laser.setAbsolutePosition(pos);
+        //laser.rotation = forwardRay.direction;
+        //cylinder.addRotation(0, Math.PI / 2);
+        //cylinder.rotation.x = camera.rotation.x;
+        //cylinder.rotation.y = camera.rotation.y + Math.PI/2;
+        lasers.push(laser);
+        var laserVelocity = new BABYLON.Vector3(0, 0, -100);
+        laserVelocity
+        laser.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, -100));
+        var laserMaterial = new BABYLON.StandardMaterial("laser", scene);
+        laserMaterial.emissiveColor = new BABYLON.Color3(0,1,0);
+        //laserMaterial.ambientColor = new BABYLON.Color3(66, 244, 78);
+        laserMaterial.ambientColor = new BABYLON.Color3(0, 1, 0);
+        laserMaterial.diffuseColor = new BABYLON.Color3(0, 1, 0);
+        laserMaterial.specularColor = new BABYLON.Color3(0, 1, 0);
+        laserMaterial.specularPower = 32;
+        laser.material = laserMaterial;
+        var disposeFunc = function (laser) {
+            laser.dispose();
+            console.log("disposing func");
+            burnOutVal--;
+        };
+        setTimeout(disposeFunc, 5000, laser);
+    }
+}
+
+var isPaused = false;
+function pauseGame() {
+    if (!isPaused) {
+        isPaused = true;
+        engine.stopRenderLoop();
+        Game.menus.inGameMenu.show();
+    }
+}
+
+function resumeGame() {
+    if (isPaused) {
+        isPaused = false;
+        Game.menus.inGameMenu.hide();
+        engine.runRenderLoop(function () {
+            scene.render();
+        });
+    }    
 }

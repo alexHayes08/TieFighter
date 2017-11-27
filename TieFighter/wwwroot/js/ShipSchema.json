@@ -1,0 +1,140 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "id": "http://localhost:52928/js/ShipSchema.json",
+  "description": "Schema for the ships in the TIE-Fighter/TIE-Predator games.",
+  "title": "Ship",
+  "type": "object",
+  "properties": {
+    "filename": {
+      "description": "Name of the .babylon file that actually contains the mesh/material info.",
+      "type": "string"
+    },
+    "accelerations": {
+      "description": "How fast the ship can accelerate translationly and rotationally.",
+      "type": "object",
+      "properties": {
+        "translation": {
+          "description": "How fast the ship can accelerate translationally.",
+          "type": "object",
+          "properties": {
+            "forward": {
+              "description": "",
+              "type": "number"
+              //"exclusiveMinimum": 0
+            },
+            "lateral": {
+              "description": "",
+              "type": "number"
+              //"exclusiveMinimum": 0
+            },
+            "vertical": {
+              "description": "",
+              "type": "number"
+              //"exclusiveMinimum": 0
+            }
+          }
+        },
+        "rotation": {
+          "description": "How fast the ship can accelerate rotationally",
+          "type": "object",
+          "properties": {
+            "pitch": {
+              "description": "",
+              "type": "number"
+              //"exclusiveMinimum": 0
+            },
+            "yaw": {
+              "description": "",
+              "type": "number"
+              //"exclusiveMinimum": 0
+            },
+            "roll": {
+              "description": "",
+              "type": "number"
+              //"exclusiveMinimum": 0
+            }
+          }
+        }
+      }
+    },
+    "meshes": {
+      "description": "The names of the meshes and their properties",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Name of the sub-mesh.",
+            "type": "string"
+          },
+          "shieldStrength": {
+            "description": "How strong the sheilds are over that particular mesh.",
+            "type": "object",
+            "properties": {
+              "maxShieldStrength": {
+                "type": "number"
+                //"exclusiveMinimum": 0
+              },
+              "currentShieldStrength": {
+                "type": "number"
+                //"exclusiveMinimum": 0
+              }
+            }
+          },
+          "armorStrength": {
+            "type": "object",
+            "properties": {
+              "maxArmorStrength": {
+                "type": "number"
+                //"exclusiveMinimum": 0
+              },
+              "currentArmorStrength": {
+                "type": "number"
+                //"exclusiveMinimum": 0
+              }
+            }
+          },
+          "mass": {
+            "type": "number"
+            //"exclusiveMinimum": 0
+          },
+          "weapons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "typeOfWeapon": {
+                  "enum": [ "laser cannon", "ion cannon", "proton torpedo", "ion torpedo", "concussion missile", "anti(turbo)laser cloud missile" ]
+                }
+              }
+            }
+          },
+          "engines": {
+            "type": "object",
+            "properties": {
+              "direction": {
+                "enum": [ "x", "y", "z" ]
+              },
+              "fuelConsumedPerSecond": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "power": {
+          "type": "object",
+          "properties": {
+            "maxFuel": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "currentFuel": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}

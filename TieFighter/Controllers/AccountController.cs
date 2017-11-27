@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -15,9 +16,10 @@ using TieFighter.Services;
 namespace TieFighter.Controllers
 {
     //[RequireHttps]
-    [Authorize(Policy = Startup.signedInPolicyName)]
+    [Authorize(Policy = Startup.SignedInPolicyName)]
     public class AccountController : Controller
     {
+        const string CustomUserThumbnailImagesFolder = "Data\\UserThumbnails";
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -72,6 +74,37 @@ namespace TieFighter.Controllers
             {
                 return Json(new { Error = updateResult.Errors });
             }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateUserThumbnail([FromBody] UpdateUserThumbnailViewModel userThumbnailVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                var extension = userThumbnailVM.FileName.Split(".").Last();
+                var filename = $"{user.Id}.{extension}";
+
+                user.Thumbnail = filename;
+
+                try
+                {
+                    using (var fileStream = new FileStream(Path.Combine(CustomUserThumbnailImagesFolder, filename), FileMode.Create))
+                    {
+                        //await model.AvatarImage.CopyToAsync(memoryStream);
+                        fileStream.Write(userThumbnailVM.Image, 0, userThumbnailVM.Image.Length);
+                    }
+                }
+                catch (IOException)
+                {
+                    return Json(new { Error = "Error occurred while trying to save the image." });
+                }
+
+                return Json(new { Error = "" });
+            }
+
+            return Json(new { Error = "Failed to set the users thumbnail image." });
         }
 
         [HttpGet]

@@ -47,13 +47,17 @@ namespace TieFighter
                     await userManager.AddToRoleAsync(user, "Registered");
                 }
 
-                //if (user.Email == "alex.c.hayes08@gmail.com")
-                //{
-                //    if (!await userManager.IsInRoleAsync(user, "Admin"))
-                //    {
-                //        await userManager.AddToRoleAsync(user, "Admin");
-                //    }
-                //}
+                if (user.Email == "alex.c.hayes08@gmail.com")
+                {
+                    if (!await userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        var result = await userManager.AddToRoleAsync(user, "Admin");
+                        if (!result.Succeeded)
+                        {
+                            Console.WriteLine("Failed to add user to Admin role!");
+                        }
+                    }
+                }
             }
         }
     }

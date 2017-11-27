@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using TieFighter.Models;
 using TieFighter.Services;
 
@@ -14,7 +15,7 @@ namespace TieFighter
 {
     public class Startup
     {
-        public const string signedInPolicyName = "signedIn";
+        public const string SignedInPolicyName = "signedIn";
         private const string customGoogleSignInSchemeName = "google";
 
         public Startup(IConfiguration configuration)
@@ -54,7 +55,7 @@ namespace TieFighter
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(signedInPolicyName, policy =>
+                options.AddPolicy(SignedInPolicyName, policy =>
                 {
                     policy.AuthenticationSchemes.Add(customGoogleSignInSchemeName);
                     policy.AuthenticationSchemes.Add(new AuthenticationOptions().DefaultAuthenticateScheme);
@@ -67,12 +68,12 @@ namespace TieFighter
 
             services.AddMvc();
 
-            var optionsBuilder = new DbContextOptionsBuilder<TieFighterContext>();
-            optionsBuilder.UseSqlServer(@"Server=bitsql.wctc.edu;Database=TieFighter;User Id=ahayes13;Password=000415469;");
-            using (var db = new TieFighterContext(optionsBuilder.Options))
-            {
-                TieFighterDatastoreContext.InitializeDbAsync(Configuration, db).Wait();
-            }
+            //var optionsBuilder = new DbContextOptionsBuilder<TieFighterContext>();
+            //optionsBuilder.UseSqlServer(@"Server=bitsql.wctc.edu;Database=TieFighter;User Id=ahayes13;Password=000415469;");
+            //using (var db = new TieFighterContext(optionsBuilder.Options))
+            //{
+            //    TieFighterDatastoreContext.InitializeDbAsync(Configuration, db).Wait();
+            //}
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,6 +91,13 @@ namespace TieFighter
             }
 
             app.UseAuthentication();
+
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+                ReceiveBufferSize = 4 * 1024
+            };
+            app.UseWebSockets(webSocketOptions);
 
             // Set up custom content types -associating file extension to MIME type
             var provider = new FileExtensionContentTypeProvider();
@@ -117,7 +125,7 @@ namespace TieFighter
                 );
             });
 
-            Seed.InitializeAsync(app.ApplicationServices).Wait();
+            //Seed.InitializeAsync(app.ApplicationServices).Wait();
         }
     }
 }
