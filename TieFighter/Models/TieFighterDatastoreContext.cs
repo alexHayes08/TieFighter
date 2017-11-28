@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Google.Cloud.Datastore.V1;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Google.Cloud.Datastore.V1;
-using Microsoft.Extensions.Configuration;
-using Google.Apis.Services;
-using Google.Apis.Auth.OAuth2;
-using System.IO;
-using Microsoft.AspNetCore.Identity;
 
 namespace TieFighter.Models
 {
@@ -23,7 +19,14 @@ namespace TieFighter.Models
             medals = new List<Medal>();
             ships = new List<Ship>();
             tours = new List<Tours>();
-            users = new List<ApplicationUserDatastoreModel>();
+            users = new List<User>();
+            lastUpdatesToTables = new Dictionary<string, DateTime>
+            {
+                { nameof(Medal), DateTime.Now },
+                { nameof(Ship), DateTime.Now },
+                { nameof(Tour), DateTime.Now },
+                { nameof(User), DateTime.Now }
+            };
         }
 
         #endregion
@@ -31,10 +34,11 @@ namespace TieFighter.Models
         #region Fields
 
         private readonly DatastoreDb db;
+        private readonly IDictionary<string, DateTime> lastUpdatesToTables;
         private readonly IList<Medal> medals;
         private readonly IList<Ship> ships;
         private readonly IList<Tours> tours;
-        private readonly IList<ApplicationUserDatastoreModel> users;
+        private readonly IList<User> users;
 
         private const string medalKindName = "Medal";
         private const string shipKindName = "Ship";
@@ -49,6 +53,29 @@ namespace TieFighter.Models
         #endregion
 
         #region Functions
+
+        //public IList<Medal> GetPaginatedListOfMedals(int resultsPerPage, int pageNumber, string hashcode)
+        //{
+
+        //}
+
+        public IList<Medal> GetPaginatedMedals(int pageNumber, int resultsPerPage, DateTime lastUpdated)
+        {
+            var response = GetPaginatedOf(nameof(Medal), resultsPerPage, pageNumber, lastUpdated);
+            return DatastoreHelpers.ParseEntitiesToObject<Medal>(response);
+        }
+
+        private IReadOnlyList<Entity> GetPaginatedOf(string kind, int resultsPerPage, int pageNumber, DateTime lastUpdated)
+        {
+            var query = new Query(kind)
+            {
+                Limit = resultsPerPage,
+                Offset = resultsPerPage * pageNumber
+            };
+            var response = db.RunQuery(query).Entities;
+
+            return response;
+        }
 
         #region Seed db with data
 
@@ -616,7 +643,7 @@ namespace TieFighter.Models
 
             var userKeyFactory = dbContext.db.CreateKeyFactory(userKindName);
             var userEntities = new List<Entity>();
-            var users = new List<ApplicationUserDatastoreModel>();
+            var users = new List<User>();
 
             var existingUsers = userManager.Users.ToList();
             foreach (var u in existingUsers)
@@ -631,7 +658,7 @@ namespace TieFighter.Models
                 });
                 shipUnlocked.Add(tieFighter.Entities?[0]?["DisplayName"]?.StringValue);
 
-                users.Add(new ApplicationUserDatastoreModel()
+                users.Add(new User()
                 {
                     Id = u.Id,
                     MedalsWon = new List<Medal>(),

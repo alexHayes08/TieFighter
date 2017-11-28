@@ -15,8 +15,11 @@ namespace TieFighter
 {
     public class Startup
     {
+        public static readonly TieFighterDatastoreContext DatastoreDb = new TieFighterDatastoreContext(googleProjectId);
+
         public const string SignedInPolicyName = "signedIn";
         private const string customGoogleSignInSchemeName = "google";
+        private const string googleProjectId = "tiefighter-imperialremnant";
 
         public Startup(IConfiguration configuration)
         {
@@ -113,19 +116,24 @@ namespace TieFighter
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            app.UseMvc(routes =>
-            {
+                    name: "stringId",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
                 routes.MapRoute(
-                  name: "areas",
-                  template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
 
-            //Seed.InitializeAsync(app.ApplicationServices).Wait();
+            try
+            {
+                //var medals = DatastoreDb.GetPaginatedMedals(0, 10, DateTime.Now);
+                Seed.InitializeAsync(app.ApplicationServices).Wait();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

@@ -462,6 +462,8 @@ function loadGame () {
                 //newMesh[i].scaling.z = -5;
             }
 
+            tiefighter.rotation.y = Math.PI;
+
             //camera.setTarget(tiefighter, new BABYLON.Vector3.Zero());
             //camera.attachControl(tiefighter);
             //scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {
@@ -476,13 +478,18 @@ function loadGame () {
 
             //tiefighter.parent = camera;
             camera.parent = tiefighter;
+            camera.setPosition(new BABYLON.Vector3(-0.3, 6, 90));
+            camera.targetScreenOffset.y = -10
+            //camera.position.x = -0.30276579156741895;
+            //camera.position.y = 5.743716525255501;
+            //camera.position.z = 99.83445323811294;
             //camera.lockTarget = tiefighter;
             tiefighter.position.x = 0;
             tiefighter.position.y = -20;
-            tiefighter.position.z = 120;
+            tiefighter.position.z = -500;
             //tiefighter.addRotation(Math.PI, 0, Math.PI);
-            tiefighter.physicsImpostor = new BABYLON.PhysicsImpostor(tiefighter, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene);
-            camera.rotation.y = Math.PI;
+            tiefighter.physicsImpostor = new BABYLON.PhysicsImpostor(tiefighter, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9, disableBidirectionalTransformation: true }, scene);
+            //camera.rotation.y = Math.PI;
 
             // Scroll evt listener
             window.addEventListener("scroll", function (evt) {
@@ -503,11 +510,15 @@ function loadGame () {
                 newMesh[i].parent = stardestroyer;
             }
 
+            stardestroyer.rotation.y = Math.PI;
+
             stardestroyer.scaling.x = 100;
             stardestroyer.scaling.y = 100;
             stardestroyer.scaling.z = 100;
 
-            stardestroyer.position.z = -1105;
+            stardestroyer.position.z = 1105;
+
+            stardestroyer.physicsImpostor = new BABYLON.PhysicsImpostor(stardestroyer, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9, disableBidirectionalTransformation: true }, scene);
         })
 
         return scene;
@@ -637,6 +648,7 @@ function loadGame () {
         //tiefighter.translate(BABYLON.Axis.Z, elapsed + tiefighter.accelerations.forward, BABYLON.Space.LOCAL);
         tiefighter.translate(BABYLON.Axis.Z, -1 * (elapsed + 1), BABYLON.Space.LOCAL);
         tiefighter.rotation = new BABYLON.Vector3(xRot, yRot, zRot);
+        //tiefighter.physicsImpostor.applyImpulse(new BABYLON.Vector3(xRot * elapsed, yRot * elapsed, zRot * elapsed), tiefighter);
         //craft.translate(BABYLON.Axis.Z, elapsed + airSpeed, BABYLON.Space.LOCAL);
         //craft.rotation = new BABYLON.Vector3(xRot, yRot, zRot);
     });
@@ -733,6 +745,17 @@ function fireFrom(source) {
         //cylinder.rotation.x = camera.rotation.x;
         //cylinder.rotation.y = camera.rotation.y + Math.PI/2;
         lasers.push(laser);
+
+        //var invView = new BABYLON.Matrix();
+        //camera.getViewMatrix().invertToRef(invView);
+        //var direction = BABYLON.Vector3.TransformNormal(new BABYLON.Vector3(0, 0, 1), invView);
+
+        //direction.normalize();
+
+        //scene.registerBeforeRender(function () {
+        //    bullet.position.addInPlace(direction);
+        //});
+
         var laserVelocity = new BABYLON.Vector3(0, 0, -100);
         laserVelocity
         laser.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, -100));

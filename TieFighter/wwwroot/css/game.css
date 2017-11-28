@@ -118,6 +118,17 @@ canvas {
     width: 100%;
 }
 
+#shipViewPort #crosshairs {
+    background-color: transparent;
+    border: 2px solid #40b1ff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 50px;
+    width: 50px;
+}
+
 #shipViewPort #mainDisplay:not(:hover):not(.open) *:not(#hullIntegrity) {
     display: none;
 }

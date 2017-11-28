@@ -1,0 +1,66 @@
+﻿@model TieFighter.Areas.Admin.Models.MedalsViewModels.PaginatedMedalsVM
+
+@{
+    ViewData["Title"] = "Medals";
+}
+
+@*@section Links {
+    <link rel="import" href="bower_components/paper-datatable-api/dist/paper-datatable-api-column.html">
+    <link rel="import" href="bower_components/paper-datatable-api/dist/paper-datatable-api.html">
+    <iron-ajax auto url="data.json" last-response="{{data}}"></iron-ajax>
+}*@
+
+<div class="topVSpacer"></div>
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <h2>Manage Medals</h2>
+        <hr />
+
+        <div>
+            <table id="table" class="table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Points Worth</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var medal in Model.Medals)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@medal.FileLocation" alt="Medal image..."/>
+                            </td>
+                            <td>
+                                @medal.MedalName
+                            </td>
+                            <td>
+                                @medal.PointsWorth
+                            </td>
+                            <td>
+                                <a href="" class="btn btn-outline-primary">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    $(function () {
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+    });
+</script>
+}

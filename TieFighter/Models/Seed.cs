@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TieFighter.Models;
 
@@ -35,16 +36,24 @@ namespace TieFighter
             {
                 if (!await roleManager.RoleExistsAsync(role))
                 {
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    var roleCreatedResult = await roleManager.CreateAsync(new IdentityRole(role));
+                    if (!roleCreatedResult.Succeeded)
+                    {
+                        Console.WriteLine("Failed to create role...");
+                    }
                 }
             }
 
-            var users = userManager.Users;
+            var users = userManager.Users.ToList();
             foreach (var user in users)
             {
                 if (!await userManager.IsInRoleAsync(user, "Registered"))
                 {
-                    await userManager.AddToRoleAsync(user, "Registered");
+                    var addToRoleResult = await userManager.AddToRoleAsync(user, "Registered");
+                    if (!addToRoleResult.Succeeded)
+                    {
+                        Console.WriteLine("Failed to add user to role...");
+                    }
                 }
 
                 if (user.Email == "alex.c.hayes08@gmail.com")

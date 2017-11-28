@@ -2,7 +2,7 @@
 
 namespace TieFighter.Models
 {
-    public class ApplicationUserDatastoreModel
+    public class User
     {
         public string Id { get; set; }
         public IList<Medal> MedalsWon { get; set; }
