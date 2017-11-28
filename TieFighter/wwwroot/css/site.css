@@ -426,6 +426,40 @@ header nav {
     transform: translate(-50%, -50%);
 }
 
+label > .custom-checkbox {
+    background-color: transparent;
+    border: 2px solid lightgray;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    height: 1.5em;
+    width: 1.5em;
+    vertical-align: middle;
+    transition: .2s;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+label > .custom-checkbox:checked {
+    background-color: rgba(198,252,255,0.25);
+    border-radius: 5%;
+}
+
+    label > .custom-checkbox:checked::after {
+        background-color: #c2b017;
+        left: 50%;
+        border-radius: 50%;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        height: 50%;
+        width: 50%;
+        transition: .2s;
+    }
+
 .checkerboard > .row > .white,
 .checkerboard > .row > .black {
     height: calc(50vh - 50px);

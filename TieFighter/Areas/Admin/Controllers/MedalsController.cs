@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using TieFighter.Areas.Admin.Models.MedalsViewModels;
+using TieFighter.Models;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
@@ -56,21 +57,45 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         // GET: Medals/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
+
+            var response = Startup.DatastoreDb.Db.Lookup(key);
+
+            if (response == null)
+            {
+                return Index();
+            }
+            else
+            {
+                var medal = DatastoreHelpers.ParseEntityToObject<Medal>(response);
+                return View(medal);
+            }
         }
 
         // POST: Medals/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(string id, List<IFormFile> files, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
+                var response = Startup.DatastoreDb.Db.Lookup(key);
 
-                return RedirectToAction(nameof(Index));
+                if (response == null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    var medal = DatastoreHelpers.ParseEntityToObject<Medal>(response);
+
+                    //var fileLoc = collection["FileLocation"];
+
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch
             {

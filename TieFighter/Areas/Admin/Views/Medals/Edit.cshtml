@@ -1,0 +1,71 @@
+﻿@model TieFighter.Models.Medal
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="topVSpacer"></div>
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <h2>Edit</h2>
+
+        <h4>Medal - @Model.Id</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="MedalName" class="control-label"></label>
+                        <input asp-for="MedalName" class="form-control" />
+                        <span asp-validation-for="MedalName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PointsWorth" class="control-label"></label>
+                        <input asp-for="PointsWorth" class="form-control" />
+                        <span asp-validation-for="PointsWorth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FileLocation" class="control-label"></label>
+                        <input asp-for="FileLocation" class="form-control" type="file" />
+                        <div id="newImagePreview" class="">
+                            <img src="" alt="No image selected..." />
+                        </div>
+                        <span asp-validation-for="FileLocation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <h2>Current Image</h2>
+                <img class="img-fluid" src="/Medals/@Model.FileLocation" alt="Image not set..." />
+                <form>
+                    <div class="form-group">
+                        <label asp-for="FileLocation" class="control-label"></label>
+                        <input asp-for="FileLocation" class="form-control" type="file" />
+                        <span asp-validation-for="FileLocation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/admin-medals-edit.js"></script>
+}

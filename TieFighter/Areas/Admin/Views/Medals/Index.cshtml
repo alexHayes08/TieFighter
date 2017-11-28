@@ -16,11 +16,22 @@
     <div class="col-lg-8">
         <h2>Manage Medals</h2>
         <hr />
-
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary float-right" href="~/Medals/">Create New</a>
+                <button class="btn btn-danger float-right">Delete Selected</button>
+            </div>
+        </div>
         <div>
-            <table id="table" class="table" cellspacing="0" width="100%">
+            <table id="table" class="table" cellspacing="0">
                 <thead>
                     <tr>
+                        <th>
+                            <label class="m-0">
+                                <input id="selectAll" type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
+                            </label>
+                            Select All
+                        </th>
                         <th>Image</th>
                         <th>Name</th>
                         <th>Points Worth</th>
@@ -32,6 +43,11 @@
                     {
                         <tr>
                             <td>
+                                <label class="m-0">
+                                    <input type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
+                                </label>
+                            </td>
+                            <td>
                                 <img src="@medal.FileLocation" alt="Medal image..."/>
                             </td>
                             <td>
@@ -41,7 +57,7 @@
                                 @medal.PointsWorth
                             </td>
                             <td>
-                                <a href="" class="btn btn-outline-primary">Edit</a>
+                                <a class="btn btn-outline-primary" href="Medals/Edit/@medal.Id">Edit</a>
                             </td>
                         </tr>
                     }
@@ -56,11 +72,5 @@
 </div>
 
 @section Scripts {
-<script>
-    $(function () {
-        $(document).ready(function () {
-            $('#table').DataTable();
-        });
-    });
-</script>
+    <script src="~/js/admin-medals-index.js"></script>
 }

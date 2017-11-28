@@ -14,12 +14,13 @@ namespace TieFighter.Models
         public TieFighterDatastoreContext(string projectId)
         {
             //string projectId = configuration["Authentication:Google:ProjectId"];
-            db = DatastoreDb.Create(projectId);
-            
-            medals = new List<Medal>();
-            ships = new List<Ship>();
-            tours = new List<Tours>();
-            users = new List<User>();
+            Db = DatastoreDb.Create(projectId);
+
+            MedalsKeyFactory = Db.CreateKeyFactory(medalKindName);
+            ShipsKeyFactory = Db.CreateKeyFactory(shipKindName);
+            ToursKeyFactory = Db.CreateKeyFactory(tourKindName);
+            MissionsKeyFactory = Db.CreateKeyFactory(missionKindName);
+            UsersKeyFactory = Db.CreateKeyFactory(userKindName);
             lastUpdatesToTables = new Dictionary<string, DateTime>
             {
                 { nameof(Medal), DateTime.Now },
@@ -33,13 +34,14 @@ namespace TieFighter.Models
 
         #region Fields
 
-        private readonly DatastoreDb db;
+        public readonly DatastoreDb Db;
+        public readonly KeyFactory MedalsKeyFactory;
+        public readonly KeyFactory ShipsKeyFactory;
+        public readonly KeyFactory ToursKeyFactory;
+        public readonly KeyFactory MissionsKeyFactory;
+        public readonly KeyFactory UsersKeyFactory;
         private readonly IDictionary<string, DateTime> lastUpdatesToTables;
-        private readonly IList<Medal> medals;
-        private readonly IList<Ship> ships;
-        private readonly IList<Tours> tours;
-        private readonly IList<User> users;
-
+        
         private const string medalKindName = "Medal";
         private const string shipKindName = "Ship";
         private const string tourKindName = "Tour";
@@ -59,6 +61,7 @@ namespace TieFighter.Models
 
         //}
 
+        
         public IList<Medal> GetPaginatedMedals(int pageNumber, int resultsPerPage, DateTime lastUpdated)
         {
             var response = GetPaginatedOf(nameof(Medal), resultsPerPage, pageNumber, lastUpdated);
@@ -72,7 +75,7 @@ namespace TieFighter.Models
                 Limit = resultsPerPage,
                 Offset = resultsPerPage * pageNumber
             };
-            var response = db.RunQuery(query).Entities;
+            var response = Db.RunQuery(query).Entities;
 
             return response;
         }
@@ -82,7 +85,7 @@ namespace TieFighter.Models
         public static async Task InitializeDbAsync(UserManager<ApplicationUser> userManager)
         {
             var dbContext = new TieFighterDatastoreContext("1086585271464");
-            var medalKeyFactory = dbContext.db.CreateKeyFactory(medalKindName);
+            var medalKeyFactory = dbContext.Db.CreateKeyFactory(medalKindName);
 
             // Upsert medals
             var medalEntities = new List<Entity>();
@@ -136,10 +139,10 @@ namespace TieFighter.Models
                 });
             }
 
-            await dbContext.db.UpsertAsync(medalEntities);
+            await dbContext.Db.UpsertAsync(medalEntities);
 
             // Upsert Ships
-            var shipKeyFactory = dbContext.db.CreateKeyFactory(shipKindName);
+            var shipKeyFactory = dbContext.Db.CreateKeyFactory(shipKindName);
 
             var shipEntities = new List<Entity>();
             var ships = new List<Ship>()
@@ -198,10 +201,10 @@ namespace TieFighter.Models
                 });
             }
 
-            await dbContext.db.UpsertAsync(shipEntities);
+            await dbContext.Db.UpsertAsync(shipEntities);
 
             // Upsert tours/missions
-            var tourKeyFactory = dbContext.db.CreateKeyFactory(tourKindName);
+            var tourKeyFactory = dbContext.Db.CreateKeyFactory(tourKindName);
             var tourEntities = new List<Entity>();
             var tours = new List<Tour>()
             {
@@ -637,11 +640,11 @@ namespace TieFighter.Models
                 });
             }
 
-            await dbContext.db.UpsertAsync(tourEntities);
+            await dbContext.Db.UpsertAsync(tourEntities);
 
             // Upsert users
 
-            var userKeyFactory = dbContext.db.CreateKeyFactory(userKindName);
+            var userKeyFactory = dbContext.Db.CreateKeyFactory(userKindName);
             var userEntities = new List<Entity>();
             var users = new List<User>();
 
@@ -649,7 +652,7 @@ namespace TieFighter.Models
             foreach (var u in existingUsers)
             {
                 var shipUnlocked = new List<string>();
-                var tieFighter = dbContext.db.RunQuery(new Query("Ship")
+                var tieFighter = dbContext.Db.RunQuery(new Query("Ship")
                 {
                     Filter = Filter.Equal("DisplayName", new Value()
                     {
@@ -697,7 +700,7 @@ namespace TieFighter.Models
                 });
             }
 
-            await dbContext.db.UpsertAsync(userEntities);
+            await dbContext.Db.UpsertAsync(userEntities);
         }
 
         #endregion
