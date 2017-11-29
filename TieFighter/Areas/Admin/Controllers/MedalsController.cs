@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using TieFighter.Areas.Admin.Models.MedalsViewModels;
 using TieFighter.Models;
+using System.IO;
+using Google.Cloud.Datastore.V1;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
@@ -74,10 +76,11 @@ namespace TieFighter.Areas.Admin.Controllers
             }
         }
 
+        // TODO: Make 
         // POST: Medals/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, List<IFormFile> files, FormCollection collection)
+        public async Task<ActionResult> EditAsync(string id, IFormCollection collection)
         {
             try
             {
@@ -92,7 +95,56 @@ namespace TieFighter.Areas.Admin.Controllers
                 {
                     var medal = DatastoreHelpers.ParseEntityToObject<Medal>(response);
 
-                    //var fileLoc = collection["FileLocation"];
+                    if (collection.Files.Count > 0)
+                    {
+                        // Only use the first file
+                        var file = collection.Files[0];
+
+                        if (file.ContentType == "")
+                        {
+
+                        }
+
+                        // Check if another medal has the same file name
+                        var query = new Google.Cloud.Datastore.V1.Query(nameof(Medal))
+                        {
+                            Filter = Filter.Equal(nameof(Medal.FileLocation), file.FileName)
+                        };
+                        var responses = Startup.DatastoreDb.Db.RunQuery(query).Entities;
+
+                        try
+                        {
+                            var filepath = $"/Medals/{medal.Id}.png";
+                            using (var stream = new FileStream(filepath, FileMode.Create))
+                            {
+                                await file.CopyToAsync(stream);
+                            }
+                        }
+                        catch (Exception e)
+                        { }
+
+                    }
+
+                    // Update the Description
+                    if (!string.IsNullOrEmpty(collection[nameof(Medal.Description)]))
+                    {
+                        medal.Description = collection[nameof(Medal.Description)];
+                    }
+
+                    // Update the MedalName
+                    if (!string.IsNullOrEmpty(collection[nameof(Medal.MedalName)]))
+                    {
+                        medal.MedalName = collection[nameof(Medal.MedalName)];
+                    }
+
+                    // Update the PointsWorth
+                    if (!string.IsNullOrEmpty(collection[nameof(Medal.PointsWorth)]))
+                    {
+                        if (double.TryParse(collection[nameof(Medal.PointsWorth)], out double newValue))
+                        {
+                            medal.PointsWorth = newValue;
+                        }
+                    }
 
                     return RedirectToAction(nameof(Index));
                 }

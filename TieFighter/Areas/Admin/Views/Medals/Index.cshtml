@@ -48,7 +48,7 @@
                                 </label>
                             </td>
                             <td>
-                                <img src="@medal.FileLocation" alt="Medal image..."/>
+                                <img src="/Medals/@medal.FileLocation" alt="Medal image..."/>
                             </td>
                             <td>
                                 @medal.MedalName
@@ -57,7 +57,7 @@
                                 @medal.PointsWorth
                             </td>
                             <td>
-                                <a class="btn btn-outline-primary" href="Medals/Edit/@medal.Id">Edit</a>
+                                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Medals" asp-action="Edit" href="Medals/Edit/@medal.Id">Edit</a>
                             </td>
                         </tr>
                     }
