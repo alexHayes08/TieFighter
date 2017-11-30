@@ -84,11 +84,31 @@ namespace TieFighter.Areas.Admin.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult Update([FromBody]Medal medal)
+        {
+            return Json(new { Error = "" });
+        }
+
+        [HttpPost]
+        public JsonResult IsIdAvailable(string id)
+        {
+            var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
+            var result = Startup.DatastoreDb.Db.Lookup(key);
+            if (result != null)
+            {
+                return Json(new { Error = "", Exists = true });
+            }
+            else
+            {
+                return Json(new { Error = "", Exists = false });
+            }
+        }
+
         // TODO: Make 
         // POST: Medals/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(string id, IFormCollection collection)
+        public async Task<JsonResult> Edit(string id, IFormCollection collection)
         {
             try
             {
@@ -97,7 +117,7 @@ namespace TieFighter.Areas.Admin.Controllers
 
                 if (response == null)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return Json(new { Error = ""});
                 }
                 else
                 {
@@ -110,8 +130,7 @@ namespace TieFighter.Areas.Admin.Controllers
 
                         if (file.ContentType != "image/png")
                         {
-                            ViewBag.ErrorMessage = "Image must be '.png'!";
-                            return View(medal);
+                            return Json(new { Error = "Image must be '.png'!" });
                         }
 
                         try
@@ -155,12 +174,12 @@ namespace TieFighter.Areas.Admin.Controllers
                     var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, medal, nameof(Medal.Id));
                     Startup.DatastoreDb.Db.Upsert(entity);
 
-                    return RedirectToAction(nameof(Index));
+                    return Json(new { Error = ""});
                 }
             }
             catch
             {
-                return View();
+                return Json(new { Error = "Failed to update medal." });
             }
         }
 

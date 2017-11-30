@@ -1,21 +1,26 @@
 ﻿@model TieFighter.Models.Medal
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
 <div class="topVSpacer"></div>
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-8">
-        <h2>Edit</h2>
+        <h2>Create</h2>
 
-        <h4>Medal - @Model.Id</h4>
+        <h4>Medal</h4>
         <hr />
         <div class="row">
-            <div class="col-md-6">
-                <form asp-action="Edit" enctype="multipart/form-data" method="post">
+            <div class="col-md-12">
+                <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" />
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <label asp-for="MedalName" class="control-label"></label>
                         <input asp-for="MedalName" class="form-control" />
@@ -23,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Description" class="control-label"></label>
-                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <input asp-for="Description" class="form-control" />
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -33,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="FileLocation" class="control-label"></label>
-                        <input asp-for="FileLocation" class="form-control" type="file" accept=".png"/>
+                        <input asp-for="FileLocation" class="form-control" type="file"/>
                         <div id="newImagePreviewContainer" class="d-none">
                             <div class="row m-2">
                                 <div class="col-md-6 text-center">
@@ -51,15 +56,9 @@
                         <span asp-validation-for="FileLocation" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-default" />
+                        <input type="submit" value="Create" class="btn btn-default" />
                     </div>
                 </form>
-            </div>
-            <div class="col-md-6">
-                <div class="d-inline">
-                    <h2>Current Image</h2>
-                    <img class="img-fluid" src="/Medals/@Model.FileLocation" alt="Image not set..." />
-                </div>
             </div>
         </div>
 
@@ -71,5 +70,5 @@
 
 @section Scripts {
     <script src="~/js/admin-medals-common.js"></script>
-    <script src="~/js/admin-medals-edit.js"></script>
+    <script src="~/js/admin-medals-create.js"></script>
 }
