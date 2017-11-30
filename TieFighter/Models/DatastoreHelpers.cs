@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace TieFighter.Models
 {
@@ -10,9 +9,8 @@ namespace TieFighter.Models
     {
         public static T ParseEntityToObject<T>(Entity entity) where T:new()
         {
-            var newInstance = default(T);
-            if (newInstance == null)
-                newInstance = (T)Activator.CreateInstance(typeof(T));
+            T newInstance = (T)Activator.CreateInstance(typeof(T));
+
             foreach (var property in newInstance.GetType().GetProperties())
             {
                 // Check if the property is part of the key
@@ -86,6 +84,68 @@ namespace TieFighter.Models
             }
 
             return objects;
+        }
+
+        public static Entity ObjectToEntity<T>(TieFighterDatastoreContext db, T obj, string idPropertyName, params string[] indexedProperties) where T:new()
+        {
+            if (db == null)
+            {
+                throw new ArgumentNullException($"The argument '{nameof(db)}' cannot be null.");
+            }
+            else if (string.IsNullOrEmpty(idPropertyName))
+            {
+                throw new ArgumentException($"The argument '{nameof(idPropertyName)}' cannot be null nor emtpy.");
+            }
+
+            var entity = new Entity();
+            var objType = obj.GetType();
+            var objProperties = objType.GetProperties();
+
+            // Setup the entity's id
+            string idValue = objType.GetProperty(idPropertyName).GetValue(obj).ToString();
+            entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
+
+            foreach (var prop in objProperties)
+            {
+                // Ignore the id
+                if (prop.Name == idPropertyName)
+                    continue;
+
+                var propertyType = prop.PropertyType;
+                if (propertyType == typeof(string))
+                {
+                    entity[prop.Name]= objType.GetProperty(prop.Name).GetValue(obj) as string;
+                }
+                else if (propertyType == typeof(double))
+                {
+                    entity[prop.Name]= objType.GetProperty(prop.Name).GetValue(obj) as double?;
+                }
+                else if (propertyType == typeof(int))
+                {
+                    entity[prop.Name]= objType.GetProperty(prop.Name).GetValue(obj) as int?;
+                }
+                else if (propertyType == typeof(DateTime))
+                {
+                    entity[prop.Name]= objType.GetProperty(prop.Name).GetValue(obj) as DateTime?;
+                }
+                else if (propertyType == typeof(bool))
+                {
+                    entity[prop.Name] = objType.GetProperty(prop.Name).GetValue(obj) as bool?;
+                }
+                else if (propertyType.IsArray)
+                {
+                    throw new NotImplementedException("Handling arrays isn't supported yet.");
+                }
+                else
+                {
+                    throw new NotImplementedException($"Handling '${propertyType}' isn't yet supported.");
+                }
+
+                // Exclude from indexing if it's name isn't included in the indexedPropertyes array
+                entity[prop.Name].ExcludeFromIndexes = !indexedProperties.Contains(prop.Name);
+            }
+
+            return entity;
         }
     }
 }

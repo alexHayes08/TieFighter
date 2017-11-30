@@ -10,9 +10,14 @@
     <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     @*<link href="~/css/jquery.dataTables.css" rel="stylesheet" />*@
     <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <environment names="Development">
+        
+    </environment>
+    <environment names="Staging,Production">
+
+    </environment>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css">
-    @*<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>*@
 </head>
 <body>
     <header>

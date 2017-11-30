@@ -4,12 +4,6 @@
     ViewData["Title"] = "Medals";
 }
 
-@*@section Links {
-    <link rel="import" href="bower_components/paper-datatable-api/dist/paper-datatable-api-column.html">
-    <link rel="import" href="bower_components/paper-datatable-api/dist/paper-datatable-api.html">
-    <iron-ajax auto url="data.json" last-response="{{data}}"></iron-ajax>
-}*@
-
 <div class="topVSpacer"></div>
 <div class="row">
     <div class="col-lg-2"></div>
@@ -23,14 +17,16 @@
             </div>
         </div>
         <div>
-            <table id="table" class="table" cellspacing="0">
+            <div class="topVSpacer"></div>
+            <table id="table" class="table table-hover" cellspacing="0">
                 <thead>
                     <tr>
                         <th>
-                            <label class="m-0">
-                                <input id="selectAll" type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
-                            </label>
-                            Select All
+                            <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                                <label class="m-0">
+                                    <input id="selectAll" type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
+                                </label>
+                            </div>
                         </th>
                         <th>Image</th>
                         <th>Name</th>
@@ -42,22 +38,24 @@
                     @foreach (var medal in Model.Medals)
                     {
                         <tr>
-                            <td>
-                                <label class="m-0">
-                                    <input type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
-                                </label>
+                            <td class="align-middle">
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                                    <label class="m-0">
+                                        <input type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
+                                    </label>
+                                </div>
                             </td>
-                            <td>
-                                <img src="/Medals/@medal.FileLocation" alt="Medal image..."/>
+                            <td class="align-middle">
+                                <img src="/Medals/@medal.FileLocation?@DateTime.Now.Millisecond.ToString()" class="rounded thumbnail maxWidthAndHeight100px" alt="Medal image..."/>
                             </td>
-                            <td>
+                            <td class="align-middle">
                                 @medal.MedalName
                             </td>
-                            <td>
+                            <td class="align-middle">
                                 @medal.PointsWorth
                             </td>
-                            <td>
-                                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Medals" asp-action="Edit" href="Medals/Edit/@medal.Id">Edit</a>
+                            <td class="align-middle">
+                                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Medals" asp-action="Edit" asp-route-id="@medal.Id">Edit</a>
                             </td>
                         </tr>
                     }

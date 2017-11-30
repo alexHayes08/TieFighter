@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   viewBox="0 0 26.458332 26.458334"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="TripleKill.svg"
+   inkscape:export-filename="C:\Users\alexc\Source\Repos\TieFighter\TieFighter\wwwroot\Medals\DoubleKill.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.959798"
+     inkscape:cx="-60.168012"
+     inkscape:cy="60.200062"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="2560"
+     inkscape:window-height="1360"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-270.54165)">
+    <rect
+       style="fill:#ffb42a;fill-opacity:1;stroke:#d88d1b;stroke-width:1.05961812;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="rect4485"
+       width="26.458332"
+       height="26.458332"
+       x="0"
+       y="270.54166" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.41328621px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:0.18533215"
+       x="13.03648"
+       y="282.06155"
+       id="text4489"
+       transform="scale(1.0166406,0.98363178)"><tspan
+         sodipodi:role="line"
+         id="tspan4487"
+         x="13.03648"
+         y="282.06155"
+         style="text-align:center;text-anchor:middle;fill:#f2f2f2;stroke-width:0.18533215">Triple</tspan><tspan
+         sodipodi:role="line"
+         x="13.03648"
+         y="291.32816"
+         style="text-align:center;text-anchor:middle;fill:#f2f2f2;stroke-width:0.18533215"
+         id="tspan4491">Kill</tspan></text>
+    <path
+       sodipodi:type="star"
+       style="fill:#ececec;fill-opacity:1;stroke:none;stroke-width:1.05833328;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path4493"
+       sodipodi:sides="5"
+       sodipodi:cx="4.2763128"
+       sodipodi:cy="287.64554"
+       sodipodi:r1="5.0415034"
+       sodipodi:r2="2.5622528"
+       sodipodi:arg1="0.96441344"
+       sodipodi:arg2="1.5927319"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 7.1494604,291.78822 -2.9293475,-1.58105 -2.9958694,1.45105 0.5984416,-3.27454 -2.30580243,-2.40084 3.29920483,-0.44274 1.5708051,-2.93485 1.440579,3.00091 3.2766134,0.58701 -2.408878,2.29741 z"
+       inkscape:transform-center-x="0.066044278"
+       inkscape:transform-center-y="-0.25151362"
+       transform="matrix(0.64455883,0,0,0.64346478,3.302784,103.90988)" />
+    <path
+       sodipodi:type="star"
+       style="fill:#ececec;fill-opacity:1;stroke:none;stroke-width:1.05833328;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path4493-5"
+       sodipodi:sides="5"
+       sodipodi:cx="4.2763128"
+       sodipodi:cy="287.64554"
+       sodipodi:r1="5.0415034"
+       sodipodi:r2="2.5622528"
+       sodipodi:arg1="0.96441344"
+       sodipodi:arg2="1.5927319"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 7.1494604,291.78822 -2.9293475,-1.58105 -2.9958694,1.45105 0.5984416,-3.27454 -2.30580243,-2.40084 3.29920483,-0.44274 1.5708051,-2.93485 1.440579,3.00091 3.2766134,0.58701 -2.408878,2.29741 z"
+       inkscape:transform-center-x="0.066044278"
+       inkscape:transform-center-y="-0.25151362"
+       transform="matrix(0.64455883,0,0,0.64346478,10.718751,107.86661)" />
+    <path
+       sodipodi:type="star"
+       style="fill:#ececec;fill-opacity:1;stroke:none;stroke-width:1.05833328;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path4493-3"
+       sodipodi:sides="5"
+       sodipodi:cx="4.2763128"
+       sodipodi:cy="287.64554"
+       sodipodi:r1="5.0415034"
+       sodipodi:r2="2.5622528"
+       sodipodi:arg1="0.96441344"
+       sodipodi:arg2="1.5927319"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 7.1494604,291.78822 -2.9293475,-1.58105 -2.9958694,1.45105 0.5984416,-3.27454 -2.30580243,-2.40084 3.29920483,-0.44274 1.5708051,-2.93485 1.440579,3.00091 3.2766134,0.58701 -2.408878,2.29741 z"
+       inkscape:transform-center-x="0.066044278"
+       inkscape:transform-center-y="-0.25151362"
+       transform="matrix(0.64455883,0,0,0.64346478,17.534123,103.9912)" />
+  </g>
+</svg>

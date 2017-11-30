@@ -1,7 +1,28 @@
 ﻿$(function () {
     $(function () {
         $(document).ready(function () {
-            $('#table').DataTable();
+            $('#table').DataTable({
+                columnDefs: [
+                    {
+                        orderable: false,
+                        targets: 0
+                    },
+                    {
+                        orderable: false,
+                        targets: 1
+                    },
+                    {
+                        orderable: false,
+                        targets: 4
+                    }
+                ],
+                select: {
+                    style: "os",
+                    selector: "td:first-child",
+                    items: "col"
+                },
+                order: [[1, 'asc']]
+            });
         });
     });
 

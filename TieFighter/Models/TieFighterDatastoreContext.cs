@@ -28,6 +28,13 @@ namespace TieFighter.Models
                 { nameof(Tour), DateTime.Now },
                 { nameof(User), DateTime.Now }
             };
+
+            keyFactories = new Dictionary<string, KeyFactory>();
+            keyFactories.Add(medalKindName, MedalsKeyFactory);
+            keyFactories.Add(shipKindName, ShipsKeyFactory);
+            keyFactories.Add(tourKindName, ToursKeyFactory);
+            keyFactories.Add(missionKindName, MissionsKeyFactory);
+            keyFactories.Add(userKindName, UsersKeyFactory);
         }
 
         #endregion
@@ -41,6 +48,7 @@ namespace TieFighter.Models
         public readonly KeyFactory MissionsKeyFactory;
         public readonly KeyFactory UsersKeyFactory;
         private readonly IDictionary<string, DateTime> lastUpdatesToTables;
+        private readonly IDictionary<string, KeyFactory> keyFactories;
         
         private const string medalKindName = "Medal";
         private const string shipKindName = "Ship";
@@ -78,6 +86,19 @@ namespace TieFighter.Models
             var response = Db.RunQuery(query).Entities;
 
             return response;
+        }
+
+        public KeyFactory GetKeyFactoryForKind(string kindname)
+        {
+            foreach (var key in keyFactories.Keys)
+            {
+                if (key == kindname)
+                {
+                    return keyFactories[key];
+                }
+            }
+
+            throw new KeyNotFoundException($"Failed to find a KeyFactory for kind {kindname}.");
         }
 
         #region Seed db with data

@@ -13,7 +13,7 @@
         <h4>Medal - @Model.Id</h4>
         <hr />
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <form asp-action="Edit" enctype="multipart/form-data" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -33,9 +33,20 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="FileLocation" class="control-label"></label>
-                        <input asp-for="FileLocation" class="form-control" type="file" />
-                        <div id="newImagePreview" class="">
-                            <img src="" alt="No image selected..." />
+                        <input asp-for="FileLocation" class="form-control" type="file" accept=".png"/>
+                        <div id="newImagePreviewContainer" class="d-none">
+                            <div class="row m-2">
+                                <div class="col-md-6 text-center">
+                                    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                                        <h3>New Image</h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                                        <img id="newImagePreview" class="z-depth-1 z-depth-3-hover" src="" alt="No image selected..." />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <span asp-validation-for="FileLocation" class="text-danger"></span>
                     </div>
@@ -44,19 +55,11 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-8">
-                <h2>Current Image</h2>
-                <img class="img-fluid" src="/Medals/@Model.FileLocation" alt="Image not set..." />
-                <form>
-                    <div class="form-group">
-                        <label asp-for="FileLocation" class="control-label"></label>
-                        <input asp-for="FileLocation" class="form-control" type="file" />
-                        <span asp-validation-for="FileLocation" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-default" />
-                    </div>
-                </form>
+            <div class="col-md-6">
+                <div class="d-inline">
+                    <h2>Current Image</h2>
+                    <img class="img-fluid" src="/Medals/@Model.FileLocation" alt="Image not set..." />
+                </div>
             </div>
         </div>
 

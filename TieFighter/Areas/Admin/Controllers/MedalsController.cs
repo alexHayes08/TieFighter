@@ -9,6 +9,7 @@ using TieFighter.Areas.Admin.Models.MedalsViewModels;
 using TieFighter.Models;
 using System.IO;
 using Google.Cloud.Datastore.V1;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
@@ -16,6 +17,13 @@ namespace TieFighter.Areas.Admin.Controllers
     [Area("Admin")]
     public class MedalsController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public MedalsController(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         // GET: Medals
         public ActionResult Index()
         {
@@ -80,7 +88,7 @@ namespace TieFighter.Areas.Admin.Controllers
         // POST: Medals/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditAsync(string id, IFormCollection collection)
+        public async Task<ActionResult> Edit(string id, IFormCollection collection)
         {
             try
             {
@@ -100,25 +108,22 @@ namespace TieFighter.Areas.Admin.Controllers
                         // Only use the first file
                         var file = collection.Files[0];
 
-                        if (file.ContentType == "")
+                        if (file.ContentType != "image/png")
                         {
-
+                            ViewBag.ErrorMessage = "Image must be '.png'!";
+                            return View(medal);
                         }
-
-                        // Check if another medal has the same file name
-                        var query = new Google.Cloud.Datastore.V1.Query(nameof(Medal))
-                        {
-                            Filter = Filter.Equal(nameof(Medal.FileLocation), file.FileName)
-                        };
-                        var responses = Startup.DatastoreDb.Db.RunQuery(query).Entities;
 
                         try
                         {
-                            var filepath = $"/Medals/{medal.Id}.png";
+                            var filename = medal.Id + ".png";
+                            var filepath = Path.Combine(_hostingEnvironment.WebRootPath, "Medals", $"{medal.Id}.png");
                             using (var stream = new FileStream(filepath, FileMode.Create))
                             {
                                 await file.CopyToAsync(stream);
                             }
+
+                            medal.FileLocation = filename;
                         }
                         catch (Exception e)
                         { }
@@ -145,6 +150,10 @@ namespace TieFighter.Areas.Admin.Controllers
                             medal.PointsWorth = newValue;
                         }
                     }
+
+                    // Upsert the medal to Datastore
+                    var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, medal, nameof(Medal.Id));
+                    Startup.DatastoreDb.Db.Upsert(entity);
 
                     return RedirectToAction(nameof(Index));
                 }

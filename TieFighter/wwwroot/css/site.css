@@ -157,6 +157,38 @@
     color: black !important;
 }
 
+/* Override jQuery Datatables styles */
+
+.dataTables_length,
+.dataTables_filter {
+    display: inline-block;
+}
+
+.dataTables_length {
+    float: left;
+}
+
+.dataTables_filter {
+    float: right;
+}
+
+table.dataTable tbody > tr.selected,
+table.dataTable tbody > tr > .selected {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.paginate_previous,
+.paginate_next {
+    color: #0056b3;
+}
+
+.paginate_disabled_previous,
+.paginate_disabled_next {
+    color: lightblue;
+}
+
+/* End override jQuery Datatables styles */
+
 /* Override bootstrap styles */
 
 * {
@@ -435,7 +467,6 @@ label > .custom-checkbox {
     outline: none;
     height: 1.5em;
     width: 1.5em;
-    vertical-align: middle;
     transition: .2s;
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -549,6 +580,11 @@ label > .custom-checkbox:checked {
 .indented {
     display: block;
     text-indent: 2em;
+}
+
+.maxWidthAndHeight100px {
+    max-height: 100px;
+    max-width: 100px;
 }
 
 .no-padding {
