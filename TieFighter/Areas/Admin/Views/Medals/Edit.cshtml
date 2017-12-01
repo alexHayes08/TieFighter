@@ -8,27 +8,30 @@
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-8">
-        <h2>Edit</h2>
-
-        <h4>Medal - @Model.Id</h4>
+        <div class="d-flex align-items-center">
+            <h2 class="flex-grow">Edit</h2>
+            <input type="button" id="updateEntity" value="Update" class="btn btn-primary align-middle mx-2" />
+            <a asp-action="Index">Back to List</a>
+        </div>
+        <h4>Medal - <span id="medalId">@Model.Id</span></h4>
         <hr />
         <div class="row">
             <div class="col-md-6">
-                <form asp-action="Edit" enctype="multipart/form-data" method="post">
+                <form asp-action="Edit" class="d-block position-relative" enctype="multipart/form-data" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="MedalName" class="control-label"></label>
-                        <input asp-for="MedalName" class="form-control" />
+                        <input asp-for="MedalName" class="form-control" type="text" required/>
                         <span asp-validation-for="MedalName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Description" class="control-label"></label>
-                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <textarea asp-for="Description" class="form-control" required></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="PointsWorth" class="control-label"></label>
-                        <input asp-for="PointsWorth" class="form-control" />
+                        <input asp-for="PointsWorth" class="form-control" type="number" required/>
                         <span asp-validation-for="PointsWorth" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -50,21 +53,14 @@
                         </div>
                         <span asp-validation-for="FileLocation" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-default" />
-                    </div>
                 </form>
             </div>
             <div class="col-md-6">
                 <div class="d-inline">
-                    <h2>Current Image</h2>
-                    <img class="img-fluid" src="/Medals/@Model.FileLocation" alt="Image not set..." />
+                    <h2 class="text-center">Current Image</h2>
+                    <img class="img-fluid mx-auto d-block z-depth-2" src="/Medals/@Model.FileLocation" alt="Image not set..." />
                 </div>
             </div>
-        </div>
-
-        <div>
-            <a asp-action="Index">Back to List</a>
         </div>
     </div>
 </div>

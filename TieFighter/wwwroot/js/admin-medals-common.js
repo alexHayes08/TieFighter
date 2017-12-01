@@ -11,18 +11,25 @@
         });
 }
 
-function updateMedal(formEl) {
-    XMLHttpRequestPromise(
+/**
+ * 
+ * @param {any} id The id of the medal
+ * @param {any} formEl Must be an instance of FormData
+ */
+function updateMedal(id, formEl) {
+    return XMLHttpRequestPromise(
         "POST",
-        window.location.origin + `/Medals/Update`,
-        formEl.serializeArray())
-        .then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        })  
+        window.location.origin + `/Admin/Medals/Update/${id}`,
+        formEl,
+        false
+        //"multipart/form-data"
+    );
 }
 
 function createMedal(formEl) {
     console.log("Not yet working...");
+}
+
+function showErrorMsg(error) {
+    console.log(`Error: ${error}`);
 }

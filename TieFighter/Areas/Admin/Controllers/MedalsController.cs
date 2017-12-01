@@ -10,6 +10,7 @@ using TieFighter.Models;
 using System.IO;
 using Google.Cloud.Datastore.V1;
 using Microsoft.AspNetCore.Hosting;
+using TieFighter.Areas.Admin.Models.JsViewModels;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
@@ -85,9 +86,73 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult Update([FromBody]Medal medal)
-        {
-            return Json(new { Error = "" });
+        public JsonResult Update(string id, IFormCollection collection)
+        { 
+            var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
+            var response = Startup.DatastoreDb.Db.Lookup(key);
+
+            if (response == null)
+            {
+                return Json(new JsDefault() { Error = $"No such entity with an id {id} was found.", Succeeded = false });
+            }
+            else
+            {
+                var medal = DatastoreHelpers.ParseEntityToObject<Medal>(response);
+
+                // Check that there are files and that they're not empty
+                if (collection.Files?[0].Length > 0)
+                {
+                    // Only use the first file
+                    var file = collection.Files[0];
+
+                    if (file.ContentType != "image/png")
+                    {
+                        return Json(new JsDefault() { Error = "Image must be '.png'!", Succeeded = false });
+                    }
+
+                    try
+                    {
+                        var filename = medal.Id + ".png";
+                        var filepath = Path.Combine(_hostingEnvironment.WebRootPath, "Medals", $"{medal.Id}.png");
+                        using (var stream = new FileStream(filepath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+
+                        medal.FileLocation = filename;
+                    }
+                    catch (Exception e)
+                    { }
+
+                }
+
+                // Update the Description
+                if (!string.IsNullOrEmpty(collection[nameof(Medal.Description)]))
+                {
+                    medal.Description = collection[nameof(Medal.Description)];
+                }
+
+                // Update the MedalName
+                if (!string.IsNullOrEmpty(collection[nameof(Medal.MedalName)]))
+                {
+                    medal.MedalName = collection[nameof(Medal.MedalName)];
+                }
+
+                // Update the PointsWorth
+                if (!string.IsNullOrEmpty(collection[nameof(Medal.PointsWorth)]))
+                {
+                    if (double.TryParse(collection[nameof(Medal.PointsWorth)], out double newValue))
+                    {
+                        medal.PointsWorth = newValue;
+                    }
+                }
+
+                // Upsert the medal to Datastore
+                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, medal, nameof(Medal.Id));
+                Startup.DatastoreDb.Db.Upsert(entity);
+
+                return Json(new JsDefault() { Error = "", Succeeded = true });
+            }
         }
 
         [HttpPost]
@@ -97,11 +162,11 @@ namespace TieFighter.Areas.Admin.Controllers
             var result = Startup.DatastoreDb.Db.Lookup(key);
             if (result != null)
             {
-                return Json(new { Error = "", Exists = true });
+                return Json(new JsExists() { Error = "", Exists = true, Succeeded = false });
             }
             else
             {
-                return Json(new { Error = "", Exists = false });
+                return Json(new JsExists{ Error = "", Exists = false, Succeeded = true });
             }
         }
 
@@ -117,7 +182,7 @@ namespace TieFighter.Areas.Admin.Controllers
 
                 if (response == null)
                 {
-                    return Json(new { Error = ""});
+                    return Json(new JsDefault { Error = "", Succeeded = false });
                 }
                 else
                 {
@@ -130,7 +195,7 @@ namespace TieFighter.Areas.Admin.Controllers
 
                         if (file.ContentType != "image/png")
                         {
-                            return Json(new { Error = "Image must be '.png'!" });
+                            return Json(new JsDefault() { Error = "Image must be '.png'!", Succeeded = false });
                         }
 
                         try
@@ -174,12 +239,12 @@ namespace TieFighter.Areas.Admin.Controllers
                     var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, medal, nameof(Medal.Id));
                     Startup.DatastoreDb.Db.Upsert(entity);
 
-                    return Json(new { Error = ""});
+                    return Json(new JsDefault() { Error = "", Succeeded = true });
                 }
             }
             catch
             {
-                return Json(new { Error = "Failed to update medal." });
+                return Json(new JsDefault() { Error = "Failed to update medal.", Succeeded = false });
             }
         }
 

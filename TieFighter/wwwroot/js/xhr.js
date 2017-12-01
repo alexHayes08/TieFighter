@@ -1,4 +1,8 @@
-function XMLHttpRequestPromise (method, url, json) {
+function XMLHttpRequestPromise(method, url, data, contentType) {
+    if (contentType == null) {
+        contentType = "application/json";
+    }
+
     return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
@@ -12,9 +16,9 @@ function XMLHttpRequestPromise (method, url, json) {
         });
 
         request.open(method, url);
-        if (json) {
-            request.setRequestHeader("Content-type", "application/json");
+        if (data && (contentType != false)) {
+            request.setRequestHeader("Content-type", contentType);
         }
-        request.send(json);
+        request.send(data);
     });
 }
