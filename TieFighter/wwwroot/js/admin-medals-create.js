@@ -13,4 +13,12 @@
             reader.readAsDataURL(this.files[0]);
         }
     });
+    $("Id").on("keyup", function () {
+        XMLHttpRequestPromise("GET", window.location.origin + "/Medals/IsIdAvailable/" + $(this).value)
+            .then(function (response) {
+                var res = JSON.parse(response);
+            }).catch(function (error) {
+                var res = JSON.parse(error);
+            });
+    });
 });

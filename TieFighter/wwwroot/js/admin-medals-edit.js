@@ -37,7 +37,6 @@ $(function () {
         var formData = new FormData($("form")[0]);
         $("#updateEntity").attr("disabled", "");
         setAllInputsTo(false);
-        setLoadingScreenVisible(true);
 
         updateMedal($("#medalId").text(), formData)
             .then(function (response) {
@@ -46,9 +45,17 @@ $(function () {
                     throw new Error(res.Error);
                 }
                 show();
+                new jBox('Notice', {
+                    content: "Successfully updated.",
+                    color: "green"
+                }).open();
             }).catch(function (error) {
                 show();
                 showErrorMsg(error);
+                new jBox('Notice', {
+                    content: "Failed to update!",
+                    color: "red"
+                }).open();
             });
     });
 });

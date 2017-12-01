@@ -11,8 +11,8 @@ function isLoading(element, boolean) {
     } else {
         element.addEventListener("animationend", function () {
             element.removeAttribute("finishedLoading");
+            element.removeAttribute("loading");
         }, { once: true });
-        element.addAttribute("finishedLoading", "");
-        element.removeAttribute("loading");
+        element.setAttribute("finishedLoading", "");
     }
 }
