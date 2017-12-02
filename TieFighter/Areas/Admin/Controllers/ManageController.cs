@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using TieFighter.Admin.Models.ManageViewModels;
+using TieFighter.Areas.Admin.Models.ManageViewModels;
 using TieFighter.Models;
 using TieFighter.Models.ManageViewModels;
 using TieFighter.Services;

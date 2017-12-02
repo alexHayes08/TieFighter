@@ -9,7 +9,12 @@
     }
 }
 
+function addNewCondition() {
+
+}
+
 $(function () {
+    // Preview the new medal image
     $("#FileLocation").on("change", function (evt) {
         if (this.files && this.files[0]) {
             var reader = new FileReader();
@@ -25,6 +30,7 @@ $(function () {
         }
     });
 
+    // Update the medal
     $("#updateEntity").on("click", function () {
 
         function show() {
@@ -56,6 +62,32 @@ $(function () {
                     content: "Failed to update!",
                     color: "red"
                 }).open();
+            });
+    });
+
+    // Add new condition
+    $("#addNewCondition").on("click", function () {
+        var newEl = $("#conditionalRowTemplate")[0].cloneNode(true);
+        $("#conditionsTable > tbody").append($(newEl));
+        $(newEl)
+            .find("select")
+            .on("change", function () {
+                var valEl = $(this)
+                    .parents()[1]
+                    .find("td:last-child");
+
+                var newValHmtl = null;
+                switch ($(this).val()) {
+                    case "TimeSpan":
+                        newValHmtl = "<input type=\"datetime\"/>";
+                    case "KillCount":
+                    case "TotalTravelDistance":
+                    case "WithoutDying":
+                    case "StatAt":
+                        break;
+                }
+
+                valEl.html(newValHtml);
             });
     });
 });

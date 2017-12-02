@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TieFighter.Models
@@ -13,5 +14,6 @@ namespace TieFighter.Models
         //[Range(0, double.MaxValue)]
         public double PointsWorth { get; set; }
         public string FileLocation { get; set; }
+        public MedalCondition[] Conditions { get; set; }
     }
 }

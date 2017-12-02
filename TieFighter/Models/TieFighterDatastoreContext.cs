@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TieFighter.Areas.Admin.Models.MedalsViewModels;
 
 namespace TieFighter.Models
 {
@@ -29,12 +30,14 @@ namespace TieFighter.Models
                 { nameof(User), DateTime.Now }
             };
 
-            keyFactories = new Dictionary<string, KeyFactory>();
-            keyFactories.Add(medalKindName, MedalsKeyFactory);
-            keyFactories.Add(shipKindName, ShipsKeyFactory);
-            keyFactories.Add(tourKindName, ToursKeyFactory);
-            keyFactories.Add(missionKindName, MissionsKeyFactory);
-            keyFactories.Add(userKindName, UsersKeyFactory);
+            keyFactories = new Dictionary<string, KeyFactory>
+            {
+                { medalKindName, MedalsKeyFactory },
+                { shipKindName, ShipsKeyFactory },
+                { tourKindName, ToursKeyFactory },
+                { missionKindName, MissionsKeyFactory },
+                { userKindName, UsersKeyFactory }
+            };
         }
 
         #endregion
@@ -63,13 +66,7 @@ namespace TieFighter.Models
         #endregion
 
         #region Functions
-
-        //public IList<Medal> GetPaginatedListOfMedals(int resultsPerPage, int pageNumber, string hashcode)
-        //{
-
-        //}
-
-        
+       
         public IList<Medal> GetPaginatedMedals(int pageNumber, int resultsPerPage, DateTime lastUpdated)
         {
             var response = GetPaginatedOf(nameof(Medal), resultsPerPage, pageNumber, lastUpdated);
@@ -101,11 +98,44 @@ namespace TieFighter.Models
             throw new KeyNotFoundException($"Failed to find a KeyFactory for kind {kindname}.");
         }
 
+        private const string MedalConditionValueName = nameof(MedalCondition.ConditionValue);
+        private static void SetMedalEntityValue(MedalCondition condition, ref Entity entity)
+        {
+            switch (condition.ConditionType)
+            {
+                case MedalConditionTypes.KillCount:
+                    entity[MedalConditionValueName] = (int)condition.ConditionValue;
+                    break;
+                case MedalConditionTypes.StatAt:
+                    var stat = (MedalConditionalTypeStats)condition.ConditionValue;
+                    var subEntity = new Entity()
+                    {
+                        ["Name"] = stat.Name,
+                        ["Value"] = stat.Value,
+                        ["Operator"] = Enum.GetName(typeof(MedalConditionalTypeStatsOperators), stat.Operator),
+                        ["ValueAsPercent"] = stat.ValueAsPercent
+                    };
+                    entity[MedalConditionValueName] = subEntity;
+                    break;
+                case MedalConditionTypes.TimeSpan:
+                    entity[MedalConditionValueName] = (DateTime)condition.ConditionValue;
+                    break;
+                case MedalConditionTypes.TotalTravelDistance:
+                    entity[MedalConditionValueName]= (double)condition.ConditionValue;
+                    break;
+                case MedalConditionTypes.WithoutDying:
+                    entity[MedalConditionValueName] = null;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         #region Seed db with data
 
         public static async Task InitializeDbAsync(UserManager<ApplicationUser> userManager)
         {
-            var dbContext = new TieFighterDatastoreContext("1086585271464");
+            var dbContext = new TieFighterDatastoreContext("tiefighter-imperialremnant");
             var medalKeyFactory = dbContext.Db.CreateKeyFactory(medalKindName);
 
             // Upsert medals
@@ -116,30 +146,145 @@ namespace TieFighter.Models
                 {
                     MedalName = "Double Kill",
                     Description = "Kill two enemies within two seconds of each other.",
-                    PointsWorth = 2
+                    PointsWorth = 2,
+                    Conditions = new MedalCondition[]
+                    {
+                        new MedalCondition()
+                        {
+                            ConditionType = MedalConditionTypes.KillCount,
+                            ConditionValue = 2,
+                            DependsOn = new MedalCondition()
+                            {
+                                ConditionType = MedalConditionTypes.TimeSpan,
+                                ConditionValue = new DateTime(1,1,1,0,0,2).ToUniversalTime()
+                            }
+                        }
+                    }
                 },
                 new Medal()
                 {
                     MedalName = "Triple Kill",
                     Description = "Kill three enemies within two seconds of each other.",
-                    PointsWorth = 2
+                    PointsWorth = 2,
+                    Conditions = new MedalCondition[]
+                    {
+                        new MedalCondition()
+                        {
+                            ConditionType = MedalConditionTypes.KillCount,
+                            ConditionValue = 3,
+                            DependsOn = new MedalCondition()
+                            {
+                                ConditionType = MedalConditionTypes.TimeSpan,
+                                ConditionValue = new DateTime(1,1,1,0,0,2).ToUniversalTime()
+                            }
+                        }
+                    }
                 },
                 new Medal()
                 {
                     MedalName = "Ace",
                     Description = "Get five confirmed kills in one life.",
-                    PointsWorth = 5
+                    PointsWorth = 5,
+                    Conditions = new MedalCondition[]
+                    {
+                        new MedalCondition()
+                        {
+                            ConditionType = MedalConditionTypes.KillCount,
+                            ConditionValue = 5,
+                            DependsOn = new MedalCondition()
+                            {
+                                ConditionType = MedalConditionTypes.WithoutDying,
+                                ConditionValue = null
+                            }
+                        }
+                    }
                 },
                 new Medal()
                 {
                     MedalName = "Double Ace",
                     Description = "Get ten confirmed kills in one life.",
-                    PointsWorth = 10
+                    PointsWorth = 10,
+                    Conditions = new MedalCondition[]
+                    {
+                        new MedalCondition()
+                        {
+                            ConditionType = MedalConditionTypes.KillCount,
+                            ConditionValue = 10,
+                            DependsOn = new MedalCondition()
+                            {
+                                ConditionType = MedalConditionTypes.WithoutDying,
+                                ConditionValue = null
+                            }
+                        }
+                    }
+                },
+                new Medal()
+                {
+                    MedalName = "Survivalist",
+                    Description = "Survive for 2 minutes when hull integrity is less than 10%.",
+                    PointsWorth = 4,
+                    Conditions = new MedalCondition[]
+                    {
+                        new MedalCondition()
+                        {
+                            ConditionType = MedalConditionTypes.StatAt,
+                            ConditionValue = new MedalConditionalTypeStats()
+                            {
+                                Name = "HullIntegrity",
+                                Value = 10,
+                                ValueAsPercent = true,
+                                Operator = MedalConditionalTypeStatsOperators.LessThanOrEqual
+                            },
+                            DependsOn = new MedalCondition()
+                            {
+                                ConditionType = MedalConditionTypes.TimeSpan,
+                                ConditionValue = new DateTime(1,1,1,0,2,0).ToUniversalTime(),
+                                DependsOn = new MedalCondition()
+                                {
+                                    ConditionType = MedalConditionTypes.WithoutDying,
+                                    ConditionValue = null,
+                                }
+                            }
+                        }
+                    }
                 }
             };
 
             foreach (var medal in medals)
             {
+                var medalConditions = new List<Entity>();
+                foreach (var condition in medal.Conditions)
+                {
+                    var entity = new Entity();
+                    entity["ConditionType"] = Enum.GetName(typeof(MedalConditionTypes), condition.ConditionType);
+                    SetMedalEntityValue(condition, ref entity);
+
+                    Entity dependsOnEntity = null;
+                    for (var nestedCondition = condition;
+                        nestedCondition.DependsOn != null; 
+                        nestedCondition = nestedCondition.DependsOn)
+                    {
+                        var newEntity = new Entity()
+                        {
+                            ["ConditionType"] = Enum.GetName(typeof(MedalConditionTypes), condition.ConditionType),
+                        };
+                        SetMedalEntityValue(nestedCondition.DependsOn, ref newEntity);
+
+                        if (dependsOnEntity != null)
+                        {
+                            dependsOnEntity["DependsOn"] = newEntity;
+                        }
+                        else
+                        {
+                            entity["DependsOn"] = newEntity;
+                        }
+
+                        dependsOnEntity = newEntity;
+                    }
+
+                    medalConditions.Add(entity);
+                }
+
                 medalEntities.Add(new Entity()
                 {
                     Key = medalKeyFactory.CreateKey(medal.MedalName),
@@ -156,6 +301,10 @@ namespace TieFighter.Models
                     {
                         DoubleValue = medal.PointsWorth,
                         ExcludeFromIndexes = true
+                    },
+                    ["Conditions"] = new Value()
+                    {
+                        ArrayValue = medalConditions.ToArray()
                     }
                 });
             }

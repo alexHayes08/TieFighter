@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace TieFighter.Admin.Models.ManageViewModels
+namespace TieFighter.Areas.Admin.Models.ManageViewModels
 {
     public class ConfigureTwoFactorViewModel
     {

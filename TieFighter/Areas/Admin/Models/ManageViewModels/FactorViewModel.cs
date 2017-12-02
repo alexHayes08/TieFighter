@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TieFighter.Admin.Models.ManageViewModels
+﻿namespace TieFighter.Areas.Admin.Models.ManageViewModels
 {
     public class FactorViewModel
     {

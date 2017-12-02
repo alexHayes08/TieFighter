@@ -11,6 +11,7 @@ using System.IO;
 using Google.Cloud.Datastore.V1;
 using Microsoft.AspNetCore.Hosting;
 using TieFighter.Areas.Admin.Models.JsViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
@@ -38,12 +39,6 @@ namespace TieFighter.Areas.Admin.Controllers
             return View(vm);
         }
 
-        // GET: Medals/Details/5
-        public ActionResult Details(string id)
-        {
-            return View();
-        }
-
         // GET: Medals/Create
         public ActionResult Create()
         {
@@ -58,8 +53,20 @@ namespace TieFighter.Areas.Admin.Controllers
             try
             {
                 // TODO: Add insert logic here
+                double pointsWorth = 0;
+                double.TryParse(collection[nameof(Medal.PointsWorth)], out pointsWorth);
+                var medal = new Medal()
+                {
+                    Id = collection[nameof(Medal.Id)],
+                    MedalName = collection[nameof(Medal.MedalName)],
+                    PointsWorth = pointsWorth
+                    //Conditions = new string[0]
+                };
 
-                return RedirectToAction(nameof(Index));
+                Startup.DatastoreDb.MedalsKeyFactory.CreateKey(medal.Id);
+                var entity = DatastoreHelpers.ObjectToEntity<Medal>(Startup.DatastoreDb, medal, nameof(Medal.Id));
+
+                return RedirectToAction(nameof(Edit), pointsWorth);
             }
             catch
             {
@@ -81,6 +88,7 @@ namespace TieFighter.Areas.Admin.Controllers
             else
             {
                 var medal = DatastoreHelpers.ParseEntityToObject<Medal>(response);
+
                 return View(medal);
             }
         }
