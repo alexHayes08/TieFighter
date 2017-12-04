@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using TieFighter.Models;
+using TieFighter.Models.HomeViewModels;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
@@ -8,10 +13,41 @@ namespace TieFighter.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
+        #region Contstructor
+
+        public UsersController(TieFighterContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _context = context;
+        }
+
+        #endregion
+
+        #region Fields
+
+        private readonly TieFighterContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        #endregion
+
         // GET: Users
         public ActionResult Index()
         {
-            return View();
+            var users = _context.Users.ToList();
+            var userVMs = new List<UserGameViewModel>();
+            foreach (var user in users)
+            {
+                userVMs.Add(new UserGameViewModel()
+                {
+                    DisplayLevel = user.DisplayLevel,
+                    DisplayName = user.DisplayName,
+                    Email = user.Email,
+                    Thumbnail = user.Thumbnail,
+                    Uid = user.Id
+                });
+            }
+
+            return View(userVMs);
         }
 
         // GET: Users/Details/5

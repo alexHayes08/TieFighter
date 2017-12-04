@@ -11,9 +11,10 @@ using TieFighter.Models;
 namespace TieFighter.Data.Migrations
 {
     [DbContext(typeof(TieFighterContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171203183145_Migration10")]
+    partial class Migration10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

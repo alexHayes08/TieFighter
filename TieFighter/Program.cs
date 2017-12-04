@@ -23,8 +23,8 @@ namespace TieFighter
                 {
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    Seed.InitializeAsync(userManager, roleManager).Wait();
                     TieFighterDatastoreContext.InitializeDbAsync(userManager).Wait();
+                    Seed.InitializeAsync(userManager, roleManager).Wait();
                 }
                 catch (Exception ex)
                 {

@@ -195,6 +195,10 @@ table.dataTable tbody > tr > .selected {
     font-family: 'Roboto', sans-serif;
 }
 
+a {
+    cursor: pointer;
+}
+
 body {
     background-color: rgba(253, 255, 252, 1);
     font-family: 'Roboto', sans-serif;
@@ -204,12 +208,52 @@ body {
 /*footer {
     min-height: 75px;
 }*/
+header { 
+    position: relative;
+}
+
+header > .horizontalLoadingIndicator {
+    position: absolute;
+    bottom: -4px;
+    height: 4px;
+    width: 100%;
+    z-index: 1031;
+}
+
+header > .horizontalLoadingIndicator > * {
+    height: 4px;
+    position: absolute;
+}
+
+header > .horizontalLoadingIndicator > .colorA {
+    animation: 8s alternate infinite horizontalLoadingIndicatorA;
+    background-color: blue;
+}
+
+header > .horizontalLoadingIndicator > .colorB {
+    animation: 8s alternate infinite horizontalLoadingIndicatorB;
+    background-color: yellow;
+}
+
+header > .horizontalLoadingIndicator > .colorC {
+    animation: 8s alternate infinite horizontalLoadingIndicatorC;
+    background-color: red;
+}
+
+header > .horizontalLoadingIndicator > .colorD {
+    animation: 8s alternate infinite horizontalLoadingIndicatorD;
+    background-color: green;
+}
 
 header nav {
     background-color: rgba(2, 1, 0, 1) !important;
     border-radius: 0 !important;
     box-shadow: 4px 0px 8px 2px rgba(0,0,0,.33);
     font-weight: bold;
+}
+
+table.table tbody tr.selected {
+    background-color: #fd761a;
 }
 
 .btn {
@@ -840,5 +884,62 @@ label > .custom-checkbox:checked {
 
     100% {
         transform: translate(-50%,-50%) rotate(360deg);
+    }
+}
+
+@keyframes horizontalLoadingIndicatorA {
+    0% {
+        width: 0%;
+    }
+    25% {
+        width: 100%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes horizontalLoadingIndicatorB {
+    0% {
+        width: 0%;
+    }
+    25% {
+        width: 0%;
+    }
+
+    50% {
+        width: 100%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes horizontalLoadingIndicatorC {
+    0% {
+        width: 0%;
+    }
+    50% {
+        width: 0%;
+    }
+
+    75% {
+        width: 100%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes horizontalLoadingIndicatorD {
+    0% {
+        width: 0%;
+    }
+    75% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
     }
 }

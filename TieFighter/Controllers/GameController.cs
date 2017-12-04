@@ -78,8 +78,6 @@ namespace TieFighter.Controllers
             };
 
             return View(userVM);
-
-            return View();
         }
     }
 }

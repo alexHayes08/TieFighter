@@ -5,6 +5,7 @@
     ViewData["Title"] = "Edit";
     var names = Enum.GetNames(typeof(MedalConditionTypes));
     var operatorNames = Enum.GetNames(typeof(MedalConditionalTypeStatsOperators));
+    var statNames = Enum.GetNames(typeof(MedalConditionalTypeStatsOperators));
 }
 
 <div class="topVSpacer"></div>
@@ -56,59 +57,78 @@
                         </div>
                         <span asp-validation-for="FileLocation" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <table id="conditionsTable" class="table">
-                            <thead>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="d-inline">
+                    <h2 class="text-center">Current Image</h2>
+                    <img id="currentImage" class="img-fluid mx-auto d-block z-depth-2" src="/Medals/@Model.FileLocation" alt="Image not set..." />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <table id="conditionsTable" class="table">
+                        <thead>
+                            <tr>
+                                <th colspan="3"></th>
+                                <th>
+                                    <button id="deleteSelectedConditions" class="d-block mx-auto btn btn-danger" type="button">Delete Selected Conditions</button>
+                                    @*<button id="addNewCondition" class="d-block mx-auto btn btn-default" type="button">Add Condition</button>*@
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>
+                                        <input id="toggleAllConditions" type="checkbox" />
+                                    </label>
+                                </th>
+                                <th>Type</th>
+                                <th>Value</th>
+                                <th>Depends On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; Model.Conditions != null && i < Model.Conditions.Length; i++)
+                            {
+                                var condition = Model.Conditions[i];
                                 <tr>
-                                    <th colspan="3"></th>
-                                    <th>
-                                        <button id="deleteSelectedConditions" class="d-block mx-auto btn btn-danger" type="button">Delete Selected Conditions</button>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        <label>
-                                            <input id="toggleAllConditions" type="checkbox" />
-                                        </label>
-                                    </th>
-                                    <th>Condition Id</th>
-                                    <th>Type</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (var i = 0; Model.Conditions != null && i < Model.Conditions.Length; i++)
-                                {
-                                    var condition = Model.Conditions[i];
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td>
-                                            <select class="custom-select">
-                                                @{
-                                                    foreach (var name in names)
+                                    <td>
+                                        <input type="checkbox" />
+                                    </td>
+                                    <td>
+                                        <select class="custom-select">
+                                            @{
+                                                foreach (var name in names)
+                                                {
+                                                    if (name == Enum.GetName(typeof(MedalConditionTypes), condition))
+                                                    {
+                                                        <option value="@name" selected>@name</option>
+                                                    }
+                                                    else
                                                     {
                                                         <option value="@name">@name</option>
                                                     }
                                                 }
-                                            </select>
-                                        </td>
-                                        <td>
-                                            @switch (condition.ConditionType)
-                                            {
-                                                case MedalConditionTypes.KillCount:
-                                                    <input name="@i-conditionValue" type="number" value="@((int)condition.ConditionValue)" />
-                                                    break;
-                                                case MedalConditionTypes.StatAt:
-                                                    var stat = (MedalConditionalTypeStats)condition.ConditionValue;
-                                                    <input name="@i-conditionValue-Name" type="number" value="@stat.Name" />
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                        @switch (condition.ConditionType)
+                                        {
+                                            case MedalConditionTypes.KillCount:
+                                                <input name="@i-conditionValue" type="number" value="@((int)condition.ConditionValue)" />
+                                                break;
+                                            case MedalConditionTypes.StatAt:
+                                                var stat = (MedalConditionalTypeStats)condition.ConditionValue;
+                                                <input name="@i-conditionValue-Name" type="number" value="@stat.Name" />
                                                     <input name="@i-conditionValue-Value" type="number" value="@stat.Value" />
                                                     <input name="@i-conditionValue-ValueAsPercent" type="checkbox" value="@stat.ValueAsPercent" />
                                                     <select name="@i-conditionValue-Operator">
                                                         @foreach (var oper in operatorNames)
                                                         {
-                                                            if(Enum.GetName(typeof(MedalConditionalTypeStatsOperators), stat.Operator) == oper)
+                                                            if (Enum.GetName(typeof(MedalConditionalTypeStatsOperators), stat.Operator) == oper)
                                                             {
                                                                 <option value="@oper" selected>@oper</option>
                                                             }
@@ -118,39 +138,44 @@
                                                             }
                                                         }
                                                     </select>
-                                                    break;
-                                                case MedalConditionTypes.TimeSpan:
-                                                    <input name="@i-conditionValue" type="datetime" value="@((DateTime)condition.ConditionValue)" />
-                                                    break;
-                                                case MedalConditionTypes.TotalTravelDistance:
-                                                    <input name="@i-conditionValue" type="number" value="@((double)condition.ConditionValue)" />
-                                                    break;
-                                                case MedalConditionTypes.WithoutDying:
-                                                    <input name="@i-conditionValue" type="checkbox" readonly checked />
-                                                    break;
-                                                default:
-                                                    <input name="@i-conditionValue" type="text" value="@condition.ConditionValue.ToString()" />
-                                                    break;
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                            <tfoot>
-                                <tr>
+                                                break;
+                                            case MedalConditionTypes.TimeSpan:
+                                                <input name="@i-conditionValue" type="datetime" value="@((DateTime)condition.ConditionValue)" />
+                                                break;
+                                            case MedalConditionTypes.TotalTravelDistance:
+                                                <input name="@i-conditionValue" type="number" value="@((double)condition.ConditionValue)" />
+                                                break;
+                                            case MedalConditionTypes.WithoutDying:
+                                                <input name="@i-conditionValue" type="checkbox" readonly checked />
+                                                break;
+                                            default:
+                                                <input name="@i-conditionValue" type="text" value="@condition.ConditionValue.ToString()" />
+                                                break;
+                                        }
+                                    </td>
                                     <td>
-                                        <button id="addNewCondition" class="d-block mx-auto btn btn-default" type="button">Add Condition</button>
+                                        @{
+                                            if (condition.DependsOn != null)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-default">Add dependency</button>
+                                            }
+                                        }
                                     </td>
                                 </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <div class="d-inline">
-                    <h2 class="text-center">Current Image</h2>
-                    <img class="img-fluid mx-auto d-block z-depth-2" src="/Medals/@Model.FileLocation" alt="Image not set..." />
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    <button id="addNewCondition" class="d-block mx-auto btn btn-default" type="button">Add Condition</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
@@ -172,12 +197,34 @@
             </select>
         </td>
         <td class="conditionValue">
-            <input type="text" />
+            <input type="text" class="form-control"/>
+        </td>
+        <td class="conditionDependsOn">
+            <button class="btn btn-default">Depends On</button>
         </td>
     </tr>
 </template>
+<template id="conditionalStatType">
+    <label>
+        Stat name:
+        <input class="statName form-control" type="text" required />
+    </label>
+    <label>
+        Stat value:
+        <input class="statValue form-control" type="number" required value="0" />
+    </label>
+    <select class="statOperator custom-select">
+        @foreach (var statTypeOperator in statNames)
+        {
+            <option name="@statTypeOperator">@statTypeOperator</option>
+        }
+    </select>
+    <label>
+        Treat value as percent: 
+        <input class="statValueAsPercent form-control" type="checkbox" />
+    </label>
+</template>
 
 @section Scripts {
-    <script src="~/js/admin-medals-common.js"></script>
     <script src="~/js/admin-medals-edit.js"></script>
 }

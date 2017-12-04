@@ -16,3 +16,22 @@ function isLoading(element, boolean) {
         element.setAttribute("finishedLoading", "");
     }
 }
+
+function pageLoading(boolean) {
+    const pageLoadingTemplate = $.parseHTML(`
+        <template>
+            <div class="horizontalLoadingIndicator">
+                <div class="colorA"></div>
+                <div class="colorB"></div>
+                <div class="colorC"></div>
+                <div class="colorD"></div>
+            </div>
+        </template>`);
+    var $header = $("header");
+    if (boolean) {
+        var content = pageLoadingTemplate[1].content.cloneNode(true);
+        $header.append(content);
+    } else {
+        $header.find(".horizontalLoadingIndicator").remove()
+    }
+}

@@ -1,4 +1,6 @@
-﻿namespace TieFighter.Models.HomeViewModels
+﻿using System;
+
+namespace TieFighter.Models.HomeViewModels
 {
     public class UserGameViewModel
     {
@@ -7,5 +9,6 @@
         public string Email { get; set; }
         public string Thumbnail { get; set; }
         public string Uid { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

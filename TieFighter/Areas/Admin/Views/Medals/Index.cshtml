@@ -12,8 +12,8 @@
         <hr />
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary float-right" asp-area="Admin" asp-controller="Medals" asp-action="Create">Create New</a>
-                <button class="btn btn-danger float-right">Delete Selected</button>
+                <a class="btn btn-primary float-right m-2" asp-area="Admin" asp-controller="Medals" asp-action="Create">Create New</a>
+                <button id="deleteSelected" class="btn btn-danger float-right m-2">Delete Selected</button>
             </div>
         </div>
         <div>
@@ -37,16 +37,16 @@
                 <tbody>
                     @foreach (var medal in Model.Medals)
                     {
-                        <tr>
+                        <tr data-bind="@medal.Id">
                             <td class="align-middle">
                                 <div class="d-flex flex-column align-items-center justify-content-center h-100">
                                     <label class="m-0">
-                                        <input type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
+                                        <input id="selectAll" type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
                                     </label>
                                 </div>
                             </td>
                             <td class="align-middle">
-                                <img src="/Medals/@medal.FileLocation?@DateTime.Now.Millisecond.ToString()" class="rounded thumbnail maxWidthAndHeight100px" alt="Medal image..."/>
+                                <img src="/Medals/@medal.FileLocation?@DateTime.Now.Millisecond.ToString()" class="rounded thumbnail maxWidthAndHeight100px z-depth-2" alt="Medal image has not yet been set."/>
                             </td>
                             <td class="align-middle">
                                 @medal.MedalName
@@ -61,10 +61,6 @@
                     }
                 </tbody>
             </table>
-        </div>
-        <div>
-            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-            <a asp-action="Index">Back to List</a>
         </div>
     </div>
 </div>

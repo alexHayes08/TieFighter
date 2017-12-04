@@ -24,6 +24,7 @@ namespace TieFighter.Models
             UsersKeyFactory = Db.CreateKeyFactory(userKindName);
             lastUpdatesToTables = new Dictionary<string, DateTime>
             {
+                { nameof(Mission), DateTime.Now },
                 { nameof(Medal), DateTime.Now },
                 { nameof(Ship), DateTime.Now },
                 { nameof(Tour), DateTime.Now },
@@ -46,9 +47,9 @@ namespace TieFighter.Models
 
         public readonly DatastoreDb Db;
         public readonly KeyFactory MedalsKeyFactory;
+        public readonly KeyFactory MissionsKeyFactory;
         public readonly KeyFactory ShipsKeyFactory;
         public readonly KeyFactory ToursKeyFactory;
-        public readonly KeyFactory MissionsKeyFactory;
         public readonly KeyFactory UsersKeyFactory;
         private readonly IDictionary<string, DateTime> lastUpdatesToTables;
         private readonly IDictionary<string, KeyFactory> keyFactories;
@@ -157,9 +158,10 @@ namespace TieFighter.Models
                             {
                                 ConditionType = MedalConditionTypes.TimeSpan,
                                 ConditionValue = new DateTime(1,1,1,0,0,2).ToUniversalTime()
-                            }
+                            },
                         }
-                    }
+                    },
+                    FileLocation = "Double Kill.png"
                 },
                 new Medal()
                 {
@@ -178,7 +180,8 @@ namespace TieFighter.Models
                                 ConditionValue = new DateTime(1,1,1,0,0,2).ToUniversalTime()
                             }
                         }
-                    }
+                    },
+                    FileLocation = "Triple Kill.png"
                 },
                 new Medal()
                 {
@@ -197,7 +200,8 @@ namespace TieFighter.Models
                                 ConditionValue = null
                             }
                         }
-                    }
+                    },
+                    FileLocation = "Ace.png"
                 },
                 new Medal()
                 {
@@ -216,7 +220,8 @@ namespace TieFighter.Models
                                 ConditionValue = null
                             }
                         }
-                    }
+                    },
+                    FileLocation = "DoubleAce.png"
                 },
                 new Medal()
                 {
@@ -246,7 +251,8 @@ namespace TieFighter.Models
                                 }
                             }
                         }
-                    }
+                    },
+                    FileLocation = ""
                 }
             };
 
@@ -305,6 +311,10 @@ namespace TieFighter.Models
                     ["Conditions"] = new Value()
                     {
                         ArrayValue = medalConditions.ToArray()
+                    },
+                    ["FileLocation"] = new Value()
+                    {
+                        StringValue = medal.FileLocation
                     }
                 });
             }
@@ -376,6 +386,7 @@ namespace TieFighter.Models
             // Upsert tours/missions
             var tourKeyFactory = dbContext.Db.CreateKeyFactory(tourKindName);
             var tourEntities = new List<Entity>();
+            var missionEntities = new List<Entity>();
             var tours = new List<Tour>()
             {
                 new Tour()
@@ -774,43 +785,46 @@ namespace TieFighter.Models
             for (var i = 0; i < tours.Count; i++)
             {
                 var tour = tours[i];
+                var tourId = tour.TourName.Replace(" ", "_");
 
-                var missions = new List<Entity>();
+                var rndDate = new DateTime(2017, new Random().Next(1, 13), new Random().Next(1,28), new Random().Next(1,12), new Random().Next(1,60), new Random().Next(1,60)).ToUniversalTime();
                 for (var ii = 0; ii < tour.Missions.Count; ii++)
                 {
                     var mission = tour.Missions[ii];
-                    missions.Add(new Entity()
+                    var mEntity = new Entity()
                     {
-                        ["DisplayName"] = new Value()
+                        [nameof(Mission.DisplayName)] = new Value()
                         {
                             StringValue = mission.DisplayName
                         },
-                        ["PositionInTour"] = new Value()
+                        [nameof(Mission.PositionInTour)] = new Value()
                         {
                             IntegerValue = ii
                         },
-                        ["MissionBriefing"] = new Value()
+                        [nameof(Mission.MissionBriefing)] = new Value()
                         {
                             StringValue = ""
-                        }
-                    });
+                        },
+                        [nameof(Mission.LastPlayedOn)] = rndDate,
+                        [nameof(Mission.TourId)] = tourId
+                    };
+                    mEntity.Key = dbContext.MissionsKeyFactory.CreateKey($"{ii}-{mission.DisplayName.Replace(" ", "_")}");
+                    missionEntities.Add(mEntity);
                 }
 
                 tourEntities.Add(new Entity()
                 {
-                    Key = tourKeyFactory.CreateKey(tour.TourName.Replace(" ", "_")),
-                    ["DisplayName"] = new Value()
+                    Key = tourKeyFactory.CreateKey(tourId),
+                    [nameof(Tour.TourName)] = new Value()
                     {
                         StringValue = tour.TourName
                     },
-                    ["Missions"] = new Value()
-                    {
-                        ArrayValue = missions.ToArray()
-                    }
+                    [nameof(Tour.Position)] = i
                 });
             }
 
-            await dbContext.Db.UpsertAsync(tourEntities);
+            var tourResults = await dbContext.Db.UpsertAsync(tourEntities);
+            var missionResults = await dbContext.Db.UpsertAsync(missionEntities);
 
             // Upsert users
 

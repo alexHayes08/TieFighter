@@ -41,6 +41,10 @@ $(function () {
 
         isLoading($("form")[0], true);
         var formData = new FormData($("form")[0]);
+
+        // Get table form data
+        $("#conditionsTable ")
+
         $("#updateEntity").attr("disabled", "");
         setAllInputsTo(false);
 
@@ -55,6 +59,10 @@ $(function () {
                     content: "Successfully updated.",
                     color: "green"
                 }).open();
+                var newSrc = $("#FileLocation").val();
+                if (newSrc != null && newSrc != "") {
+                    $("#currentImage").attr("src", newSrc);
+                }
             }).catch(function (error) {
                 show();
                 showErrorMsg(error);
@@ -67,27 +75,34 @@ $(function () {
 
     // Add new condition
     $("#addNewCondition").on("click", function () {
-        var newEl = $("#conditionalRowTemplate")[0].cloneNode(true);
-        $("#conditionsTable > tbody").append($(newEl));
+        var newEl = $("#conditionalRowTemplate")[0].cloneNode(true).content;
         $(newEl)
             .find("select")
             .on("change", function () {
-                var valEl = $(this)
-                    .parents()[1]
-                    .find("td:last-child");
+                var valEl = $($(this)
+                    .parents()[1])
+                    .find("td:nth-child(3)");
 
-                var newValHmtl = null;
+                var newValHtml = null;
                 switch ($(this).val()) {
                     case "TimeSpan":
-                        newValHmtl = "<input type=\"datetime\"/>";
+                        newValHtml = "<input type=\"datetime\" class=\"form-control\"/>";
+                        break;
                     case "KillCount":
                     case "TotalTravelDistance":
+                        newValHtml = "<input type=\"number\" class=\"form-control\"/>";
+                        break;
                     case "WithoutDying":
+                        newValHtml = "<label><input type=\"checkbox\" checked disabled class=\"form-control custom-checkbox\"/></label>";
+                        break;
                     case "StatAt":
+                        newValHtml = $("#conditionalStatType")[0].cloneNode(true).content;
                         break;
                 }
 
                 valEl.html(newValHtml);
             });
+
+        newEl = $("#conditionsTable > tbody")[0].appendChild(newEl);
     });
 });

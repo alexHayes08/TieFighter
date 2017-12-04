@@ -8,6 +8,7 @@
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-8">
+        
         <h2>Create</h2>
 
         <h4>Medal</h4>
@@ -18,12 +19,12 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" />
+                        <input asp-for="Id" class="form-control" required data-toggle="tooltip" data-placement="top" title="Must be unique"/>
                         <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="MedalName" class="control-label"></label>
-                        <input asp-for="MedalName" class="form-control" />
+                        <input asp-for="MedalName" class="form-control" required/>
                         <span asp-validation-for="MedalName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -69,6 +70,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/admin-medals-common.js"></script>
     <script src="~/js/admin-medals-create.js"></script>
 }

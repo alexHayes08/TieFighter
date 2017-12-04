@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 namespace TieFighter.Models
 {
     public static class DatastoreHelpers
@@ -13,8 +14,14 @@ namespace TieFighter.Models
 
             foreach (var property in newInstance.GetType().GetProperties())
             {
+                // Ignore property if NotMapped
+                if (property.IsDefined(typeof(NotMappedAttribute), false))
+                {
+                    continue;
+                }
+
                 // Check if the property is part of the key
-                if (property.Name == "Id")
+                if (property.Name == "Id" || property.IsDefined(typeof(KeyAttribute), false))
                 {
                     property.SetValue(newInstance, entity.Key.Path[0].Name);
                     continue;
@@ -63,7 +70,7 @@ namespace TieFighter.Models
                                 property.SetValue(newInstance, entity[property.Name].StringValue);
                                 break;
                             case Value.ValueTypeOneofCase.TimestampValue:
-                                property.SetValue(newInstance, entity[property.Name].TimestampValue);
+                                property.SetValue(newInstance, entity[property.Name].TimestampValue.ToDateTime());
                                 break;
                         }
                     }
@@ -92,18 +99,21 @@ namespace TieFighter.Models
             {
                 throw new ArgumentNullException($"The argument '{nameof(db)}' cannot be null.");
             }
-            else if (string.IsNullOrEmpty(idPropertyName))
-            {
-                throw new ArgumentException($"The argument '{nameof(idPropertyName)}' cannot be null nor emtpy.");
-            }
+            //else if (string.IsNullOrEmpty(idPropertyName))
+            //{
+            //    throw new ArgumentException($"The argument '{nameof(idPropertyName)}' cannot be null nor emtpy.");
+            //}
 
             var entity = new Entity();
             var objType = obj.GetType();
             var objProperties = objType.GetProperties();
 
             // Setup the entity's id
-            string idValue = objType.GetProperty(idPropertyName).GetValue(obj).ToString();
-            entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
+            if (!string.IsNullOrEmpty(idPropertyName))
+            {
+                string idValue = objType.GetProperty(idPropertyName).GetValue(obj).ToString();
+                entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
+            }
 
             foreach (var prop in objProperties)
             {
@@ -134,7 +144,19 @@ namespace TieFighter.Models
                 }
                 else if (propertyType.IsArray)
                 {
-                    throw new NotImplementedException("Handling arrays isn't supported yet.");
+                    var objArr = objType.GetProperty(prop.Name).GetValue(obj) as object[];
+                    Type elType = propertyType.GetElementType();
+                    if (objArr != null)
+                    {
+                        var entities = new List<Entity>();
+                        foreach (var element in objArr)
+                        {
+                            var el = Convert.ChangeType(element, elType);
+                            entities.Add(ObjectToEntity(db, el, null));
+                        }
+                        entity[prop.Name] = entities.ToArray();
+                    }
+                    //throw new NotImplementedException("Handling arrays isn't supported yet.");
                 }
                 else
                 {
@@ -142,7 +164,10 @@ namespace TieFighter.Models
                 }
 
                 // Exclude from indexing if it's name isn't included in the indexedPropertyes array
-                entity[prop.Name].ExcludeFromIndexes = !indexedProperties.Contains(prop.Name);
+                if (entity[prop.Name] != null)
+                {
+                     entity[prop.Name].ExcludeFromIndexes = !indexedProperties.Contains(prop.Name);
+                }
             }
 
             return entity;

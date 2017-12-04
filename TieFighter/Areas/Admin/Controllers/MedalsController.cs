@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Google.Cloud.Datastore.V1;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using TieFighter.Areas.Admin.Models.JsViewModels;
 using TieFighter.Areas.Admin.Models.MedalsViewModels;
 using TieFighter.Models;
-using System.IO;
-using Google.Cloud.Datastore.V1;
-using Microsoft.AspNetCore.Hosting;
-using TieFighter.Areas.Admin.Models.JsViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
@@ -64,12 +61,13 @@ namespace TieFighter.Areas.Admin.Controllers
                 };
 
                 Startup.DatastoreDb.MedalsKeyFactory.CreateKey(medal.Id);
-                var entity = DatastoreHelpers.ObjectToEntity<Medal>(Startup.DatastoreDb, medal, nameof(Medal.Id));
+                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, medal, nameof(Medal.Id));
 
                 return RedirectToAction(nameof(Edit), pointsWorth);
             }
             catch
             {
+                ViewBag.Error = "Failed to create new medal";
                 return View();
             }
         }
@@ -77,8 +75,12 @@ namespace TieFighter.Areas.Admin.Controllers
         // GET: Medals/Edit/5
         public ActionResult Edit(string id)
         {
-            var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
+            if (string.IsNullOrEmpty(id))
+            {
+                Redirect(nameof(Index));
+            }
 
+            var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
             var response = Startup.DatastoreDb.Db.Lookup(key);
 
             if (response == null)
@@ -164,10 +166,13 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult IsIdAvailable(string id)
+        [ValidateAntiForgeryToken]
+        public JsonResult IsIdAvailable(IFormCollection collection)
         {
+            var id = collection["Id"];
             var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
             var result = Startup.DatastoreDb.Db.Lookup(key);
+            //var newAntiForgeToken = Html.AntiForgeryToken();
             if (result != null)
             {
                 return Json(new JsExists() { Error = "", Exists = true, Succeeded = false });
@@ -180,17 +185,32 @@ namespace TieFighter.Areas.Admin.Controllers
 
         // POST: Medals/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public JsonResult Delete(IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                var ids = collection.Keys;
+                var keys = new List<Key>();
+                foreach (var id in ids)
+                {
+                    keys.Add(Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id));
+                }
 
-                return RedirectToAction(nameof(Index));
+                Startup.DatastoreDb.Db.Delete(keys);
+
+                return Json(new JsDefault()
+                {
+                    Error = "",
+                    Succeeded = true
+                });
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return Json(new JsDefault()
+                {
+                    Error = e.ToString(),
+                    Succeeded = false
+                });
             }
         }
     }

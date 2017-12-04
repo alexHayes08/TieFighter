@@ -47,6 +47,20 @@ namespace TieFighter
             var users = userManager.Users.ToList();
             foreach (var user in users)
             {
+                if (user.CreatedOn == null || user.CreatedOn == default(DateTime))
+                {
+                    user.CreatedOn = DateTime.Now.AddDays(-20);
+                    if (user.MostRecentActivity == null || user.MostRecentActivity == default(DateTime))
+                    {
+                        user.MostRecentActivity = DateTime.Now.AddDays(-1);
+                    }
+                    var result = await userManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        Console.WriteLine("Failed to update users CreatedOn property.");
+                    }
+                }
+
                 if (!await userManager.IsInRoleAsync(user, "Registered"))
                 {
                     var addToRoleResult = await userManager.AddToRoleAsync(user, "Registered");
