@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TieFighter.Areas.Admin.Models.UsersViewModels;
 using TieFighter.Models;
 using TieFighter.Models.HomeViewModels;
 
@@ -80,9 +82,16 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         // GET: Users/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> EditAsync(string id)
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            var roles = await _userManager.GetRolesAsync(user);
+            var userWithRolesVM = new UserWithRolesVM()
+            {
+                User = user,
+                Roles = roles
+            };
+            return View(userWithRolesVM);
         }
 
         // POST: Users/Edit/5
