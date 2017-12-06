@@ -734,6 +734,10 @@ label > .custom-checkbox:checked {
     font-weight: bold;
 }
 
+tr + #noConflictsMessage {
+    display: none;
+}
+
 @media (min-width: 768px) {
     #navbarSupportedContent li {
         display: block;

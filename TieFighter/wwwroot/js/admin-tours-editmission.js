@@ -1,28 +1,23 @@
 ﻿$(function () {
+    // Update the mission
+    var $inputs = $("body main input,body main textarea,body main button");
     $("#updateEntity").on("click", function () {
-        var $inputs = $("body main input,body main textarea,body main button");
-
-        setInputsTo($inputs, false);
-        pageLoading(true);
 
         function show() {
             setInputsTo($inputs, true);
-            pageLoading(false);
+            isLoading($("form")[0], false);
+            $("#updateEntity").removeAttr("disabled");
         }
 
-        var formData = new FormData($("#userInfoForm")[0])
+        isLoading($("form")[0], true);
+        var formData = new FormData($("form")[0]);
 
-        // Append roles
-        var userRoles = [];
-        $("#userRoles input").each(function () {
-            if ($(this).prop("checked")) {
-                userRoles.push($(this).attr("name"));
-            }
-        });
+        // Get table form data
 
-        formData.append("Roles", userRoles.join(","));
+        $("#updateEntity").attr("disabled", "");
+        setInputsTo($inputs, false);
 
-        XMLHttpRequestPromise("POST", window.location.href, formData, false)
+        updateMedal($("#medalId").text(), formData)
             .then(function (response) {
                 var res = JSON.parse(response);
                 if (!res.succeeded) {
@@ -33,9 +28,13 @@
                     content: "Successfully updated.",
                     color: "green"
                 }).open();
+                var newSrc = $("#FileLocation").val();
+                if (newSrc != null && newSrc != "") {
+                    $("#currentImage").attr("src", newSrc);
+                }
             }).catch(function (error) {
-                console.log(error);
                 show();
+                showErrorMsg(error);
                 new jBox('Notice', {
                     content: "Failed to update!",
                     color: "red"

@@ -110,8 +110,7 @@ namespace TieFighter
             {
                 routes.MapRoute(
                     name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}/{id?}",
-                    defaults: new { area = "Admin", controller = "Home", action = "Index" }
+                    template: "{area:exists}/{controller}/{action}/{id?}"
                 );
                 routes.MapRoute(
                     name: "default",

@@ -86,9 +86,10 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         // GET: Users/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(string id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByIdAsync(id);
             var allRoles = _roleManager.Roles.ToList();
             var usrRoles = await _userManager.GetRolesAsync(user);
             var roles = new List<UserRole>();
@@ -111,18 +112,100 @@ namespace TieFighter.Areas.Admin.Controllers
 
         // POST: Users/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<JsonResult> Edit(string id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                var user = await _userManager.FindByIdAsync(id);
+                
+                // Update display name if not empty
+                if (!string.IsNullOrEmpty(collection[nameof(ApplicationUser.DisplayName)]))
+                {
+                    user.DisplayName = collection[nameof(ApplicationUser.DisplayName)];
+                }
 
-                return RedirectToAction(nameof(Index));
+                // Update display level if not empty
+                if (!string.IsNullOrEmpty(collection[nameof(ApplicationUser.DisplayLevel)]))
+                {
+                    if (double.TryParse(collection[nameof(ApplicationUser.DisplayLevel)], out double displayLevel))
+                    {
+                        user.DisplayLevel = displayLevel;
+                    }
+                }
+
+                // Update the email if not empty
+                if (!string.IsNullOrEmpty(collection[nameof(ApplicationUser)]))
+                {
+                    user.Email = collection[nameof(ApplicationUser)];
+                }
+
+                // Update roles
+                if (!string.IsNullOrEmpty(collection["Roles"]))
+                {
+                    var roleNames = collection["Roles"].ToString().Split(",");
+                    var notInRoles = _roleManager
+                        .Roles
+                        .Where(r => !roleNames.Contains(r.Name))
+                        .ToList();
+
+                    // Add the user to roles if not already in it
+                    foreach (var roleName in roleNames)
+                    {
+                        // If the roles doesn't exist create it
+                        if (!await _roleManager.RoleExistsAsync(roleName))
+                        {
+                            await _roleManager.CreateAsync(new IdentityRole()
+                            {
+                                Name = roleName
+                            });
+                        }
+
+                        if (!await _userManager.IsInRoleAsync(user, roleName))
+                        {
+                            var addToRoleResult = await _userManager.AddToRoleAsync(user, roleName);
+                            if (!addToRoleResult.Succeeded)
+                            {
+                                throw new Exception("Failed to add the user to the role.");
+                            }
+                        }
+                    }
+
+                    // Remove the user from roles not selected
+                    foreach (var notInRole in notInRoles)
+                    {
+                        if (await _userManager.IsInRoleAsync(user, notInRole.Name))
+                        {
+                            var removedFromRoleResult = await _userManager.RemoveFromRoleAsync(user, notInRole.Name);
+
+                            if (!removedFromRoleResult.Succeeded)
+                            {
+                                throw new Exception("Failed to remove the user from the role.");
+                            }
+                        }
+                    }
+
+                    // TODO: If a role has no users associated with it delete it.
+                }
+
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    throw new Exception("Failed to update the user");
+                }
+
+                return Json(new JsDefault()
+                {
+                    Error = "",
+                    Succeeded = true
+                });
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                return Json(new JsDefault()
+                {
+                    Error = e.ToString(),
+                    Succeeded = false
+                });
             }
         }
 

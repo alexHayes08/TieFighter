@@ -12,6 +12,19 @@
 }
 
 /**
+ * Adds or removes the disabled attributes to all inputs passed in.
+ * @param {any} $inputs A jQuery array of elements
+ * @param {any} boolean Whether to enable or disable the inputs
+ */
+function setInputsTo($inputs, boolean) {
+    if (boolean) {
+        $inputs.removeAttr("disabled");
+    } else {
+        $inputs.attr("disabled", "");
+    }
+}
+
+/**
  * 
  * @param {any} id The id of the medal
  * @param {any} formEl Must be an instance of FormData

@@ -18,6 +18,7 @@
             <div class="col-md-6">
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input id="tourId" class="hidden" type="hidden" value="@Model.Tour.TourId" />
                     <div class="form-group">
                         <label asp-for="Tour.TourName" class="control-label"></label>
                         <input asp-for="Tour.TourName" class="form-control" required />
@@ -27,29 +28,33 @@
                         <label asp-for="Tour.Position" class="control-label"></label>
                         <input asp-for="Tour.Position" class="form-control" required />
                         <span asp-validation-for="Tour.Position" class="text-danger"></span>
-                        <table class="table" id="toursWithConflictingPositions">
-                            Conflicting Tours:
-                            <tbody>
-                                @foreach (var conflictingTour in Model.ToursWithConflictingPositions)
-                                {
-                                    <tr>
-                                        <td>
-                                            <a asp-area="Admin" asp-controller="Tours" asp-action="Edit" asp-route-id="@conflictingTour.TourId">@conflictingTour.TourName</a>
-                                            <div class="float-right">@conflictingTour.Position</div>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-
                     </div>
                 </form>
+                <h3>Conflicting Tours:</h3>
+                <table class="table" id="toursWithConflictingPositions">
+                    <tbody>
+                        @foreach (var conflictingTour in Model.ToursWithConflictingPositions)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-area="Admin" asp-controller="Tours" asp-action="Edit" asp-route-id="@conflictingTour.TourId">@conflictingTour.TourName</a>
+                                    <div class="float-right">@conflictingTour.Position</div>
+                                </td>
+                            </tr>
+                        }
+                        <tr id="noConflictsMessage">
+                            <td class="text-success">
+                                No conflicting tours
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="col-md-6">
                 <h2>Missions</h2>
                 <div class="row">
                     <div class="col">
-                        <a class="btn btn-primary float-right m-2" asp-area="Admin" asp-controller="Medals" asp-action="Create">Create New</a>
+                        <a class="btn btn-primary float-right m-2" asp-area="Admin" asp-controller="Tours" asp-action="Create">Create New</a>
                         <button id="deleteSelected" class="btn btn-danger float-right m-2">Delete Selected</button>
                     </div>
                 </div>
@@ -82,7 +87,7 @@
                                     @mission.DisplayName
                                 </td>
                                 <td class="align-middle">
-                                    <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Medals" asp-action="Edit" asp-route-id="@mission.Id">Edit</a>
+                                    <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Tours" asp-action="EditMission" asp-route-id="@mission.Id">Edit</a>
                                 </td>
                             </tr>
                         }
@@ -93,6 +98,14 @@
         </div>
     </div>
 </div>
+<template id="conflictingPositionTableRowTemplate">
+    <tr>
+        <td>
+            <a></a>
+            <div class="float-right"></div>
+        </td>
+    </tr>
+</template>
 
 @section Scripts {
     <script src="~/js/admin-tours-edit.js"></script>

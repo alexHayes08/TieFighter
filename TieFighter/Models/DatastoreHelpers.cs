@@ -55,7 +55,7 @@ namespace TieFighter.Models
                                 property.SetValue(newInstance, entity[property.Name].GeoPointValue);
                                 break;
                             case Value.ValueTypeOneofCase.IntegerValue:
-                                property.SetValue(newInstance, entity[property.Name].IntegerValue);
+                                property.SetValue(newInstance, Convert.ToInt32(entity[property.Name].IntegerValue));
                                 break;
                             case Value.ValueTypeOneofCase.KeyValue:
                                 property.SetValue(newInstance, entity[property.Name].KeyValue);

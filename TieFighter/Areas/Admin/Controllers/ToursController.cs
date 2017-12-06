@@ -38,14 +38,32 @@ namespace TieFighter.Areas.Admin.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                var mission = new Mission()
+                {
+                    DisplayName = collection[nameof(Mission.DisplayName)],
+                    Id = collection[nameof(Mission.Id)],
+                    LastPlayedOn = default(DateTime),
+                    MissionBriefing = collection[nameof(Mission.MissionBriefing)],
+                    PositionInTour = int.Parse(collection[nameof(Mission.PositionInTour)]),
+                    TourId = collection[nameof(Mission.TourId)]
+                };
 
-                return RedirectToAction(nameof(Index));
+                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, mission, nameof(Mission.Id));
+                Startup.DatastoreDb.Db.Upsert(entity);
+
+                return RedirectToAction(nameof(EditMission));
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.Error = e.ToString();
                 return View();
             }
+        }
+
+        [HttpGet]
+        public ActionResult CreateMission()
+        {
+            return View();
         }
 
         // GET: Tours/Edit/5
@@ -63,13 +81,7 @@ namespace TieFighter.Areas.Admin.Controllers
                     Startup.DatastoreDb.Db.RunQuery(missionsQuery).Entities
                 );
                 tour.Missions = missions;
-                var conflictingToursQuery = new Query(nameof(Tour))
-                {
-                    Filter = Filter.Equal(nameof(Tour.Position), tour.Position)
-                };
-                var conflictingTours = DatastoreHelpers.ParseEntitiesToObject<Tour>(
-                    Startup.DatastoreDb.Db.RunQuery(conflictingToursQuery).Entities
-                );
+                var conflictingTours = GetToursWithSamePosition(tour.Position);
                 var sameTour = conflictingTours
                     .Where(t => t.TourId == tour.TourId)
                     .FirstOrDefault();
@@ -89,6 +101,31 @@ namespace TieFighter.Areas.Admin.Controllers
             }
         }
 
+        // POST: Tours/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(string id, IFormCollection collection)
+        {
+            try
+            {
+                var tour = new Tour()
+                {
+                    Position = int.Parse(collection[nameof(Tour.Position)]),
+                    TourId = id,
+                    TourName = collection[nameof(Tour.TourName)]
+                };
+
+                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, tour, nameof(Tour.TourId));
+                Startup.DatastoreDb.Db.Upsert(entity);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         [HttpGet]
         public ActionResult EditMission(string id)
         {
@@ -100,14 +137,13 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateMission(IFormCollection collection)
+        public JsonResult EditMission(string id, IFormCollection collection)
         {
             try
             {
-                var key = collection["Id"];
                 var mission = new Mission()
                 {
-                    Id = key,
+                    Id = id,
                     DisplayName = collection["DisplayName"],
                     MissionBriefing = collection["MissionBriefing"],
                     PositionInTour = int.Parse(collection["PositionInTour"])
@@ -132,23 +168,6 @@ namespace TieFighter.Areas.Admin.Controllers
             }
         }
 
-        // POST: Tours/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: Tours/Delete/5
         public ActionResult Delete(int id)
         {
@@ -170,6 +189,42 @@ namespace TieFighter.Areas.Admin.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        public JsonResult ToursWithSamePosition (string id)
+        {
+            if (int.TryParse(id, out int pos))
+            {
+                var tours = new List<object>(GetToursWithSamePosition(pos));
+                return Json(new JsResults()
+                {
+                    Succeeded = true,
+                    Error = "",
+                    Message = "",
+                    Results = tours
+                });
+            }
+            else
+            {
+                return Json(new JsDefault()
+                {
+                    Error = "Position wasn't a number",
+                    Succeeded = false
+                });
+            }
+        }
+
+        private IList<Tour> GetToursWithSamePosition (int position)
+        {
+            var query = new Query(nameof(Tour))
+            {
+                Filter = Filter.Equal(nameof(Tour.Position), position)
+            };
+            var entities = Startup.DatastoreDb.Db.RunQuery(query).Entities;
+            var tours = DatastoreHelpers.ParseEntitiesToObject<Tour>(entities);
+
+            return tours;
         }
     }
 }

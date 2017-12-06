@@ -39,11 +39,11 @@ $(function () {
             $("#updateEntity").removeAttr("disabled");
         }
 
-        isLoading($("form")[0], true);
+        isLoading($("body main form")[0], true);
         var formData = new FormData($("form")[0]);
 
-        // Get table form data
-        $("#conditionsTable ")
+        // TODO: Get table form data
+        //$("#conditionsTable ")
 
         $("#updateEntity").attr("disabled", "");
         setAllInputsTo(false);

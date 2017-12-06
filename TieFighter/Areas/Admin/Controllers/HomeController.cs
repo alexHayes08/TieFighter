@@ -57,7 +57,10 @@ namespace TieFighter.Areas.Admin.Controllers
                 Order = { { nameof(Mission.LastPlayedOn), Direction.Descending } }
             };
             var entities = Startup.DatastoreDb.Db.RunQuery(popularMapsQuery).Entities;
-            dashboard.MostPopularMissions = DatastoreHelpers.ParseEntitiesToObject<Mission>(entities);
+            dashboard.MostPopularMissions = DatastoreHelpers
+                .ParseEntitiesToObject<Mission>(entities)
+                .OrderBy(m => m.LastPlayedOn)
+                .ToList();
             
             // TODO: Get most popular ships
 
