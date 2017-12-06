@@ -4,3 +4,5 @@
 
 /.vs/TieFighter/v15
 /.vs/TieFighterV2/v15/Server/sqlite3
+/TieFighter/obj
+/TieFighter/bin
