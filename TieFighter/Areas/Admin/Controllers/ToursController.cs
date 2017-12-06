@@ -8,6 +8,7 @@ using Google.Cloud.Datastore.V1;
 using TieFighter.Models;
 using Microsoft.AspNetCore.Authorization;
 using TieFighter.Areas.Admin.Models.ToursViewModels;
+using TieFighter.Areas.Admin.Models.JsViewModels;
 
 namespace TieFighter.Areas.Admin.Controllers
 {
@@ -85,6 +86,49 @@ namespace TieFighter.Areas.Admin.Controllers
             catch
             {
                 return Redirect(nameof(Index));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditMission(string id)
+        {
+            var key = Startup.DatastoreDb.MissionsKeyFactory.CreateKey(id);
+            var mission = DatastoreHelpers
+                .ParseEntityToObject<Mission>(Startup.DatastoreDb.Db.Lookup(key));
+
+            return View(mission);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMission(IFormCollection collection)
+        {
+            try
+            {
+                var key = collection["Id"];
+                var mission = new Mission()
+                {
+                    Id = key,
+                    DisplayName = collection["DisplayName"],
+                    MissionBriefing = collection["MissionBriefing"],
+                    PositionInTour = int.Parse(collection["PositionInTour"])
+                };
+
+                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, mission, "Id");
+                Startup.DatastoreDb.Db.Update(entity);
+
+                return Json(new JsDefault()
+                {
+                    Error = "",
+                    Succeeded = true
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new JsDefault()
+                {
+                    Error = e.ToString(),
+                    Succeeded = false
+                });
             }
         }
 
