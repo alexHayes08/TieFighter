@@ -7,6 +7,12 @@ namespace TieFighter.Areas.Admin.Models.UsersViewModels
     public class UserWithRolesVM
     {
         public ApplicationUser User { get; set; }
-        public IList<string> Roles { get; set; }
+        public IList<UserRole> Roles { get; set; }
+    }
+
+    public class UserRole
+    {
+        public string RoleName { get; set; }
+        public bool IsInRole { get; set; }
     }
 }

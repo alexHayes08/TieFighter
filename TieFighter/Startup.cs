@@ -109,9 +109,9 @@ namespace TieFighter
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "stringId",
+                    name: "areaRoute",
                     template: "{area:exists}/{controller}/{action}/{id?}",
-                    defaults: new { area = "Admin", controller = "Home", action = "Index"}
+                    defaults: new { area = "Admin", controller = "Home", action = "Index" }
                 );
                 routes.MapRoute(
                     name: "default",

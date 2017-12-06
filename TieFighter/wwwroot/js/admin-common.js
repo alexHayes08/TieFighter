@@ -35,9 +35,9 @@ function showErrorMsg(error) {
 }
 
 function setupDataTable(tableCssSelector, selectAllCssSelector, deleteAllCssSelector) {
-    var table = $(tableCssSelector);
-    var lastCol = table.find("tbody > tr:first-child > td").length - 1;
-    var dt = table.DataTable({
+    var $table = $(tableCssSelector);
+    var lastCol = $table.find("tbody > tr:first-child > td").length - 1;
+    var datatable = $table.DataTable({
         columnDefs: [
             {
                 orderable: false,
@@ -56,7 +56,7 @@ function setupDataTable(tableCssSelector, selectAllCssSelector, deleteAllCssSele
         info: false
     })[0];
 
-    table.find("> tbody > tr td:first-child input[type='checkbox']").on("change", function () {
+    $table.find("> tbody > tr td:first-child input[type='checkbox']").on("change", function () {
         if ($(this).prop("checked")) {
             $($(this).parents()[3]).addClass("selected");
         } else {
@@ -66,7 +66,7 @@ function setupDataTable(tableCssSelector, selectAllCssSelector, deleteAllCssSele
 
     if (selectAllCssSelector != null || selectAllCssSelector != "") {
         $(selectAllCssSelector).on("change", function () {
-            var inputs = table.find("tbody tr input[type='checkbox']");
+            var inputs = $table.find("tbody tr input[type='checkbox']");
             if ($(this).prop("checked")) {
 
                 // Select all medals
@@ -83,12 +83,13 @@ function setupDataTable(tableCssSelector, selectAllCssSelector, deleteAllCssSele
 
     if (deleteAllCssSelector != null || deleteAllCssSelector != "") {
         $(deleteAllCssSelector).on("click", function () {
-            var selectedRows = table.find("tbody tr.selected");
+            isLoading($table[0], true);
+            var selectedRows = $table.find("tbody tr.selected");
             var form = new FormData();
             selectedRows.each(function () {
                 form.append($(this).attr("data-bind"), null);
             });
-            XMLHttpRequestPromise("POST", `${window.location.origin}/Admin/${window.location.pathname.split("/")[2]}/Delete`, form)
+            XMLHttpRequestPromise("POST", `${window.location.origin}/Admin/${window.location.pathname.split("/")[2]}/Delete`, form, false)
                 .then(function (response) {
                     console.log(response);
                     var res = JSON.parse(response);
@@ -102,12 +103,14 @@ function setupDataTable(tableCssSelector, selectAllCssSelector, deleteAllCssSele
                             }
                         }
                     }
+                    isLoading($table[0], false);
                 }).catch(function (error) {
                     //var res = JSON.parse(error);
                     console.log(error);
+                    isLoading($table[0], false);
                 });
         });
     }
 
-    return dt;
+    return datatable;
 }

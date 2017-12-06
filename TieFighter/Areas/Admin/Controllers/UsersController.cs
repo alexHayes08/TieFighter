@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TieFighter.Areas.Admin.Models.JsViewModels;
 using TieFighter.Areas.Admin.Models.UsersViewModels;
 using TieFighter.Models;
 using TieFighter.Models.HomeViewModels;
@@ -20,6 +22,8 @@ namespace TieFighter.Areas.Admin.Controllers
         public UsersController(TieFighterContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         #endregion
@@ -82,14 +86,25 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         // GET: Users/Edit/5
-        public async Task<ActionResult> EditAsync(string id)
+        public async Task<ActionResult> Edit(string id)
         {
             var user = await _userManager.GetUserAsync(User);
-            var roles = await _userManager.GetRolesAsync(user);
+            var allRoles = _roleManager.Roles.ToList();
+            var usrRoles = await _userManager.GetRolesAsync(user);
+            var roles = new List<UserRole>();
+            foreach (var role in allRoles)
+            {
+
+                roles.Add(new UserRole()
+                {
+                    IsInRole = usrRoles.Contains(role.Name),
+                    RoleName = role.Name
+                });
+            }
             var userWithRolesVM = new UserWithRolesVM()
             {
                 User = user,
-                Roles = roles
+                Roles = roles 
             };
             return View(userWithRolesVM);
         }
@@ -111,26 +126,30 @@ namespace TieFighter.Areas.Admin.Controllers
             }
         }
 
-        // GET: Users/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Users/Delete/5
+        // Post: Users/Delete
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<JsonResult> Delete(IFormCollection collection)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var userIds = collection.Keys;
+
+            // Users shouldn't be able to delete themselves
+            var users = _userManager
+                .Users
+                .Where(u => userIds.Contains(u.Id) && u.Id != currentUser.Id)
+                .ToList();
             try
             {
-                // TODO: Add delete logic here
+                foreach (var user in users)
+                {
+                    _userManager.DeleteAsync(user);
+                }
 
-                return RedirectToAction(nameof(Index));
+                return Json(new JsDefault() { Error = "", Succeeded = true });
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return Json(new JsDefault() { Error = e.ToString(), Succeeded = false });
             }
         }
     }
