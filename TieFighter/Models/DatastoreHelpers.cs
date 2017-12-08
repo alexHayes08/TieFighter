@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+
 namespace TieFighter.Models
 {
     public static class DatastoreHelpers
@@ -93,7 +95,7 @@ namespace TieFighter.Models
             return objects;
         }
 
-        public static Entity ObjectToEntity<T>(TieFighterDatastoreContext db, T obj, string idPropertyName, params string[] indexedProperties) where T:new()
+        public static Entity ObjectToEntity<T>(TieFighterDatastoreContext db, T obj, string idPropertyName = null, params string[] indexedProperties) where T:new()
         {
             if (db == null)
             {
@@ -108,35 +110,51 @@ namespace TieFighter.Models
             var objType = obj.GetType();
             var objProperties = objType.GetProperties();
 
+            bool isIdAlreadySet = false;
+
             // Setup the entity's id
             if (!string.IsNullOrEmpty(idPropertyName))
             {
                 string idValue = objType.GetProperty(idPropertyName).GetValue(obj).ToString();
                 entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
+                isIdAlreadySet = true;
             }
 
             foreach (var prop in objProperties)
             {
-                // Ignore the id
-                if (prop.Name == idPropertyName)
+                // Ignore this property if it's the id and the id has already been set
+                if (isIdAlreadySet 
+                    && (prop.IsDefined(typeof(KeyAttribute))) || prop.Name == idPropertyName)
+                {
                     continue;
+                }
 
                 var propertyType = prop.PropertyType;
-                if (propertyType == typeof(string))
+
+                if (prop.IsDefined(typeof(KeyAttribute)) && !isIdAlreadySet)
                 {
-                    entity[prop.Name]= objType.GetProperty(prop.Name).GetValue(obj) as string;
+                    string idValue = prop.GetValue(obj).ToString();
+                    entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
+                }
+                else if (propertyType == typeof(Enum))
+                {
+                    entity[prop.Name] = Enum.GetName(propertyType, objType.GetProperty(prop.Name).GetValue(obj));
+                }
+                else if (propertyType == typeof(string))
+                {
+                    entity[prop.Name] = objType.GetProperty(prop.Name).GetValue(obj) as string;
                 }
                 else if (propertyType == typeof(double))
                 {
-                    entity[prop.Name]= objType.GetProperty(prop.Name).GetValue(obj) as double?;
+                    entity[prop.Name] = objType.GetProperty(prop.Name).GetValue(obj) as double?;
                 }
                 else if (propertyType == typeof(int))
                 {
-                    entity[prop.Name]= objType.GetProperty(prop.Name).GetValue(obj) as int?;
+                    entity[prop.Name] = objType.GetProperty(prop.Name).GetValue(obj) as int?;
                 }
                 else if (propertyType == typeof(DateTime))
                 {
-                    entity[prop.Name]= objType.GetProperty(prop.Name).GetValue(obj) as DateTime?;
+                    entity[prop.Name] = objType.GetProperty(prop.Name).GetValue(obj) as DateTime?;
                 }
                 else if (propertyType == typeof(bool))
                 {
@@ -144,9 +162,8 @@ namespace TieFighter.Models
                 }
                 else if (propertyType.IsArray)
                 {
-                    var objArr = objType.GetProperty(prop.Name).GetValue(obj) as object[];
                     Type elType = propertyType.GetElementType();
-                    if (objArr != null)
+                    if (objType.GetProperty(prop.Name).GetValue(obj) is object[] objArr)
                     {
                         var entities = new List<Entity>();
                         foreach (var element in objArr)

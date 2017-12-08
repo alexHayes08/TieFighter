@@ -23,5 +23,6 @@
         public string Id { get; set; }
         public string DisplayName { get; set; }
         public object Value { get; set; }
+        public ShipComponentType Type { get; set; }
     }
 }
