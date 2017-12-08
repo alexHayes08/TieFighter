@@ -78,14 +78,19 @@ class EventListenerWrapper {
 }
 
 class Mission {
-    constructor (name, number, briefing) {
+    constructor (id, name, number, briefing) {
+        this._id = id;
         this._name = name;
         this._number = number;
         this._missionBriefing = briefing;
 
+        Object.freeze(this._id);
         Object.freeze(this._name);
         Object.freeze(this._number);
         Object.freeze(this._missionBriefing);
+    }
+    get id() {
+        return this._id;
     }
     get name () {
         return this._name;
@@ -96,11 +101,17 @@ class Mission {
 }
 
 class Tour {
-    constructor (name, missions) {
+    constructor(id, name, missions) {
+        this._id = id;
         this._name = name;
         this._missions = missions;
+
+        Object.freeze(this._id);
         Object.freeze(this._name);
         Object.freeze(this._missions);
+    }
+    get id() {
+        return this._id;
     }
     get name () {
         return this._name;
@@ -312,35 +323,75 @@ var stardestroyer = {};
 window.addEventListener("DOMContentLoaded", function () {
     // Show menu
     var tours = [];
-    XMLHttpRequestPromise("GET", "/tours.json")
+    XMLHttpRequestPromise("GET", `${window.location.origin}/Api/Tours/Get`)
         .then(function (response) {
-            var json = JSON.parse(response).tours;
-            for (var t of json) {
-                var missions = [];
-                for (var m of t.missions) {
-                    missions.push(new Mission(m.name, m.number, m.missionBriefing));
-                }
+            var toursFromJSON = JSON.parse(response).results;
+            var tours = [];
 
-                tours.push(new Tour(t.name, missions));
-            }
+            XMLHttpRequestPromise("GET", `${window.location.origin}/Api/Missions/Get`)
+                .then(function (response) {
+                    var missionsFromJSON = JSON.parse(response).results;
 
-            var missionListEl = $("#missions");
-            for (var tour of tours) {
-                var container = document.createElement("div");
-                var title = document.createElement("div");
-                var ul = document.createElement("ul")
+                    for (var mission of missionsFromJSON) {
+                        for (var tour of toursFromJSON) {
+                            if (mission.tourId == tour.tourId) {
 
-                title.innerText = tour.name;
-                for (var mission of tour.missions) {
-                    var liEl = document.createElement("li");
-                    liEl.innerText = mission.name;
-                    ul.appendChild(liEl)
-                }
+                                // If Check that the tour has missions defined
+                                if (tour.missions == null) {
+                                    tour.missions = [];
+                                }
 
-                container.appendChild(title);
-                container.appendChild(ul);
-                missionListEl.append(container);
-            }
+                                tour.missions.push(mission)
+                                break;
+                            }
+                        }
+                    }
+
+                    for (var tour of toursFromJSON) {
+                        var missions = [];
+                        for (var mission of tour.missions) {
+                            missions.push(new Mission(mission.id, mission.displayName, mission.missionBriefing));
+                        }
+                        tours.push(new Tour(tour.tourId, tour.tourName, missions));
+                    }
+
+                    var missionListElId = "#missions";
+                    var missionListEl = $(missionListElId);
+                    for (var tour of tours) {
+                        var container = document.createElement("div");
+                        var title = document.createElement("div");
+                        var missionsContainer = document.createElement("div");
+                        var ul = document.createElement("ul");
+
+                        var collapsableName = `${tour.id}-Collaspable`;
+
+                        container.classList.add("card");
+
+                        title.classList.add("card-header");
+                        title.setAttribute("role", "tab");
+                        title.setAttribute("data-toggle", "collapse");
+                        title.setAttribute("aria-expanded", "false");
+                        title.setAttribute("aria-controls", collapsableName);
+                        title.setAttribute("href", "#" + collapsableName);
+                        title.innerText = tour.name;
+
+                        missionsContainer.classList.add("collapse", "card-body");
+                        missionsContainer.setAttribute("id", collapsableName);
+                        missionsContainer.setAttribute("role", "tab-panel");
+                        missionsContainer.setAttribute("aria-labelledby", missionListElId);
+
+                        for (var mission of tour.missions) {
+                            var liEl = document.createElement("li");
+                            liEl.innerText = mission.name;
+                            ul.appendChild(liEl);
+                        }
+
+                        missionsContainer.appendChild(ul);
+                        container.appendChild(title);
+                        container.appendChild(missionsContainer);
+                        missionListEl.append(container);
+                    }
+                })
         }).catch(function (error) {
             console.error("Failed to retrieve tours!");
         });
