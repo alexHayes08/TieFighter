@@ -17,7 +17,7 @@
       "launchBrowser": true,
       "launchUrl": "https://localhost:44344/",
       "environmentVariables": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\Alexander\\source\\repos\\TieFighter\\TieFighter\\TieFighter-ImperialRemnant-76d5038aa5ad.json",
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\alexc\\Source\\Repos\\TieFighter\\TieFighter\\TieFighter-ImperialRemnant-76d5038aa5ad.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
@@ -25,6 +25,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\alexc\\Source\\Repos\\TieFighter\\TieFighter\\TieFighter-ImperialRemnant-76d5038aa5ad.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:52929/"

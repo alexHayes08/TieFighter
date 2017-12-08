@@ -173,6 +173,37 @@ class Power {
     }
 }
 
+class ShipComponent {
+    constructor(onUpdate) {
+
+    }
+    onUpdate(ship) {
+
+    }
+}
+
+class Submesh {
+    constructor(id, shipComponents, physicsImposter) {
+        this._id = "";
+        this._shipComponents = [];
+    }
+    onUpdate(ship) {
+
+    }
+    get initialScaling() {
+
+    }
+    get intialPosition() {
+
+    }
+    get initialRotation() {
+
+    }
+    get shipComponents() {
+
+    }
+}
+
 class Ship {
     constructor(filename, accelerations, meshes, power) {
         if (arguments.length == 1) {

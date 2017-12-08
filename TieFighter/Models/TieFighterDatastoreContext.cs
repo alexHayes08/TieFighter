@@ -17,27 +17,37 @@ namespace TieFighter.Models
             //string projectId = configuration["Authentication:Google:ProjectId"];
             Db = DatastoreDb.Create(projectId);
 
+            AudioSettingsKeyFactory = Db.CreateKeyFactory(audioSettingsKindName);
+            ControlSettingsKeyFactory = Db.CreateKeyFactory(controlSettingsKindName);
             MedalsKeyFactory = Db.CreateKeyFactory(medalKindName);
             ShipsKeyFactory = Db.CreateKeyFactory(shipKindName);
             ToursKeyFactory = Db.CreateKeyFactory(tourKindName);
             MissionsKeyFactory = Db.CreateKeyFactory(missionKindName);
             UsersKeyFactory = Db.CreateKeyFactory(userKindName);
+            VideoSettingsKeyFactory = Db.CreateKeyFactory(videoSettingsKindName);
+
             lastUpdatesToTables = new Dictionary<string, DateTime>
             {
-                { nameof(Mission), DateTime.Now },
+                { nameof(AudioSettings), DateTime.Now },
+                { nameof(ControlSettings), DateTime.Now },
                 { nameof(Medal), DateTime.Now },
+                { nameof(Mission), DateTime.Now },
                 { nameof(Ship), DateTime.Now },
                 { nameof(Tour), DateTime.Now },
-                { nameof(User), DateTime.Now }
+                { nameof(User), DateTime.Now },
+                { nameof(VideoSettings), DateTime.Now }
             };
 
             keyFactories = new Dictionary<string, KeyFactory>
             {
+                { audioSettingsKindName, AudioSettingsKeyFactory },
+                { controlSettingsKindName, ControlSettingsKeyFactory },
                 { medalKindName, MedalsKeyFactory },
                 { shipKindName, ShipsKeyFactory },
                 { tourKindName, ToursKeyFactory },
                 { missionKindName, MissionsKeyFactory },
-                { userKindName, UsersKeyFactory }
+                { userKindName, UsersKeyFactory },
+                { videoSettingsKindName, VideoSettingsKeyFactory }
             };
         }
 
@@ -46,19 +56,25 @@ namespace TieFighter.Models
         #region Fields
 
         public readonly DatastoreDb Db;
+        public readonly KeyFactory AudioSettingsKeyFactory;
+        public readonly KeyFactory ControlSettingsKeyFactory;
         public readonly KeyFactory MedalsKeyFactory;
         public readonly KeyFactory MissionsKeyFactory;
         public readonly KeyFactory ShipsKeyFactory;
         public readonly KeyFactory ToursKeyFactory;
         public readonly KeyFactory UsersKeyFactory;
+        public readonly KeyFactory VideoSettingsKeyFactory;
         private readonly IDictionary<string, DateTime> lastUpdatesToTables;
         private readonly IDictionary<string, KeyFactory> keyFactories;
-        
-        private const string medalKindName = "Medal";
-        private const string shipKindName = "Ship";
-        private const string tourKindName = "Tour";
-        private const string missionKindName = "Mission";
-        private const string userKindName = "User";
+
+        private const string audioSettingsKindName = nameof(AudioSettings);
+        private const string controlSettingsKindName = nameof(ControlSettings);
+        private const string medalKindName = nameof(Medal);
+        private const string missionKindName = nameof(Mission);
+        private const string shipKindName = nameof(Ship);
+        private const string tourKindName = nameof(Tour);
+        private const string userKindName = nameof(User);
+        private const string videoSettingsKindName = nameof(VideoSettings);
 
         #endregion
 
@@ -329,37 +345,37 @@ namespace TieFighter.Models
             {
                 new Ship()
                 {
-                    FileLocation = "TieFighter",
+                    FileLocation = "TieFighter.babylon",
                     DisplayName = "TIE-Fighter"
                 },
                 new Ship()
                 {
-                    FileLocation = "TieBomber",
+                    FileLocation = "TieBomber.babylon",
                     DisplayName = "TIE-Bomber"
                 },
                 new Ship()
                 {
-                    FileLocation = "TieIntercepter",
+                    FileLocation = "TieIntercepter.babylon",
                     DisplayName = "TIE-Intercepter"
                 },
                 new Ship()
                 {
-                    FileLocation = "StarDestroyerMark1",
+                    FileLocation = "StarDestroyerMark1.babylon",
                     DisplayName = "Imperial I - Star Destroyer"
                 },
                 new Ship()
                 {
-                    FileLocation = "XWing",
+                    FileLocation = "XWing.babylon",
                     DisplayName = "X-Wing"
                 },
                 new Ship()
                 {
-                    FileLocation = "YWing",
+                    FileLocation = "YWing.babylon",
                     DisplayName = "Y-Wing"
                 },
                 new Ship()
                 {
-                    FileLocation = "AWing",
+                    FileLocation = "AWing.babylon",
                     DisplayName = "A-Wing"
                 }
             };

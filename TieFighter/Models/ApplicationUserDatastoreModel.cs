@@ -8,5 +8,6 @@ namespace TieFighter.Models
         public IList<Medal> MedalsWon { get; set; }
         public IList<CampaignTourStat> CampaignTourStats { get; set; }
         public IList<string> ShipsUnlocked { get; set; }
+        public UserSettings Settings { get; set; }
     }
 }
