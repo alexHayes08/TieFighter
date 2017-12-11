@@ -1,3 +1,3 @@
-﻿$(function () {
-    var $table = setupDataTable("#shipsTable", "#selectAll", "#deleteSelected)
-});
+﻿//$(function () {
+//    var $table = setupDataTable("#shipsTable", "#selectAll", "#deleteSelected");
+//});

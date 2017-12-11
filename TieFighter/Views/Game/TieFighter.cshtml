@@ -25,13 +25,10 @@
     <title>Tie Fighter</title>
 </head>
 <body>
+    <div id="introLoadingScreen"></div>
     <div class="loadingScreen" id="mainLoading"></div>
     <div class="topVSpacer"></div>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8"></div>
-        </div>
         <div class="menu" id="mainMenu">
             <h1>Tie Fighter</h1>
             <hr />
@@ -43,7 +40,7 @@
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#missions" aria-expanded="false" aria-controls="missions">Campaign</button>
                     <ul class="collapse" id="missions"></ul>
                 </li>
-                <li>
+                <li data-toggle="tooltip" title="Work in progress">
                     <button class="btn btn-primary disabled" disabled>Multiplayer</button>
                 </li>
                 <li>
@@ -159,6 +156,6 @@
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/popper.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/game.js"></script>
+    <script src="~/js/gameManager.js"></script>
 </body>
 </html>

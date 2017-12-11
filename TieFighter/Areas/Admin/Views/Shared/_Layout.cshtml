@@ -10,6 +10,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="icon" type="image/png" href="~/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/bootstrap-theme.css">
     <link rel="stylesheet" href="~/css/jBox.css" />
@@ -42,27 +43,6 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
                     </li>
-                    <li class="">
-                        <div class="dropdown">
-                            <button class="btn btn-link dropdown-toggle" type="button" id="dropDownForManagement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Manage
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropDownForManagement">
-                                <div class="dropdown-item">
-                                    <a class="" asp-area="Admin" asp-controller="Medals" asp-action="Index" asp-route-id="">Medals</a>
-                                </div>
-                                <div class="dropdown-item">
-                                    <a class="" asp-area="Admin" asp-controller="Ships" asp-action="Index" asp-route-id="">Ships</a>
-                                </div>
-                                <div class="dropdown-item">
-                                    <a class="" asp-area="Admin" asp-controller="Tours" asp-action="Index" asp-route-id="">Tours</a>
-                                </div>
-                                <div class="dropdown-item">
-                                    <a class="" asp-area="Admin" asp-controller="Users" asp-action="Index" asp-route-id="">Users</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
                     <li>
                         @await Html.PartialAsync("_LoginPartial")
                     </li>
@@ -71,7 +51,162 @@
         </nav>
     </header>
     <main class="container-fluid">
-        @RenderBody()
+        <div class="minRowVH">
+            <div class="col-lg-3 secondBG">
+                <table id="leftNavBar" class="table" role="tablist">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <a asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <a asp-area="Admin" asp-controller="Games" asp-action="Index">Games</a>
+                                            <i class="fa fa-arrow-circle-down float-right collapsed" data-toggle="collapse" href="#gamesMainCollapsable" aria-expanded="false" aria-controls="gamesMainCollapsable"></i>
+                                        </h5>
+                                    </div>
+                                    <div id="gamesMainCollapsable" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#leftNavBar">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="GameModes" asp-action="Index">Game Modes Types</a>
+                                                </h5>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="SceneTypes" asp-action="Index">Categories</a>
+                                                </h5>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="SceneTypes" asp-action="Index">Scene Types</a>
+                                                </h5>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="ResourceManager" asp-action="Index">Resource Manager</a>
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="card">
+                                    <div class="card-header" role="tab" id="headingTwo">
+                                        <h5 class="mb-0">
+                                            <a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a>
+                                            <i class="fa fa-arrow-circle-down float-right" data-toggle="collapse" href="#usersMainCollapsable" aria-expanded="false" aria-controls="usersMainCollapsable"></i>
+                                        </h5>
+                                    </div>
+                                    <div id="usersMainCollapsable" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#leftNavBar">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="Roles" asp-action="Index">Roles</a>
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <a asp-area="Admin" asp-controller="Medals" asp-action="Index">
+                                                Medals
+                                            </a>
+                                            <i class="fa fa-arrow-circle-down float-right collapsed" data-toggle="collapse" href="#medalsCollaspable" aria-expanded="false" aria-controls="medalsCollaspable"></i>
+                                        </h5>
+                                    </div>
+                                    <div id="medalsCollaspable" class="collapse" role="tabpanel" data-parent="#leftNavBar">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="MedalConditions" asp-action="Index">Medal Conditions</a>
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <a asp-area="Admin" asp-controller="Ships" asp-action="Index">Ships</a>
+                                            <i class="fa fa-arrow-circle-down float-right collapsed" data-toggle="collapse" href="#shipCollaspable" aria-expanded="false"></i>
+                                        </h5>
+                                    </div>
+                                    <div id="shipCollaspable" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#leftNavBar">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="ShipComponents" asp-action="Index">Ship Components</a>
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <a asp-area="Admin" asp-controller="System" asp-action="Index">System</a>
+                                            <i class="fa fa-arrow-circle-down float-right collapsed" data-toggle="collapse" href="#systemCollaspable" aria-expanded="false"></i>
+                                        </h5>
+                                    </div>
+                                    <div id="systemCollaspable" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#leftNavBar">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="System" asp-action="Log">Log</a>
+                                                </h5>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="System" asp-action="Tasks">Tasks</a>
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-9">
+                <div class="topVSpacer"></div>
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @ViewBag.Error
+                    </div>
+                }
+                @RenderBody()
+            </div>
+        </div>
     </main>
     <footer></footer>
     <script src="https://apis.google.com/js/platform.js" async defer></script>

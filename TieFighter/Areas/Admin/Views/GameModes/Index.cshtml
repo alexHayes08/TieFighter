@@ -1,0 +1,63 @@
+﻿@model IEnumerable<TieFighter.Models.GameMode>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="d-flex align-items-center">
+    <h2 class="flex-grow">Edit</h2>
+    <input type="button" id="updateEntity" value="Update" class="btn btn-primary align-middle mx-2" />
+    <a asp-action="Index">Back to List</a>
+</div>
+<hr />
+<table id="datatable" class="table" autoinit>
+    <thead>
+        <tr>
+            <th>
+                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                    <label class="m-0">
+                        <input id="selectAll" type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
+                    </label>
+                </div>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                        <label class="m-0">
+                            <input id="selectAll" type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

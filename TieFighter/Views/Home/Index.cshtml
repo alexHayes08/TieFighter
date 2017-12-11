@@ -8,7 +8,7 @@
     <div class="col"></div>
     <div class="col"></div>
 </div>
-<div id="firstSeqeunce">
+<div id="firstSeqeunce" class="rowVh">
     <img class="title img-fluid" src="~/images/Star_Wars_Yellow_Logo.svg" />
     <img class="gameTitle img-fluid" src="~/images/StarWarsTitleMiddle.png" />
     <div class="openingCrawl position-absolute text-center">
@@ -49,22 +49,8 @@
             <br />
         </p>
     </div>
-    <div id="goToSecondSequence" class="continue"></div>
-</div>
-<div class="colorSpacer row">
-    <div class="col"></div>
-    <div class="col"></div>
-    <div class="col"></div>
-    <div class="col"></div>
-</div>
-<div id="secondSequence" class="row align-items-center">
-    <div class="col-2"></div>
-    <div class="col-8">
-        <h1>Star Wars Tie-Fighter</h1>
-        <h2>Now In Your Browser</h2>
-        <img class="img-fluid" src="~/images/tieFighterModelB.png" />
-        <p>Made with WebGL</p>
-        <p>Remake of the famous 1994 "Star Wars Tie-Fighter&trade;" game</p>
+    <div class="blinkExceptOnHover continue scrollTo" data-scrollTo="#secondSequence">
+        <i class="fa fa-arrow-down"></i>
     </div>
 </div>
 <div class="colorSpacer row">
@@ -73,7 +59,29 @@
     <div class="col"></div>
     <div class="col"></div>
 </div>
-<div id="thirdSequence" class="row align-items-center">
+<div id="secondSequence" class="row align-items-center rowVh">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h1>Star Wars Tie-Fighter</h1>
+        <h2>Now In Your Browser</h2>
+        <img class="img-fluid" src="~/images/tieFighterModelB.png" />
+        <p>Made with WebGL</p>
+        <p>Remake of the famous 1994 "Star Wars Tie-Fighter&trade;" game</p>
+    </div>
+    <div class="previous scrollTo" data-scrollTo="#firstSeqeunce">
+        <i class="fa fa-arrow-up"></i>
+    </div>
+    <div class="continue scrollTo" data-scrollTo="#thirdSeqeunce">
+        <i class="fa fa-arrow-down"></i>
+    </div>
+</div>
+<div class="colorSpacer row">
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+</div>
+<div id="thirdSeqeunce" class="row align-items-center rowVh">
     <div class="col-2"></div>
     <div class="col-8">
         <h1>Benchmarks</h1>
@@ -120,6 +128,9 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
+    </div>
+    <div class="previous scrollTo" data-scrollTo="#secondSequence">
+        <i class="fa fa-arrow-up"></i>
     </div>
 </div>
 

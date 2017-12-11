@@ -32,30 +32,20 @@ namespace TieFighter.Models
                 ScaleOffset = other.ScaleOffset;
         }
 
-        public override void FromEntity(Entity entity)
+        public override IDatastoreEntityAndJsonBinding FromEntity(Entity entity)
         {
             var newMesh = DatastoreHelpers.ParseEntityToObject<Submesh>(entity);
-            Id = newMesh.Id;
-            Components = newMesh.Components;
-            TranslationOffset = newMesh.TranslationOffset;
-            RotationOffset = newMesh.RotationOffset;
-            ScaleOffset = newMesh.ScaleOffset;
+            //Id = newMesh.Id;
+            //Components = newMesh.Components;
+            //TranslationOffset = newMesh.TranslationOffset;
+            //RotationOffset = newMesh.RotationOffset;
+            //ScaleOffset = newMesh.ScaleOffset;
+            return newMesh;
         }
 
-        public override void FromJObject(JObject json)
+        public override IDatastoreEntityAndJsonBinding FromJObject(JObject json)
         {
-            var newMesh = json.ToObject<Submesh>();
-            
-        }
-
-        public override Entity ToEntity()
-        {
-            return DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, this);
-        }
-
-        public override JObject ToJObject()
-        {
-            return JObject.FromObject(this);
+            return json.ToObject<Submesh>();
         }
     }
 }

@@ -18,7 +18,10 @@ namespace TieFighter.Models
             Db = DatastoreDb.Create(projectId);
 
             AudioSettingsKeyFactory = Db.CreateKeyFactory(audioSettingsKindName);
+            CampaignTourStatsFactory = Db.CreateKeyFactory(campaignTourStatsKindName);
             ControlSettingsKeyFactory = Db.CreateKeyFactory(controlSettingsKindName);
+            GamesKeyFactory = Db.CreateKeyFactory(gameKindName);
+            GameModesFactory = Db.CreateKeyFactory(gameModeKindName);
             MedalsKeyFactory = Db.CreateKeyFactory(medalKindName);
             ShipsKeyFactory = Db.CreateKeyFactory(shipKindName);
             ToursKeyFactory = Db.CreateKeyFactory(tourKindName);
@@ -29,7 +32,10 @@ namespace TieFighter.Models
             lastUpdatesToTables = new Dictionary<string, DateTime>
             {
                 { nameof(AudioSettings), DateTime.Now },
+                { nameof(CampaignTourStat), DateTime.Now },
                 { nameof(ControlSettings), DateTime.Now },
+                { nameof(Game), DateTime.Now },
+                { nameof(GameMode), DateTime.Now },
                 { nameof(Medal), DateTime.Now },
                 { nameof(Mission), DateTime.Now },
                 { nameof(Ship), DateTime.Now },
@@ -41,7 +47,10 @@ namespace TieFighter.Models
             keyFactories = new Dictionary<string, KeyFactory>
             {
                 { audioSettingsKindName, AudioSettingsKeyFactory },
+                { campaignTourStatsKindName, CampaignTourStatsFactory },
                 { controlSettingsKindName, ControlSettingsKeyFactory },
+                { gameKindName, GamesKeyFactory },
+                { gameModeKindName, GameModesFactory },
                 { medalKindName, MedalsKeyFactory },
                 { shipKindName, ShipsKeyFactory },
                 { tourKindName, ToursKeyFactory },
@@ -57,9 +66,13 @@ namespace TieFighter.Models
 
         public readonly DatastoreDb Db;
         public readonly KeyFactory AudioSettingsKeyFactory;
+        public readonly KeyFactory CampaignTourStatsFactory;
         public readonly KeyFactory ControlSettingsKeyFactory;
+        public readonly KeyFactory GamesKeyFactory;
+        public readonly KeyFactory GameModesFactory;
         public readonly KeyFactory MedalsKeyFactory;
         public readonly KeyFactory MissionsKeyFactory;
+        public readonly KeyFactory ScenesKeyFactory;
         public readonly KeyFactory ShipsKeyFactory;
         public readonly KeyFactory ToursKeyFactory;
         public readonly KeyFactory UsersKeyFactory;
@@ -68,7 +81,10 @@ namespace TieFighter.Models
         private readonly IDictionary<string, KeyFactory> keyFactories;
 
         private const string audioSettingsKindName = nameof(AudioSettings);
+        private const string campaignTourStatsKindName = nameof(CampaignTourStat);
         private const string controlSettingsKindName = nameof(ControlSettings);
+        private const string gameKindName = nameof(Game);
+        private const string gameModeKindName = nameof(GameMode);
         private const string medalKindName = nameof(Medal);
         private const string missionKindName = nameof(Mission);
         private const string shipKindName = nameof(Ship);
@@ -407,7 +423,7 @@ namespace TieFighter.Models
             {
                 new Tour()
                 {
-                    TourName = "Tour of Duty I: Aftermath of Hoth",
+                    TourName = "Aftermath of Hoth",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -438,7 +454,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty II: The Sepan Civil War",
+                    TourName = "The Sepan Civil War",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -465,7 +481,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty III: Battle on the Frontier",
+                    TourName = "Battle on the Frontier",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -496,7 +512,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty IV: Conflict at Mylock IV",
+                    TourName = "Conflict at Mylock IV",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -523,7 +539,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty V: Battle for Honor",
+                    TourName = "Battle for Honor",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -550,7 +566,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty VI: Arms Race",
+                    TourName = "Arms Race",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -573,7 +589,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty VII: Treachery at Ottega",
+                    TourName = "Treachery at Ottega",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -600,7 +616,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty VIII: Strategic Warfare",
+                    TourName = "Strategic Warfare",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -627,7 +643,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty IX: T/D Technology",
+                    TourName = "T/D Technology",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -658,7 +674,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty X: New Threats",
+                    TourName = "New Threats",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -689,7 +705,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty XI: Hunt for Zaarin",
+                    TourName = "Hunt for Zaarin",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -724,7 +740,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty XII: Prelude to Endor",
+                    TourName = "Prelude to Endor",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -759,7 +775,7 @@ namespace TieFighter.Models
                 },
                 new Tour()
                 {
-                    TourName = "Tour of Duty XIII: The Emperor's Will",
+                    TourName = "The Emperors Will",
                     Missions = new List<Mission>()
                     {
                         new Mission()
@@ -860,12 +876,62 @@ namespace TieFighter.Models
                     })
                 });
                 shipUnlocked.Add(tieFighter.Entities?[0]?["DisplayName"]?.StringValue);
+                var medalsWon = new List<string>();
+                if (u.Email == "alex.c.hayes08@gmail.com")
+                {
+                    medalsWon.Add("Ace");
+                    medalsWon.Add("Survivalist");
+                }
 
                 users.Add(new User()
                 {
                     Id = u.Id,
-                    MedalsWon = new List<Medal>(),
-                    ShipsUnlocked = shipUnlocked
+                    MedalsWon = medalsWon,
+                    ShipsUnlocked = shipUnlocked,
+                    Settings = new UserSettings()
+                    {
+                        Audio = new AudioSettings()
+                        {
+                            CombatVolume = 100,
+                            MasterVolume = 100,
+                            MusicVolume = 100
+                        },
+                        Controls = new ControlSettings()
+                        {
+                            Forward = new Input[]
+                            {
+                                new Input { KeyCode = 38 },
+                                new Input { KeyCode = 87 }
+                            },
+                            Left = new Input[]
+                            {
+                                new Input { KeyCode = 65 },
+                                new Input { KeyCode = 37 }
+                            },
+                            Reverse = new Input[]
+                            {
+                                new Input { KeyCode = 83 },
+                                new Input { KeyCode = 40 }
+                            },
+                            Right = new Input[]
+                            {
+                                new Input { KeyCode = 68 },
+                                new Input { KeyCode = 39 }
+                            },
+                            Pitch = new Input[] { },
+                            Yaw = new Input[] { },
+                            Roll = new Input[] { },
+                            PrimaryFire = new Input[] { },
+                            SecondaryFire = new Input[] { },
+                            SwitchWeapons = new Input[] { }
+                        },
+                        Video = new VideoSettings()
+                        {
+                            ModelQuality = Settings.ModelQuality.High,
+                            Resolution =  new Settings.Resolution { X = -1, Y = -1 },
+                            ViewDistance = -1
+                        }
+                    }
                 });
             }
 
@@ -887,16 +953,17 @@ namespace TieFighter.Models
                 userEntities.Add(new Entity()
                 {
                     Key = userKeyFactory.CreateKey(u.Id),
-                    ["MedalsWon"] = new Value()
+                    [nameof(User.MedalsWon)] = new Value()
                     {
                         ArrayValue = userMedalEntities,
                         //ExcludeFromIndexes = true
                     },
-                    ["ShipsUnlocked"] = new Value()
+                    [nameof(User.Settings)] = new Value()
                     {
                         ArrayValue = userShipEntities,
                         //ExcludeFromIndexes = true
-                    }
+                    },
+
                 });
             }
 

@@ -3,95 +3,89 @@
     ViewData["Title"] = "Admin";
 }
 
-<div class="topVSpacer"></div>
-<div class="row">
-    <div class="col-2"></div>
-    <div class="col-8">
-        <h2>Dashboard</h2>
-        <hr />
-        <h3>Most Recent Users</h3>
-        <table class="table">
-            <caption>Most Recent Users</caption>
-            <thead>
-                <tr>
-                    <th>
-                        Thumbnail
-                    </th>
-                    <th>
-                        Email
-                    </th>
-                    <th>
-                        Create On
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model.LatestUsers)
-                {
-                    <tr>
-                        <td class="align-middle">
-                            <img alt="No image set for user." src="@user.Thumbnail" class="rounded thumbnail maxWidthAndHeight100px z-depth-2" />
-                        </td>
-                        <td class="align-middle">
-                            @user.Email
-                        </td>
-                        <td class="align-middle">
-                            @user.CreatedOn.ToString()
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <hr />
-        <h3>Most Popular Missions</h3>
-        <table class="table">
-            <caption>Most Popular Missions</caption>
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Last Played On
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var mission in Model.MostPopularMissions)
-                {
-                    <tr>
-                        <td class="align-middle">
-                            @mission.DisplayName
-                        </td>
-                        <td class="align-middle">
-                            @mission.LastPlayedOn
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <hr />
-        <h3>Most Popular Ships</h3>
-        <table class="table">
-            <caption>Most Popular Ships</caption>
-            <thead>
-                <tr>
-                    <td>
-                        Name
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var ship in Model.MostPopularShips)
-                {
-                    <tr>
-                        <td class="align-middle">
-                            @ship.DisplayName
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+<h2>Dashboard</h2>
+<hr />
+<h3>Most Recent Users</h3>
+<table class="table">
+    <caption>Most Recent Users</caption>
+    <thead>
+        <tr>
+            <th>
+                Thumbnail
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Create On
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.LatestUsers)
+        {
+            <tr>
+                <td class="align-middle">
+                    <img alt="No image set for user." src="@user.Thumbnail" class="rounded thumbnail maxWidthAndHeight100px z-depth-2" />
+                </td>
+                <td class="align-middle">
+                    @user.Email
+                </td>
+                <td class="align-middle">
+                    @user.CreatedOn.ToString()
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<h3>Most Popular Missions</h3>
+<table class="table">
+    <caption>Most Popular Missions</caption>
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Last Played On
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mission in Model.MostPopularMissions)
+        {
+            <tr>
+                <td class="align-middle">
+                    @mission.DisplayName
+                </td>
+                <td class="align-middle">
+                    @mission.LastPlayedOn
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<h3>Most Popular Ships</h3>
+<table class="table">
+    <caption>Most Popular Ships</caption>
+    <thead>
+        <tr>
+            <td>
+                Name
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ship in Model.MostPopularShips)
+        {
+            <tr>
+                <td class="align-middle">
+                    @ship.DisplayName
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 

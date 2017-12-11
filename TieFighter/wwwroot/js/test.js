@@ -1,4 +1,3 @@
-$('[data-toggle="tooltip"]').tooltip();
 $("#ExitGame").on("click", function () {
     // FIXME: Replace this function
     window.location.assign(window.location.origin);
@@ -159,7 +158,7 @@ class Accelerations {
 class Power {
     constructor(maxFuel, currentFuel = null) {
         this._maxFuel = Number(maxFuel);
-        if (currentFuel == null) {
+        if (currentFuel === null) {
             this._currentFuel = this.maxFuel;
         } else {
             this._currentFuel = Number(currentFuel);

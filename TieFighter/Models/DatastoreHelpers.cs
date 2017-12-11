@@ -13,75 +13,84 @@ namespace TieFighter.Models
         public static T ParseEntityToObject<T>(Entity entity) where T:new()
         {
             T newInstance = (T)Activator.CreateInstance(typeof(T));
-
-            foreach (var property in newInstance.GetType().GetProperties())
+            var castedType = newInstance as IDatastoreEntityAndJsonBinding;
+            if (castedType != null)
             {
-                // Ignore property if NotMapped
-                if (property.IsDefined(typeof(NotMappedAttribute), false))
+                // If the type implements IDatastoreEntityAndJsonBinding, use it
+                castedType.FromEntity(entity);
+                return newInstance;
+            }
+            else
+            {
+                foreach (var property in newInstance.GetType().GetProperties())
                 {
-                    continue;
-                }
-
-                // Check if the property is part of the key
-                if (property.Name == "Id" || property.IsDefined(typeof(KeyAttribute), false))
-                {
-                    property.SetValue(newInstance, entity.Key.Path[0].Name);
-                    continue;
-                }
-
-                // Check if the property is part of the properties
-                try
-                {
-                    if (entity.Properties[property.Name] != null)
+                    // Ignore property if NotMapped
+                    if (property.IsDefined(typeof(NotMappedAttribute), false))
                     {
-                        var propertyType = property.PropertyType;
-                        var blah = entity.Properties[property.Name].ValueTypeCase;;
-                        switch (blah)
+                        continue;
+                    }
+
+                    // Check if the property is part of the key
+                    if (property.Name == "Id" || property.IsDefined(typeof(KeyAttribute), false))
+                    {
+                        property.SetValue(newInstance, entity.Key.Path[0].Name);
+                        continue;
+                    }
+
+                    // Check if the property is part of the properties
+                    try
+                    {
+                        if (entity.Properties[property.Name] != null)
                         {
-                            case Value.ValueTypeOneofCase.ArrayValue:
-                                property.SetValue(newInstance, entity[property.Name].ArrayValue);
-                                break;
-                            case Value.ValueTypeOneofCase.BlobValue:
-                                property.SetValue(newInstance, entity[property.Name].BlobValue);
-                                break;
-                            case Value.ValueTypeOneofCase.BooleanValue:
-                                property.SetValue(newInstance, entity[property.Name].BooleanValue);
-                                break;
-                            case Value.ValueTypeOneofCase.DoubleValue:
-                                property.SetValue(newInstance, entity[property.Name].DoubleValue);
-                                break;
-                            case Value.ValueTypeOneofCase.EntityValue:
-                                property.SetValue(newInstance, entity[property.Name].EntityValue);
-                                break;
-                            case Value.ValueTypeOneofCase.GeoPointValue:
-                                property.SetValue(newInstance, entity[property.Name].GeoPointValue);
-                                break;
-                            case Value.ValueTypeOneofCase.IntegerValue:
-                                property.SetValue(newInstance, Convert.ToInt32(entity[property.Name].IntegerValue));
-                                break;
-                            case Value.ValueTypeOneofCase.KeyValue:
-                                property.SetValue(newInstance, entity[property.Name].KeyValue);
-                                break;
-                            case Value.ValueTypeOneofCase.None:
-                                property.SetValue(newInstance, entity[property.Name].NullValue);
-                                break;
-                            case Value.ValueTypeOneofCase.NullValue:
-                                property.SetValue(newInstance, null);
-                                break;
-                            case Value.ValueTypeOneofCase.StringValue:
-                                property.SetValue(newInstance, entity[property.Name].StringValue);
-                                break;
-                            case Value.ValueTypeOneofCase.TimestampValue:
-                                property.SetValue(newInstance, entity[property.Name].TimestampValue.ToDateTime());
-                                break;
+                            var propertyType = property.PropertyType;
+                            var blah = entity.Properties[property.Name].ValueTypeCase; ;
+                            switch (blah)
+                            {
+                                case Value.ValueTypeOneofCase.ArrayValue:
+                                    property.SetValue(newInstance, entity[property.Name].ArrayValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.BlobValue:
+                                    property.SetValue(newInstance, entity[property.Name].BlobValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.BooleanValue:
+                                    property.SetValue(newInstance, entity[property.Name].BooleanValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.DoubleValue:
+                                    property.SetValue(newInstance, entity[property.Name].DoubleValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.EntityValue:
+                                    property.SetValue(newInstance, entity[property.Name].EntityValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.GeoPointValue:
+                                    property.SetValue(newInstance, entity[property.Name].GeoPointValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.IntegerValue:
+                                    property.SetValue(newInstance, Convert.ToInt32(entity[property.Name].IntegerValue));
+                                    break;
+                                case Value.ValueTypeOneofCase.KeyValue:
+                                    property.SetValue(newInstance, entity[property.Name].KeyValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.None:
+                                    property.SetValue(newInstance, entity[property.Name].NullValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.NullValue:
+                                    property.SetValue(newInstance, null);
+                                    break;
+                                case Value.ValueTypeOneofCase.StringValue:
+                                    property.SetValue(newInstance, entity[property.Name].StringValue);
+                                    break;
+                                case Value.ValueTypeOneofCase.TimestampValue:
+                                    property.SetValue(newInstance, entity[property.Name].TimestampValue.ToDateTime());
+                                    break;
+                            }
                         }
                     }
+                    catch (Exception e)
+                    { }
                 }
-                catch(Exception e)
-                { }
-            }
 
-            return newInstance;
+                return newInstance;
+            }
         }
 
         public static IList<T> ParseEntitiesToObject<T>(IEnumerable<Entity> entities) where T:new()
@@ -131,7 +140,13 @@ namespace TieFighter.Models
 
                 var propertyType = prop.PropertyType;
 
-                if (prop.IsDefined(typeof(KeyAttribute)) && !isIdAlreadySet)
+                if (prop.IsDefined(typeof(NotMappedAttribute)))
+                {
+
+                    // Ignore this property if it contains the NotMapped Attribute
+                    continue;
+                }
+                else if (prop.IsDefined(typeof(KeyAttribute)) && !isIdAlreadySet)
                 {
                     string idValue = prop.GetValue(obj).ToString();
                     entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
@@ -188,6 +203,31 @@ namespace TieFighter.Models
             }
 
             return entity;
+        }
+
+        public static Entity[] ObjectsToEntities<T>(TieFighterDatastoreContext db, IEnumerable<T> objects) where T:new()
+        {
+            var entities = new List<Entity>();
+            foreach (var obj in objects)
+                entities.Add(ObjectToEntity(db, obj));
+
+            return entities.ToArray();
+        }
+
+        public static string GetEntityKey(this Entity entity)
+        {
+            return entity.Key.Path[0].Name;
+        }
+
+        public static T GetEntityProperty<T>(this Entity entity, string propertyName) where T:class
+        {
+            return entity[propertyName] as T;
+        }
+
+        public static long ToId (this Key key)
+        {
+            var blah = key.Path;
+            return blah[blah.Count - 1].Id;
         }
     }
 }

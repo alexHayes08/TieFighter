@@ -70,25 +70,24 @@ namespace TieFighter.Models
             return arrVal.ToArray();
         }
 
-        public override void FromEntity(Entity entity)
+        public override IDatastoreEntityAndJsonBinding FromEntity(Entity entity)
         {
-            UserId = entity.Key.Path[0].Name;
-            Forward = ParseInputEntity(entity, nameof(Forward));
-            Left = ParseInputEntity(entity, nameof(Left));
-            Reverse = ParseInputEntity(entity, nameof(Reverse));
-            Right = ParseInputEntity(entity, nameof(Right));
-            Pitch = ParseInputEntity(entity, nameof(Pitch));
-            Yaw = ParseInputEntity(entity, nameof(Yaw));
-            Roll = ParseInputEntity(entity, nameof(Roll));
-            PrimaryFire = ParseInputEntity(entity, nameof(PrimaryFire));
-            SecondaryFire = ParseInputEntity(entity, nameof(SecondaryFire));
-            SwitchWeapons = ParseInputEntity(entity, nameof(SwitchWeapons));
-        }
+            var controlSetting = new ControlSettings
+            {
+                UserId = entity.Key.Path[0].Name,
+                Forward = ParseInputEntity(entity, nameof(Forward)),
+                Left = ParseInputEntity(entity, nameof(Left)),
+                Reverse = ParseInputEntity(entity, nameof(Reverse)),
+                Right = ParseInputEntity(entity, nameof(Right)),
+                Pitch = ParseInputEntity(entity, nameof(Pitch)),
+                Yaw = ParseInputEntity(entity, nameof(Yaw)),
+                Roll = ParseInputEntity(entity, nameof(Roll)),
+                PrimaryFire = ParseInputEntity(entity, nameof(PrimaryFire)),
+                SecondaryFire = ParseInputEntity(entity, nameof(SecondaryFire)),
+                SwitchWeapons = ParseInputEntity(entity, nameof(SwitchWeapons))
+            };
 
-        public override void FromJObject(JObject json)
-        {
-            UserId = json["userId"].ToString();
-            
+            return controlSetting;
         }
 
         public override Entity ToEntity()
@@ -116,11 +115,6 @@ namespace TieFighter.Models
             };
 
             return entity;
-        }
-
-        public override JObject ToJObject()
-        {
-            throw new NotImplementedException();
         }
     }
 }

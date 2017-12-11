@@ -127,3 +127,17 @@ function setupDataTable(tableCssSelector, selectAllCssSelector, deleteAllCssSele
 
     return datatable;
 }
+
+// Auto setup Datatable if certian elements are present
+$(function () {
+    var $selectAllCheckbox = $("#selectAll");
+    var $deleteSelected = $("#deleteSelected");
+    var $table = $("#datatable[autoinit]");
+
+    if ($selectAllCheckbox != null
+        && $deleteSelected != null
+        && $table != null
+    ) {
+        setupDataTable("#datatable[autoinit]", "#selectAll", "#deleteSelected")
+    }
+});

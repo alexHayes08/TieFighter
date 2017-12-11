@@ -277,45 +277,56 @@ table.table tbody tr.selected {
     }
 }
 
-.continue {
+.continue,
+.previous {
     border: 4px rgba(255,255,255,0.5) solid;
-    border-radius: 50%;
     box-sizing: content-box;
     background-color: rgba(255,232,31,0.5);
-    bottom: 80px;
+    color: rgba(255,255,255,0.5);
     cursor: pointer;
-    font-size: large;
-    line-height: 80px;
-    opacity: 0;
+    font-size: 30px;
+    line-height: 60px;
     right: 80px;
     position: absolute;
     text-align: center;
-    text-shadow: 4px 4px 4px black;
-
-    height: 80px;
-    width: 80px;
+    text-shadow: 0px 4px 4px rgba(0,0,0,.2);
+    height: 60px;
+    width: 60px;
     transition: .2s;
 }
 
+.continue {
+    bottom: 10px;
+}
+
+.previous {
+    bottom: 80px;
+}
+
 .continue::before {
-    content: "Continue";
+    content: "";
+}
+
+.continue:hover,
+.previous:hover {
+    background-color: rgba(255,232,31,1);
+    border: 0px rgba(255,255,255,0.5) solid;
+    color: white;
+    font-size: 30px;
+    line-height: 75px;
+    text-shadow: 0px 4px 4px rgba(0,0,0,.4);
+
+    right: 76.5px;
+    height: 75px;
+    width: 75px;
 }
 
 .continue:hover {
-    background-color: rgba(255,232,31,1);
-    border: 0px rgba(255,255,255,0.5) solid;
-    bottom: 79px;
-    color: white;
-    font-size: larger;
-    line-height: 90px;
-    opacity: 1;
-    right: 79px;
-    height: 90px;
-    width: 90px;
+    bottom: 6.5px;
 }
 
-.continue:not(:hover) {
-    animation: 1s alternate-reverse infinite forwardscontinueBttnAnimation;
+.previous:hover {
+    bottom: 76.5px;
 }
 
 .colorSpacer > * {
@@ -424,6 +435,10 @@ table.table tbody tr.selected {
     position: sticky !important;
 }
 
+.row {
+    position: relative;
+}
+
 /* End override bootstrap styles */
 
 .awardList {
@@ -494,6 +509,10 @@ table.table tbody tr.selected {
         font-weight: bold;
         text-align: center;
     }
+
+.blinkExceptOnHover:not(:hover) {
+    animation: 1s alternate-reverse infinite forwardscontinueBttnAnimation;
+}
 
 .centerAbsoluteChildElement {
     top: 50%;
@@ -645,8 +664,26 @@ label > .custom-checkbox:checked {
     max-width: 100px;
 }
 
+.minRowVH {
+    display: flex;
+    /*flex-wrap: wrap;*/
+    margin-left: -15px;
+    margin-right: -15px;
+    min-height: calc(100vh - 56px);
+    scroll-behavior: smooth;
+}
+
 .no-padding {
     padding: 0 !important;
+}
+
+.rowVh {
+    display: flex;
+    /*flex-wrap: wrap;*/
+    margin-left: -15px;
+    margin-right: -15px;
+    height: calc(100vh - 56px);
+    scroll-behavior: smooth;
 }
 
 .results:empty {
@@ -711,17 +748,6 @@ label > .custom-checkbox:checked {
     position: absolute;
 }
 
-#firstSeqeunce,
-#secondSequence,
-#thirdSequence {
-    display: flex;
-    /*flex-wrap: wrap;*/
-    margin-left: -15px;
-    margin-right: -15px;
-    height: calc(100vh - 56px);
-    scroll-behavior: smooth;
-}
-
 #firstSeqeunce {
     background-color: black;
     background-image: url("../images/starwarsTitleSequenceBG.svg");
@@ -757,6 +783,17 @@ label > .custom-checkbox:checked {
         transform: translateY(calc(100vh + 67px));
         animation: 3s 1s 1 linear forwards slideinBot, 3s 3s ease-out 1 forwards makeroomBot; /*, 3s 6s linear forwards exitThruTop;*/
     }
+
+#leftNavBar i {
+    margin-right: .05em;
+}
+#leftNavBar i:hover {
+    color: #007bff;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-right: 0;
+    transition: .2s;
+}
 
 #login {
     font-weight: bold;
@@ -836,6 +873,9 @@ tr + #noConflictsMessage {
 }
 
 @keyframes forwardscontinueBttnAnimation {
+    from {
+        opacity: 0;
+    }
     to {
         opacity: 1;
     }

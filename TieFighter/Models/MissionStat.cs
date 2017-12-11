@@ -4,6 +4,7 @@ namespace TieFighter.Models
 {
     public class MissionStat
     {
+        public string Id { get; set; }
         public string MissionName { get; set; }
         public int MissionId { get; set; }
         public bool FinishedMission { get; set; }

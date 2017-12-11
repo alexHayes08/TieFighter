@@ -13,5 +13,7 @@ namespace TieFighter.Models
         public string MissionBriefing { get; set; }
         public DateTime LastPlayedOn { get; set; }
         public string TourId { get; set; }
+        [NotMapped]
+        public Stage[] Stages { get; set; }
     }
 }
