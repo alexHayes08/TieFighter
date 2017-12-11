@@ -16,7 +16,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table id="datatable" class="table" autoinit>
+<table id="datatable" class="table" cellspacing="0" autoinit>
     <thead>
         <tr>
             <th>
@@ -26,7 +26,6 @@
                     </label>
                 </div>
             </th>
-            <th>Id</th>
             <th>Display Name</th>
             <th></th>
         </tr>
@@ -41,9 +40,6 @@
                             <input type="checkbox" class="custom-checkbox z-depth-1 z-depth-3-hover" />
                         </label>
                     </div>
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td class="align-middle">
                     @Html.DisplayFor(modelItem => item.DisplayName)
