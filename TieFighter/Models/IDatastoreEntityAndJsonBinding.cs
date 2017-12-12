@@ -155,12 +155,23 @@ namespace TieFighter.Models
         /// <returns>New object with the values from the entity</returns>
         public virtual IDatastoreEntityAndJsonBinding FromEntity(Entity entity)
         {
-            Id = entity.Key.ToId();
             var type = GetType();
             var defaultInstance = Activator.CreateInstance(type);
             var localProperties = type.GetProperties();
             var localPropertiesNames = localProperties.Select(p => p.Name).ToList();
             var entityProperties = entity.Properties.Keys;
+
+            // Set the key first
+            var keyProp = localProperties.Where(p => p.IsDefined(typeof(KeyAttribute))).ToList();
+            if (keyProp.Count == 1)
+            {
+                var prop = keyProp[0];
+                if (long.TryParse(entity.GetEntityKey(), out long id))
+                {
+                    prop.SetValue(defaultInstance, id);
+                }
+            }
+            
 
             foreach (var entityProperty in entityProperties)
             {

@@ -20,7 +20,11 @@ namespace TieFighter.Areas.Admin.Controllers
         {
             var gamesQuery = new Query(nameof(Game));
             var entities = Startup.DatastoreDb.Db.RunQuery(gamesQuery).Entities;
-            var games = DatastoreHelpers.ParseEntitiesToObject<Game>(entities);
+            var games = new List<Game>();
+            foreach (var entity in entities)
+            {
+                games.Add(new Game().FromEntity(entity) as Game);
+            }
 
             return View(games);
         }
@@ -34,19 +38,12 @@ namespace TieFighter.Areas.Admin.Controllers
         // POST: Game/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([FromForm]Game game, IFormCollection collection)
         {
             Key reservedKey = null;
 
             try
             {
-                var game = new Game()
-                {
-                    Name = collection[nameof(Game.Name)],
-                    ImageUrl = collection[nameof(Game.ImageUrl)],
-                    IsEnabled = bool.Parse(collection[nameof(Game.IsEnabled)])
-                };
-
                 reservedKey = game.GenerateNewKey(Startup.DatastoreDb.Db);
                 game.Id = reservedKey.ToId();
 
@@ -69,12 +66,19 @@ namespace TieFighter.Areas.Admin.Controllers
         // GET: Game/Edit/5
         public ActionResult Edit(long id)
         {
-            var key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(id);
-            var game = DatastoreHelpers.ParseEntityToObject<Game>(
-                Startup.DatastoreDb.Db.Lookup(key)
-            );
+            try
+            {
+                var key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(id);
+                var entity = Startup.DatastoreDb.Db.Lookup(key);
+                var game = new Game().FromEntity(entity) as Game;
 
-            return View(game);
+                return View(game);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.ToString();
+                return Redirect(nameof(Index));
+            }
         }
 
         // POST: Game/Edit/5

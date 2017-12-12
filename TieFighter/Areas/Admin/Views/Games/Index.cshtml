@@ -41,7 +41,7 @@ else
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr data-bind="@item.Id">
                     <td class="align-middle">
                         <div class="d-flex flex-column align-items-center justify-content-center h-100">
                             <label class="m-0">
