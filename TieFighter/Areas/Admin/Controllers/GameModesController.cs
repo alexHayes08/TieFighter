@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Google.Cloud.Datastore.V1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TieFighter.Areas.Admin.Models.JsViewModels;
 using TieFighter.Models;
 
 namespace TieFighter.Areas.Admin.Controllers
@@ -30,26 +31,26 @@ namespace TieFighter.Areas.Admin.Controllers
         // POST: GameModes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([FromBody]GameMode gameMode, IFormCollection collection)
         {
             try
             {
-                var gameMode = new GameMode()
-                {
-                    Id = new Guid().ToString(),
-                    Name = collection[nameof(GameMode.Name)]
-                };
+                gameMode.Id = gameMode
+                    .GenerateNewKey(Startup.DatastoreDb.Db)
+                    .ToId();
+                Startup.DatastoreDb.Db.Upsert(gameMode.ToEntity());
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.Error = e.ToString();
                 return View();
             }
         }
 
         // GET: GameModes/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
             return View();
         }
@@ -57,34 +58,60 @@ namespace TieFighter.Areas.Admin.Controllers
         // POST: GameModes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public JsonResult Edit(long id, [FromBody]GameMode gameMode, IFormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                var entity = gameMode.ToEntity();
+                Startup.DatastoreDb.Db.Upsert(entity);
 
-                return RedirectToAction(nameof(Index));
+                return Json(new JsDefault()
+                {
+                    Succeeded = true,
+                    Error = ""
+                });
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return Json(new JsDefault()
+                {
+                    Error = e.ToString(),
+                    Succeeded = false
+                });
             }
         }
 
         // POST: GameModes/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public JsonResult Delete(IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                var keys = new List<Key>();
+                foreach (var key in collection.Keys)
+                {
+                    if (long.TryParse(key, out long id))
+                    {
+                        keys.Add(Startup.DatastoreDb.GameModesFactory.CreateKey(key));
+                    }
+                }
 
-                return RedirectToAction(nameof(Index));
+                Startup.DatastoreDb.Db.Delete(keys);
+
+                return Json(new JsDefault()
+                {
+                    Error = "",
+                    Succeeded = true
+                });
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return Json(new JsDefault()
+                {
+                    Error = e.ToString(),
+                    Succeeded = false
+                });
             }
         }
     }

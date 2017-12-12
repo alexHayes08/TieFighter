@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Google.Cloud.Datastore.V1;
 using Newtonsoft.Json.Linq;
 
@@ -7,8 +8,9 @@ namespace TieFighter.Models
 
     public class Submesh : IDatastoreEntityAndJsonBinding
     {
-        [Key]
-        public string Id { get; set; }
+        public string MeshName { get; set; }
+        public long ShipId { get; set; }
+        [NotMapped]
         public ShipComponent[] Components { get; set; }
         public ThreeDimensionsCoord TranslationOffset { get; set; }
         public ThreeDimensionsCoord ScaleOffset { get; set; }
@@ -16,7 +18,7 @@ namespace TieFighter.Models
 
         private void CopyPropertiesOf(Submesh other)
         {
-            if (!string.IsNullOrEmpty(other.Id))
+            if (other.Id.HasValue)
                 Id = other.Id;
 
             if (other.Components != null)
@@ -41,11 +43,6 @@ namespace TieFighter.Models
             //RotationOffset = newMesh.RotationOffset;
             //ScaleOffset = newMesh.ScaleOffset;
             return newMesh;
-        }
-
-        public override IDatastoreEntityAndJsonBinding FromJObject(JObject json)
-        {
-            return json.ToObject<Submesh>();
         }
     }
 }

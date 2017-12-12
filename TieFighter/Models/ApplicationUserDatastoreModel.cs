@@ -7,7 +7,9 @@ namespace TieFighter.Models
 {
     public class User : IDatastoreEntityAndJsonBinding
     {
-        public string Id { get; set; }
+        // Must hide the Id on the parent since Identity Management uses
+        // strings as the primary key for users.
+        public new string Id { get; set; }
         public IList<string> MedalsWon { get; set; }
         public IList<CampaignTourStat> CampaignTourStats { get; set; }
         public IList<string> ShipsUnlocked { get; set; }

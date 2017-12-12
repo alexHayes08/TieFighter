@@ -22,8 +22,10 @@ namespace TieFighter.Models
             ControlSettingsKeyFactory = Db.CreateKeyFactory(controlSettingsKindName);
             GamesKeyFactory = Db.CreateKeyFactory(gameKindName);
             GameModesFactory = Db.CreateKeyFactory(gameModeKindName);
+            ImagesKeyFactory = Db.CreateKeyFactory(imageKindName);
             MedalsKeyFactory = Db.CreateKeyFactory(medalKindName);
             ShipsKeyFactory = Db.CreateKeyFactory(shipKindName);
+            ShipComponentsKeyFactory = Db.CreateKeyFactory(shipComponentsKindName);
             ToursKeyFactory = Db.CreateKeyFactory(tourKindName);
             MissionsKeyFactory = Db.CreateKeyFactory(missionKindName);
             UsersKeyFactory = Db.CreateKeyFactory(userKindName);
@@ -36,9 +38,11 @@ namespace TieFighter.Models
                 { nameof(ControlSettings), DateTime.Now },
                 { nameof(Game), DateTime.Now },
                 { nameof(GameMode), DateTime.Now },
+                { nameof(Image), DateTime.Now },
                 { nameof(Medal), DateTime.Now },
                 { nameof(Mission), DateTime.Now },
                 { nameof(Ship), DateTime.Now },
+                { nameof(ShipComponent), DateTime.Now },
                 { nameof(Tour), DateTime.Now },
                 { nameof(User), DateTime.Now },
                 { nameof(VideoSettings), DateTime.Now }
@@ -51,8 +55,10 @@ namespace TieFighter.Models
                 { controlSettingsKindName, ControlSettingsKeyFactory },
                 { gameKindName, GamesKeyFactory },
                 { gameModeKindName, GameModesFactory },
+                { imageKindName, ImagesKeyFactory },
                 { medalKindName, MedalsKeyFactory },
                 { shipKindName, ShipsKeyFactory },
+                { shipComponentsKindName, ShipComponentsKeyFactory },
                 { tourKindName, ToursKeyFactory },
                 { missionKindName, MissionsKeyFactory },
                 { userKindName, UsersKeyFactory },
@@ -70,10 +76,12 @@ namespace TieFighter.Models
         public readonly KeyFactory ControlSettingsKeyFactory;
         public readonly KeyFactory GamesKeyFactory;
         public readonly KeyFactory GameModesFactory;
+        public readonly KeyFactory ImagesKeyFactory;
         public readonly KeyFactory MedalsKeyFactory;
         public readonly KeyFactory MissionsKeyFactory;
         public readonly KeyFactory ScenesKeyFactory;
         public readonly KeyFactory ShipsKeyFactory;
+        public readonly KeyFactory ShipComponentsKeyFactory;
         public readonly KeyFactory ToursKeyFactory;
         public readonly KeyFactory UsersKeyFactory;
         public readonly KeyFactory VideoSettingsKeyFactory;
@@ -85,9 +93,11 @@ namespace TieFighter.Models
         private const string controlSettingsKindName = nameof(ControlSettings);
         private const string gameKindName = nameof(Game);
         private const string gameModeKindName = nameof(GameMode);
+        private const string imageKindName = nameof(Image);
         private const string medalKindName = nameof(Medal);
         private const string missionKindName = nameof(Mission);
         private const string shipKindName = nameof(Ship);
+        private const string shipComponentsKindName = nameof(ShipComponent);
         private const string tourKindName = nameof(Tour);
         private const string userKindName = nameof(User);
         private const string videoSettingsKindName = nameof(VideoSettings);
@@ -290,12 +300,23 @@ namespace TieFighter.Models
 
             foreach (var medal in medals)
             {
+                // Check if medal exists
+                var medalQuery = new Query(nameof(Medal))
+                {
+                    Filter = Filter.Equal(nameof(Medal.MedalName), medal.MedalName)
+                };
+                var results = dbContext.Db.RunQuery(medalQuery).Entities;
+                if (results.Count > 0)
+                {
+                    continue;
+                }
+
                 var medalConditions = new List<Entity>();
                 foreach (var condition in medal.Conditions)
                 {
-                    var entity = new Entity();
-                    entity["ConditionType"] = Enum.GetName(typeof(MedalConditionTypes), condition.ConditionType);
-                    SetMedalEntityValue(condition, ref entity);
+                    var medalConditionEntity = new Entity();
+                    medalConditionEntity["ConditionType"] = Enum.GetName(typeof(MedalConditionTypes), condition.ConditionType);
+                    SetMedalEntityValue(condition, ref medalConditionEntity);
 
                     Entity dependsOnEntity = null;
                     for (var nestedCondition = condition;
@@ -314,18 +335,17 @@ namespace TieFighter.Models
                         }
                         else
                         {
-                            entity["DependsOn"] = newEntity;
+                            medalConditionEntity["DependsOn"] = newEntity;
                         }
 
                         dependsOnEntity = newEntity;
                     }
 
-                    medalConditions.Add(entity);
+                    medalConditions.Add(medalConditionEntity);
                 }
 
-                medalEntities.Add(new Entity()
+                var medalEntity = new Entity()
                 {
-                    Key = medalKeyFactory.CreateKey(medal.MedalName),
                     ["MedalName"] = new Value()
                     {
                         StringValue = medal.MedalName
@@ -348,7 +368,9 @@ namespace TieFighter.Models
                     {
                         StringValue = medal.FileLocation
                     }
-                });
+                };
+                medalEntity.Key = medal.GenerateNewKey(dbContext.Db);
+                medalEntities.Add(medalEntity);
             }
 
             await dbContext.Db.UpsertAsync(medalEntities);
@@ -398,9 +420,19 @@ namespace TieFighter.Models
 
             foreach (var ship in ships)
             {
-                shipEntities.Add(new Entity()
+                // Check if ship exists
+                var shipQuery = new Query(nameof(Ship))
                 {
-                    Key = shipKeyFactory.CreateKey(ship.DisplayName.Replace(" ", "_")),
+                    Filter = Filter.Equal(nameof(Ship.DisplayName), ship.DisplayName)
+                };
+                var shipResponse = dbContext.Db.RunQuery(shipQuery).Entities;
+                if (shipResponse.Count > 0)
+                {
+                    continue;
+                }
+
+                var shipEntity = new Entity()
+                {
                     ["FileLocation"] = new Value()
                     {
                         StringValue = ship.FileLocation,
@@ -410,7 +442,13 @@ namespace TieFighter.Models
                     {
                         StringValue = ship.DisplayName,
                     }
+                };
+                var shipKey = dbContext.Db.CreateKeyFactory(nameof(Ship)).CreateIncompleteKey();
+                shipEntity.Key = dbContext.Db.Insert(new Entity()
+                {
+                    Key = shipKey
                 });
+                shipEntities.Add(shipEntity);
             }
 
             await dbContext.Db.UpsertAsync(shipEntities);

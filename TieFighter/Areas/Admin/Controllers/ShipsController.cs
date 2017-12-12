@@ -103,6 +103,30 @@ namespace TieFighter.Areas.Admin.Controllers
             }
         }
 
+        // Submitting an array of submeshes
+        [HttpPost]
+        public JsonResult UpdateShipInfo([FromBody]Submesh[] submeshes)
+        {
+            try
+            {
+                
+
+                return Json(new JsDefault()
+                {
+                    Error = "",
+                    Succeeded = true
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new JsDefault()
+                {
+                    Error = "",
+                    Succeeded = true
+                });
+            }
+        }
+
         // POST: Ships/Delete/5
         [HttpPost]
         public JsonResult Delete(IFormCollection collection)

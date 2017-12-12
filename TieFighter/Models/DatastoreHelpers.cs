@@ -226,8 +226,11 @@ namespace TieFighter.Models
 
         public static long ToId (this Key key)
         {
-            var blah = key.Path;
-            return blah[blah.Count - 1].Id;
+            //var path = key.Path;
+            if (string.IsNullOrEmpty(key.Path.Last().Name))
+                return key.Path.Last().Id;
+            else
+                return long.Parse(key.Path.Last().Name);
         }
     }
 }

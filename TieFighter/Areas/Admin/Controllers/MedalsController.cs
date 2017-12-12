@@ -26,14 +26,22 @@ namespace TieFighter.Areas.Admin.Controllers
         // GET: Medals
         public ActionResult Index()
         {
-            var lastUpdated = DateTime.Now;
-            var vm = new PaginatedMedalsVM()
-            {
-                LastSynced = lastUpdated,
-                Medals = Startup.DatastoreDb.GetPaginatedMedals(0, 10, DateTime.Now)
-            };
+            //var lastUpdated = DateTime.Now;
+            //var vm = new PaginatedMedalsVM()
+            //{
+            //    LastSynced = lastUpdated,
+            //    Medals = Startup.DatastoreDb.GetPaginatedMedals(0, 10, DateTime.Now)
+            //};
 
-            return View(vm);
+            var query = new Query(nameof(Medal));
+            var entities = Startup.DatastoreDb.Db.RunQuery(query).Entities;
+            var medals = new List<Medal>();
+            foreach (var entity in entities)
+            {
+                medals.Add(new Medal().FromEntity(entity) as Medal);
+            }
+
+            return View(medals);
         }
 
         // GET: Medals/Create
@@ -45,25 +53,14 @@ namespace TieFighter.Areas.Admin.Controllers
         // POST: Medals/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([FromBody]Medal medal, IFormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
-                double pointsWorth = 0;
-                double.TryParse(collection[nameof(Medal.PointsWorth)], out pointsWorth);
-                var medal = new Medal()
-                {
-                    Id = collection[nameof(Medal.Id)],
-                    MedalName = collection[nameof(Medal.MedalName)],
-                    PointsWorth = pointsWorth
-                    //Conditions = new string[0]
-                };
-
-                Startup.DatastoreDb.MedalsKeyFactory.CreateKey(medal.Id);
+                medal.Id = medal.GenerateNewKey(Startup.DatastoreDb.Db).ToId();
                 var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, medal, nameof(Medal.Id));
 
-                return RedirectToAction(nameof(Edit), pointsWorth);
+                return RedirectToAction(nameof(Edit), medal.Id);
             }
             catch
             {
@@ -73,9 +70,9 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         // GET: Medals/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(long id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (id == 0)
             {
                 Redirect(nameof(Index));
             }
@@ -85,12 +82,12 @@ namespace TieFighter.Areas.Admin.Controllers
 
             if (response == null)
             {
+                ViewBag.Error = "Failed to find medal";
                 return Index();
             }
             else
             {
-                var medal = DatastoreHelpers.ParseEntityToObject<Medal>(response);
-
+                var medal = new Medal().FromEntity(response) as Medal;
                 return View(medal);
             }
         }

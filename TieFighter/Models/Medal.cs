@@ -1,14 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Google.Cloud.Datastore.V1;
 
 namespace TieFighter.Models
 {
-    public class Medal
+    public class Medal : IDatastoreEntityAndJsonBinding
     {
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required, StringLength(50)]
-        public string Id { get; set; }
         [Required]
         public string MedalName { get; set; }
         [MaxLength(200)]
@@ -17,5 +15,46 @@ namespace TieFighter.Models
         public double PointsWorth { get; set; }
         public string FileLocation { get; set; }
         public MedalCondition[] Conditions { get; set; }
+
+        public override IDatastoreEntityAndJsonBinding FromEntity(Entity entity)
+        {
+            var medal = new Medal()
+            {
+                Id = entity.Key.ToId(),
+                Description = entity[nameof(Medal.Description)].StringValue,
+                MedalName = entity[nameof(Medal.MedalName)].StringValue,
+                PointsWorth = entity[nameof(Medal.PointsWorth)].DoubleValue,
+                FileLocation = entity[nameof(Medal.FileLocation)].StringValue
+            };
+
+            return medal;
+        }
+
+        public override Entity ToEntity()
+        {
+            var entity = new Entity()
+            {
+                [nameof(MedalName)] = MedalName,
+                [nameof(Description)] = Description,
+                [nameof(PointsWorth)] = PointsWorth,
+                [nameof(FileLocation)] = FileLocation
+            };
+
+            if (Id != null)
+            {
+                entity.Key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(Id.Value);
+            }
+
+            return entity;
+        }
+
+        public override Key GenerateNewKey(DatastoreDb db, params IDatastoreEntityAndJsonBinding[] ancestors)
+        {
+            var incompleteKey = db.CreateKeyFactory(nameof(Medal)).CreateIncompleteKey();
+            return db.Insert(new Entity()
+            {
+                Key = incompleteKey
+            });
+        }
     }
 }

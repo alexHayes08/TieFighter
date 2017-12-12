@@ -47,7 +47,8 @@ namespace TieFighter.Areas.Admin.Controllers
                 reservedKey = game.GenerateNewKey(Startup.DatastoreDb.Db);
                 game.Id = reservedKey.ToId();
 
-                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, game);
+                //var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, game);
+                var entity = game.ToEntity();
                 Startup.DatastoreDb.Db.Upsert(entity);
 
                 return Redirect($"{nameof(Edit)}/{game.Id.ToString()}");
@@ -68,6 +69,13 @@ namespace TieFighter.Areas.Admin.Controllers
         {
             try
             {
+                //var key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(id.ToString());
+                //var entity = Startup.DatastoreDb.Db.Lookup(key);
+                //if (entity == null)
+                //{
+                //    key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(id);
+                //    entity = Startup.DatastoreDb.Db.Lookup(key);
+                //}
                 var key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(id);
                 var entity = Startup.DatastoreDb.Db.Lookup(key);
                 var game = new Game().FromEntity(entity) as Game;
@@ -77,24 +85,16 @@ namespace TieFighter.Areas.Admin.Controllers
             catch (Exception e)
             {
                 ViewBag.Error = e.ToString();
-                return Redirect(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
         }
 
         // POST: Game/Edit/5
         [HttpPost]
-        public JsonResult Edit(long id, IFormCollection collection)
+        public JsonResult Edit(long id, [FromBody]Game game, IFormCollection collection)
         {
             try
             {
-                var game = new Game()
-                {
-                    Id = id,
-                    ImageUrl = collection[nameof(Game.ImageUrl)],
-                    IsEnabled = bool.Parse(collection[nameof(Game.IsEnabled)]),
-                    Name = collection[nameof(Game.Name)]
-                };
-
                 var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, game);
                 Startup.DatastoreDb.Db.Upsert(entity);
 
