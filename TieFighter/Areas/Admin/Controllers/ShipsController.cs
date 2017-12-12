@@ -49,7 +49,7 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         // GET: Ships/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(long id)
         {
             try
             {
@@ -57,17 +57,31 @@ namespace TieFighter.Areas.Admin.Controllers
                 var ship = DatastoreHelpers.ParseEntityToObject<Ship>(
                     Startup.DatastoreDb.Db.Lookup(shipKey)
                 );
+
+                var submeshes = new List<Submesh>();
+                var submeshesQuery = new Query(nameof(Submesh))
+                {
+                    Filter = Filter.Equal(nameof(Submesh.ShipId), ship.Id)
+                };
+                var submeshEntities = Startup.DatastoreDb.Db.RunQuery(submeshesQuery).Entities;
+                foreach (var entity in submeshEntities)
+                {
+                    var submesh = new Submesh().FromEntity(entity) as Submesh;
+                    submeshes.Add(submesh);
+                }
+
                 return View(ship);
             }
             catch
             {
+                ViewBag.Error = "Failed to find ship!";
                 return Index();
             }
         }
 
         // POST: Ships/Edit/5
         [HttpPost]
-        public JsonResult Edit(string id, IFormCollection collection)
+        public JsonResult Edit(long id, IFormCollection collection)
         {
             try
             {

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace TieFighter.Models
 {
@@ -15,6 +14,8 @@ namespace TieFighter.Models
         [Display(Name = "Is Enabled")]
         public bool IsEnabled { get; set; }
         public string GameUrl { get; set; }
+        [NotMapped]
+        public object StartupAnimation { get; set; }
         [NotMapped]
         public IList<string> ImageUrl { get; set; }
         [NotMapped]

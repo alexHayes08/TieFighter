@@ -1,6 +1,26 @@
-﻿class Submesh {
-    constructor() {
+﻿// #region Polyfilss
 
+Array.prototype.last = function () {
+    if (this.length == 0) {
+        return null;
+    } else {
+        return this[this.length - 1];
+    }
+}
+
+Array.prototype.first = function () {
+    if (this.length == 0) {
+        return null;
+    } else {
+        return this[0];
+    }
+}
+
+// #endregion
+
+class Submesh {
+    constructor() {
+        this.Id = window.location.href.split("/").last();
     }
     get initialScaling() {
 

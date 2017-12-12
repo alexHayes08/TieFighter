@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using TieFighter.Areas.Admin.Models.JsViewModels;
 using TieFighter.Models;
 using TieFighter.Models.AccountViewModels;
 using TieFighter.Services;
@@ -25,6 +28,7 @@ namespace TieFighter.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly TieFighterContext _context;
+        private readonly IFileProvider _fileProvider;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -32,13 +36,15 @@ namespace TieFighter.Controllers
             RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ILoggerFactory loggerFactory,
-            TieFighterContext context)
+            TieFighterContext context,
+            IFileProvider fileProvider)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _context = context;
+            _fileProvider = fileProvider;
         }
 
         
@@ -49,7 +55,7 @@ namespace TieFighter.Controllers
         {
             var id = _userManager.GetUserId(User);
             var applicationUser = await _userManager.FindByIdAsync(id);
-            ViewBag.ThumbnailSrc = applicationUser.Thumbnail;
+            ViewBag.ThumbnailSrc = applicationUser.GetThumbnail();
 
             return View(applicationUser);
         }
@@ -77,34 +83,56 @@ namespace TieFighter.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UpdateUserThumbnail([FromBody] UpdateUserThumbnailViewModel userThumbnailVM)
+        public async Task<JsonResult> RemovePreferredThumbnail(long id)
         {
-            if (ModelState.IsValid)
+            var user = await _userManager.GetUserAsync(User);
+            var fileName = user.PreferredThumbnail;
+            user.PreferredThumbnail = "";
+            await _userManager.UpdateAsync(user);
+
+            if (string.IsNullOrEmpty(fileName))
+                return Json(new JsDefault { Error = "User already has no manually set thumbnail.", Succeeded = false });
+
+            try
             {
-                var user = await _userManager.GetUserAsync(User);
-
-                var extension = userThumbnailVM.FileName.Split(".").Last();
-                var filename = $"{user.Id}.{extension}";
-
-                user.Thumbnail = filename;
-
-                try
-                {
-                    using (var fileStream = new FileStream(Path.Combine(CustomUserThumbnailImagesFolder, filename), FileMode.Create))
-                    {
-                        //await model.AvatarImage.CopyToAsync(memoryStream);
-                        fileStream.Write(userThumbnailVM.Image, 0, userThumbnailVM.Image.Length);
-                    }
-                }
-                catch (IOException)
-                {
-                    return Json(new { Error = "Error occurred while trying to save the image." });
-                }
-
-                return Json(new { Error = "" });
+                System.IO.File.Delete(fileName);
+            }
+            catch (Exception e)
+            {
+                return Json(new JsDefault { Error = e.ToString(), Succeeded = false });
             }
 
-            return Json(new { Error = "Failed to set the users thumbnail image." });
+            return Json(new JsDefault { Succeeded = true, Error = "", Message = user.Thumbnail });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateUserThumbnail(IFormCollection collection)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (collection.Files.Count == 0)
+                return Json(new JsDefault { Error = "No file provided", Succeeded = false, Message = user.GetThumbnail() });
+
+            var file = collection.Files[0];
+            var extension = file.FileName.Split(".").Last();
+            var fileName = $"{user.Id.ToString()}.{ extension}";
+            var fullPath = Path.Combine("wwwroot", "resources", "UserThumbnails", fileName);
+            user.PreferredThumbnail = fullPath;
+            await _userManager.UpdateAsync(user);
+
+            try
+            {
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            catch (IOException)
+            {
+                return Json(new JsDefault{ Error = "Error occurred while trying to save the image.", Succeeded = false, Message = user.GetThumbnail() });
+            }
+
+            return Json(new JsDefault{ Error = "", Succeeded = true, Message = user.GetThumbnail() });
         }
 
         [HttpGet]
@@ -255,6 +283,19 @@ namespace TieFighter.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                // Update info
+                var userEmail = info.Principal.FindFirst(ClaimTypes.Email);
+                var user = _userManager
+                    .Users
+                    .Where(u => u.Email == userEmail.Value)
+                    .FirstOrDefault();
+                user.Thumbnail = info
+                    .Principal
+                    .Claims
+                    .Where(c => c?.Type == "picture")
+                    .FirstOrDefault()
+                    .Value;
+                await _userManager.UpdateAsync(user);
                 return RedirectToLocal(returnUrl);
             }
             if (result.RequiresTwoFactor)

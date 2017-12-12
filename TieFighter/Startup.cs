@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Net.WebSockets;
@@ -20,14 +21,16 @@ namespace TieFighter
     public class Startup
     {
         public static readonly TieFighterDatastoreContext DatastoreDb = new TieFighterDatastoreContext(googleProjectId);
-
         public const string SignedInPolicyName = "signedIn";
+
         private const string customGoogleSignInSchemeName = "google";
         private const string googleProjectId = "tiefighter-imperialremnant";
+        private IHostingEnvironment _hostingEnvironment;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            _hostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -74,6 +77,10 @@ namespace TieFighter
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            // Add file services
+            var physicalProvider = _hostingEnvironment.ContentRootFileProvider;
+            services.AddSingleton<IFileProvider>(physicalProvider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

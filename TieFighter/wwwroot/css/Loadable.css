@@ -1,4 +1,8 @@
-﻿*[loading]::before {
+﻿*[loading] {
+    overflow: hidden;
+}
+
+*[loading]::before {
     animation: expandFromCenter .2s forwards;
     background-color: rgba(51, 24, 50, 1);
     content: "";

@@ -46,7 +46,7 @@ namespace TieFighter.Areas.Api.Controllers
 
         // GET: api/Missions/5
         [HttpGet("Get/{id}")]
-        public JsonResult Get(string id)
+        public JsonResult Get(long id)
         {
             try
             {

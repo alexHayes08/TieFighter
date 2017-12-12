@@ -12,6 +12,11 @@
     <None Remove="Areas\Admin\Data\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20171212194601_Migration11.cs" />
+    <Compile Remove="Data\Migrations\20171212194601_Migration11.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Google.Cloud.Datastore.V1" Version="2.0.0" />
@@ -31,7 +36,11 @@
     <Folder Include="Areas\Api\Data\" />
     <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Api\Views\" />
-    <Folder Include="Data\UserThumbnails\" />
+    <Folder Include="wwwroot\resources\UserThumbnails\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\resources\UserThumbnails\fff2994c-57b6-46ac-947b-db4f2ccd2398.jpg" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties wwwroot_4js_4ShipSchema_1json__JSONSchema="http://json-schema.org/draft-04/schema" /></VisualStudio></ProjectExtensions>

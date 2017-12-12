@@ -33,6 +33,19 @@
                 </span>
             </div>
         </div>
+        <form id="thumbnailForm">
+            <div class="row">
+                <div class="input-group">
+                    <input class="form-control" id="newThumbnail" name="newThumbnail" type="file" accept="image/*" value="Upload a new thumbnail" data-toggle="tooltip" title="Use another image as your thumbnail"/>
+                    <span class="input-group-btn" data-toggle="tooltip" title="Set your thumbnail to the provided image.">
+                        <button class="btn btn-success" id="updateThumbnail" type="button">Update</button>
+                    </span>
+                    <span class="input-group-btn" data-toggle="tooltip" title="Remove your personal thumbnail and default back to your Google's thumbnail.'">
+                        <button class="btn btn-danger" id="useGoogleThumbnail" type="button" data-bind="@Model.Id.ToString()">Remove thumbnail</button>
+                    </span>
+                </div>
+            </div>
+        </form>
         <div class="row align-content-center">
             <div class="col">
                 <span id="attemptToUpdateDisplayNameResult" class="results"></span>
