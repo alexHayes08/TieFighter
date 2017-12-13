@@ -44,7 +44,7 @@
 
         var fileName = `${$("#Id").val()}%20.babylon`;
 
-        if (path == null) {
+        //if (path == null) {
             BABYLON.SceneLoader.ImportMesh("", "/resources/Models/", fileName, scene, function (newMesh) {
 
                 tiefighter = BABYLON.MeshBuilder.CreateBox("tiefighterParent", {}, scene);
@@ -74,35 +74,35 @@
                     color: "red"
                 }).open();
             });
-        } else {
-            BABYLON.SceneLoader.ImportMesh("", "/resources/Models/", fileName, scene, function (newMesh) {
+        //} else {
+            //BABYLON.SceneLoader.ImportMesh("", "/resources/Models/", fileName, scene, function (newMesh) {
 
-                tiefighter = BABYLON.MeshBuilder.CreateBox("tiefighterParent", {}, scene);
-                tiefighter.visibility = 0;
-                for (var i = 0; i < newMesh.length; i++) {
-                    var submesh = new Submesh(newMesh[i].id);
-                    shipMeshes.push(submesh);
+            //    tiefighter = BABYLON.MeshBuilder.CreateBox("tiefighterParent", {}, scene);
+            //    tiefighter.visibility = 0;
+            //    for (var i = 0; i < newMesh.length; i++) {
+            //        var submesh = new Submesh(newMesh[i].id);
+            //        shipMeshes.push(submesh);
 
-                    console.log(newMesh);
-                    newMesh[i].parent = tiefighter;
-                }
+            //        console.log(newMesh);
+            //        newMesh[i].parent = tiefighter;
+            //    }
 
-                tiefighter.rotation.y = Math.PI;
+            //    tiefighter.rotation.y = Math.PI;
 
-                // Scene starts
-                engine.runRenderLoop(function () {
-                    var canvasSize = $("#shipPreviewContainer > div").width();
-                    engine.setSize(canvasSize, canvasSize);
-                    scene.render();
-                    isLoading($("#shipPreviewContainer > div")[0], false);
-                });
-            }, null, function (error) {
-                new jBox('Notice', {
-                    content: "Failed to load ship modal",
-                    color: "red"
-                }).open();
-            });
-        }
+            //    // Scene starts
+            //    engine.runRenderLoop(function () {
+            //        var canvasSize = $("#shipPreviewContainer > div").width();
+            //        engine.setSize(canvasSize, canvasSize);
+            //        scene.render();
+            //        isLoading($("#shipPreviewContainer > div")[0], false);
+            //    });
+            //}, null, function (error) {
+            //    new jBox('Notice', {
+            //        content: "Failed to load ship modal",
+            //        color: "red"
+            //    }).open();
+            //});
+        //}
     }
 
     $("#updateEntity").on("click", function () {

@@ -11,7 +11,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>Password:</dt>
-        <dd>
+        @*<dd>
             @if (Model.HasPassword)
             {
                 <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
@@ -20,12 +20,12 @@
             {
                 <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
             }
-        </dd>
+        </dd>*@
         <dt>External Logins:</dt>
-        <dd>
+        @*<dd>
 
             @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
-        </dd>
+        </dd>*@
         <dt>Phone Number:</dt>
         <dd>
             <p>

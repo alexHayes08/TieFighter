@@ -13,8 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Admin\Controllers\ManageController.cs" />
     <Compile Remove="Data\Migrations\20171212194601_Migration11.cs" />
     <Compile Remove="Data\Migrations\20171212194601_Migration11.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\Admin\Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Remove="Areas\Admin\Views\Manage\ChangePassword.cshtml" />
+    <Content Remove="Areas\Admin\Views\Manage\ManageLogins.cshtml" />
+    <Content Remove="Areas\Admin\Views\Manage\SetPassword.cshtml" />
+    <Content Remove="Areas\Admin\Views\Manage\VerifyPhoneNumber.cshtml" />
   </ItemGroup>
 
 

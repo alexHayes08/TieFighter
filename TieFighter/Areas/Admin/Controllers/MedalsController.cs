@@ -93,7 +93,7 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult Update(string id, IFormCollection collection)
+        public JsonResult Update(long id, IFormCollection collection)
         { 
             var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
             var response = Startup.DatastoreDb.Db.Lookup(key);
@@ -107,7 +107,7 @@ namespace TieFighter.Areas.Admin.Controllers
                 var medal = DatastoreHelpers.ParseEntityToObject<Medal>(response);
 
                 // Check that there are files and that they're not empty
-                if (collection.Files?[0].Length > 0)
+                if (collection.Files.Count > 0)
                 {
                     // Only use the first file
                     var file = collection.Files[0];

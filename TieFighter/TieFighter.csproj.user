@@ -17,4 +17,7 @@
     <WebStackScaffolding_LayoutPageFile />
     <NameOfLastUsedPublishProfile>TieFighter20171213012911 - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
