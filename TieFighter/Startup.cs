@@ -134,7 +134,7 @@ namespace TieFighter
             });
 
             // FIXME: This is for testing purposes only! Remove later.
-            app.UseDirectoryBrowser();
+            //app.UseDirectoryBrowser();
 
             app.UseMvc(routes =>
             {

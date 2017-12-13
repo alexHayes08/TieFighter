@@ -89,8 +89,6 @@
 
                 tiefighter.rotation.y = Math.PI;
 
-                //camera.parent = tiefighter;
-
                 // Scene starts
                 engine.runRenderLoop(function () {
                     var canvasSize = $("#shipPreviewContainer > div").width();

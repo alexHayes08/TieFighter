@@ -7,7 +7,7 @@ namespace TieFighter.Models
     public class Mission
     {
         [Key]
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string DisplayName { get; set; }
         public int PositionInTour { get; set; }
         public string MissionBriefing { get; set; }

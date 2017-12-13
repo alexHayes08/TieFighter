@@ -7,7 +7,7 @@ namespace TieFighter.Models
     public class Tour
     {
         [Key]
-        public string TourId { get; set; }
+        public long TourId { get; set; }
         public string TourName { get; set; }
         public int Position { get; set; }
 

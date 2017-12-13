@@ -41,7 +41,7 @@ namespace TieFighter.Areas.Admin.Controllers
                 var mission = new Mission()
                 {
                     DisplayName = collection[nameof(Mission.DisplayName)],
-                    Id = collection[nameof(Mission.Id)],
+                    Id = long.Parse(collection[nameof(Mission.Id)]),
                     LastPlayedOn = default(DateTime),
                     MissionBriefing = collection[nameof(Mission.MissionBriefing)],
                     PositionInTour = int.Parse(collection[nameof(Mission.PositionInTour)]),
@@ -67,7 +67,7 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         // GET: Tours/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(long id)
         {
             var tourKey = Startup.DatastoreDb.ToursKeyFactory.CreateKey(id);
             try
@@ -104,7 +104,7 @@ namespace TieFighter.Areas.Admin.Controllers
         // POST: Tours/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, IFormCollection collection)
+        public ActionResult Edit(long id, IFormCollection collection)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditMission(string id)
+        public ActionResult EditMission(long id)
         {
             var key = Startup.DatastoreDb.MissionsKeyFactory.CreateKey(id);
             var mission = DatastoreHelpers
@@ -137,7 +137,7 @@ namespace TieFighter.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult EditMission(string id, IFormCollection collection)
+        public JsonResult EditMission(long id, IFormCollection collection)
         {
             try
             {

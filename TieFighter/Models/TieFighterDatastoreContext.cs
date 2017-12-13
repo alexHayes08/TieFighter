@@ -442,447 +442,460 @@ namespace TieFighter.Models
             await dbContext.Db.UpsertAsync(shipEntities);
 
             // Upsert tours/missions
-            var tourKeyFactory = dbContext.Db.CreateKeyFactory(tourKindName);
-            var tourEntities = new List<Entity>();
-            var missionEntities = new List<Entity>();
-            var tours = new List<Tour>()
-            {
-                new Tour()
-                {
-                    TourName = "Aftermath of Hoth",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Patrol Jump Point D-34",
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Red Alert",
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Counter-Attack",
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Outpost D-34 Has Fallen"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Attack Rebel Lt.Cruiser"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Destroy the Lulsla"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "The Sepan Civil War",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Respond To S.O.S."
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Intercept Attack"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Rescue War Refugees"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Capture Enemies"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Guard Resupply"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "Battle on the Frontier",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Load Base Equipment"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Destroy Pirate Outpost"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Hold Position"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Guard Space Station NL-1"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Thrawn Inspects NL-1"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Wait for Relief Forces"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "Conflict at Mylock IV",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Escort Convoy"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Attack the Nharwaak"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Defend Tech Center"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Diplomatic Meeting"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Rebel Arms Deal"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "Battle for Honor",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Mine Clearing"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Assault Gunboat Recon"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Convoy Attack"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Tactical Superiority"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Capture Harkov"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "Arms Race",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Protect Prototypes"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Prevent Rebel Ambush"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Convoy Escort"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Punitive Raid"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "Treachery at Ottega",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Trap the Protector"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Destroy the Akaga"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Retribution"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "TIE Defender"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Save the Emperor"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "Strategic Warfare",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Evacuate TIE Avenger Plants"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Save TIE Avenger Factory"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Secure TIE Avenger Plant"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Capture Mag Pulse Weapon"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Trapped"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "T/D Technology",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Capture the Platform"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Hold Platform"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Protect Evacuation"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Escort to Rendezvous"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Trapped by Pirates"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Transfer Prototypes"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "New Threats",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Ransom"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Rescue"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Under the Gun"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Missile Boat Diplomacy"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Rebel Assault"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Eliminate TIE Defender Factory"
-                        },
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "Hunt for Zaarin",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Intercept Convoy"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Preemptive Strike"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Bait and Switch"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "An Unexpected Attack"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "The Real Thing"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Protect Vorknkx Project"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Evacuate"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "Prelude to Endor",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Escort Prison Ship"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Escort Prisoners"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Attack on Bothuwui"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Strike on Kothlis"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Bothan Treachery"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Recon Military Summit"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Delay Strike Force"
-                        }
-                    }
-                },
-                new Tour()
-                {
-                    TourName = "The Emperors Will",
-                    Missions = new List<Mission>()
-                    {
-                        new Mission()
-                        {
-                            DisplayName = "Surprise Attack"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Capture the Turncoat"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Track Down Rebels"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Missile Boat Trouble"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Return to Vorknkx"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Corvette Attack"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "Zaarin Takes the Bait"
-                        },
-                        new Mission()
-                        {
-                            DisplayName = "The Trap is Sprung"
-                        }
-                    }
-                }
-            };
+            //var tourKeyFactory = dbContext.Db.CreateKeyFactory(tourKindName);
+            //var tourEntities = new List<Entity>();
+            //var missionEntities = new List<Entity>();
+            //var tours = new List<Tour>()
+            //{
+            //    new Tour()
+            //    {
+            //        TourName = "Aftermath of Hoth",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Patrol Jump Point D-34",
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Red Alert",
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Counter-Attack",
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Outpost D-34 Has Fallen"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Attack Rebel Lt.Cruiser"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Destroy the Lulsla"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "The Sepan Civil War",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Respond To S.O.S."
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Intercept Attack"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Rescue War Refugees"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Capture Enemies"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Guard Resupply"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "Battle on the Frontier",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Load Base Equipment"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Destroy Pirate Outpost"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Hold Position"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Guard Space Station NL-1"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Thrawn Inspects NL-1"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Wait for Relief Forces"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "Conflict at Mylock IV",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Escort Convoy"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Attack the Nharwaak"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Defend Tech Center"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Diplomatic Meeting"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Rebel Arms Deal"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "Battle for Honor",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Mine Clearing"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Assault Gunboat Recon"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Convoy Attack"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Tactical Superiority"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Capture Harkov"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "Arms Race",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Protect Prototypes"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Prevent Rebel Ambush"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Convoy Escort"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Punitive Raid"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "Treachery at Ottega",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Trap the Protector"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Destroy the Akaga"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Retribution"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "TIE Defender"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Save the Emperor"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "Strategic Warfare",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Evacuate TIE Avenger Plants"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Save TIE Avenger Factory"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Secure TIE Avenger Plant"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Capture Mag Pulse Weapon"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Trapped"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "T/D Technology",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Capture the Platform"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Hold Platform"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Protect Evacuation"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Escort to Rendezvous"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Trapped by Pirates"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Transfer Prototypes"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "New Threats",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Ransom"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Rescue"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Under the Gun"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Missile Boat Diplomacy"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Rebel Assault"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Eliminate TIE Defender Factory"
+            //            },
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "Hunt for Zaarin",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Intercept Convoy"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Preemptive Strike"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Bait and Switch"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "An Unexpected Attack"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "The Real Thing"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Protect Vorknkx Project"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Evacuate"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "Prelude to Endor",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Escort Prison Ship"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Escort Prisoners"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Attack on Bothuwui"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Strike on Kothlis"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Bothan Treachery"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Recon Military Summit"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Delay Strike Force"
+            //            }
+            //        }
+            //    },
+            //    new Tour()
+            //    {
+            //        TourName = "The Emperors Will",
+            //        Missions = new List<Mission>()
+            //        {
+            //            new Mission()
+            //            {
+            //                DisplayName = "Surprise Attack"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Capture the Turncoat"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Track Down Rebels"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Missile Boat Trouble"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Return to Vorknkx"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Corvette Attack"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "Zaarin Takes the Bait"
+            //            },
+            //            new Mission()
+            //            {
+            //                DisplayName = "The Trap is Sprung"
+            //            }
+            //        }
+            //    }
+            //};
 
-            for (var i = 0; i < tours.Count; i++)
-            {
-                var tour = tours[i];
-                var tourId = tour.TourName.Replace(" ", "_");
+            //for (var i = 0; i < tours.Count; i++)
+            //{
+            //    var tour = tours[i];
+            //    var tourId = tour.TourName.Replace(" ", "_");
 
-                var rndDate = new DateTime(2017, new Random().Next(1, 13), new Random().Next(1,28), new Random().Next(1,12), new Random().Next(1,60), new Random().Next(1,60)).ToUniversalTime();
-                for (var ii = 0; ii < tour.Missions.Count; ii++)
-                {
-                    var mission = tour.Missions[ii];
-                    var mEntity = new Entity()
-                    {
-                        [nameof(Mission.DisplayName)] = new Value()
-                        {
-                            StringValue = mission.DisplayName
-                        },
-                        [nameof(Mission.PositionInTour)] = new Value()
-                        {
-                            IntegerValue = ii
-                        },
-                        [nameof(Mission.MissionBriefing)] = new Value()
-                        {
-                            StringValue = ""
-                        },
-                        [nameof(Mission.LastPlayedOn)] = rndDate,
-                        [nameof(Mission.TourId)] = tourId
-                    };
-                    mEntity.Key = dbContext.MissionsKeyFactory.CreateKey($"{ii}-{mission.DisplayName.Replace(" ", "_")}");
-                    missionEntities.Add(mEntity);
-                }
+            //    var rndDate = new DateTime(2017, new Random().Next(1, 13), new Random().Next(1,28), new Random().Next(1,12), new Random().Next(1,60), new Random().Next(1,60)).ToUniversalTime();
+            //    for (var ii = 0; ii < tour.Missions.Count; ii++)
+            //    {
+            //        var mission = tour.Missions[ii];
+            //        var mEntity = new Entity()
+            //        {
+            //            [nameof(Mission.DisplayName)] = new Value()
+            //            {
+            //                StringValue = mission.DisplayName
+            //            },
+            //            [nameof(Mission.PositionInTour)] = new Value()
+            //            {
+            //                IntegerValue = ii
+            //            },
+            //            [nameof(Mission.MissionBriefing)] = new Value()
+            //            {
+            //                StringValue = ""
+            //            },
+            //            [nameof(Mission.LastPlayedOn)] = rndDate,
+            //            [nameof(Mission.TourId)] = tourId
+            //        };
+            //        mEntity.Key = dbContext.Db.Insert(
+            //            new Entity()
+            //            {
+            //                Key = dbContext.MissionsKeyFactory.CreateIncompleteKey()
+            //            }
+            //        );
+            //        missionEntities.Add(mEntity);
+            //    }
 
-                tourEntities.Add(new Entity()
-                {
-                    Key = tourKeyFactory.CreateKey(tourId),
-                    [nameof(Tour.TourName)] = new Value()
-                    {
-                        StringValue = tour.TourName
-                    },
-                    [nameof(Tour.Position)] = i
-                });
-            }
+            //    var tourkey = dbContext.Db.Insert(
+            //        new Entity()
+            //        {
+            //            Key = dbContext.ToursKeyFactory.CreateIncompleteKey()
+            //        }
+            //    );
+            //    tourEntities.Add(new Entity()
+            //    {
+            //        Key = tourkey,
+            //        [nameof(Tour.TourName)] = new Value()
+            //        {
+            //            StringValue = tour.TourName
+            //        },
+            //        [nameof(Tour.Position)] = i
+            //    });
+            //}
 
-            var tourResults = await dbContext.Db.UpsertAsync(tourEntities);
-            var missionResults = await dbContext.Db.UpsertAsync(missionEntities);
+            //var tourQuery = new Query(nameof(Tour));
+            //var entites = dbContext.Db.RunQuery(tourQuery).Entities;
+            //var tourResults = await dbContext.Db.UpsertAsync(tourEntities);
+            //var missionResults = await dbContext.Db.UpsertAsync(missionEntities);
 
             // Upsert users
 
