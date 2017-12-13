@@ -122,16 +122,19 @@ namespace TieFighter
 
             });
 
-            // Set up custom content types -associating file extension to MIME type
-            var provider = new FileExtensionContentTypeProvider();
-            // Add new mappings
-            provider.Mappings[".myapp"] = "application/x-msdownload";
+            //// Set up custom content types -associating file extension to MIME type
+            //var provider = new FileExtensionContentTypeProvider();
+            //// Add new mappings
+            //provider.Mappings[".myapp"] = "application/x-msdownload";
 
             app.UseStaticFiles(new StaticFileOptions()
             {
                 ServeUnknownFileTypes = true,
                 DefaultContentType = "application/text"
             });
+
+            // FIXME: This is for testing purposes only! Remove later.
+            app.UseDirectoryBrowser();
 
             app.UseMvc(routes =>
             {

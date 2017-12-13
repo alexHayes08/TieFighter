@@ -9,7 +9,6 @@ C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFig
 C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.AssemblyInfo.cs
 C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.dll
 C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.pdb
-C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csprojResolveAssemblyReference.cache
 C:\Users\Alexander\source\repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.deps.json
 C:\Users\Alexander\source\repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.json
 C:\Users\Alexander\source\repos\TieFighter\TieFighter\bin\Debug\netcoreapp2.0\TieFighter.runtimeconfig.dev.json
@@ -22,3 +21,4 @@ C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\Ti
 C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.dll
 C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.pdb
 C:\Users\Alexander\source\repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csprojResolveAssemblyReference.cache
+C:\Users\alexc\Source\Repos\TieFighter\TieFighter\obj\Debug\netcoreapp2.0\TieFighter.csprojResolveAssemblyReference.cache

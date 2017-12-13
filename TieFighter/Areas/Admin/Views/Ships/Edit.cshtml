@@ -16,7 +16,7 @@
         <hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input id="shipId" class="hidden" type="hidden" value="@Model.Id" />
+            <input id="Id" name="Id" class="hidden" type="hidden" value="@Model.Id" />
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control-plaintext form-control d-block" readonly />
@@ -26,13 +26,64 @@
                 <input asp-for="DisplayName" class="form-control" />
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FileLocation" class="control-label"></label>
-                <input asp-for="FileLocation" class="form-control" />
-                <span asp-validation-for="FileLocation" class="text-danger"></span>
-            </div>
+            @if (Model.Submeshes.Length != 0)
+            {
+            <h2>Submeshes</h2>
+            <ul>
+                @foreach (var submesh in Model.Submeshes)
+                {
+            <li>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <h3>
+                                    @submesh.MeshName
+                                </h3>
+                            </th>
+                            <th colspan="100">
+                                <button class="btn btn-outline-dark">+ Component</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var component in submesh.Components)
+                        {
+                        <tr>
+                            <td>
+                                @component.DisplayName
+                            </td>
+                            <td>
+                                @{
+                                    if (component.Value != null)
+                                    {
+                                        Html.Raw(component.Value.ToString());
+                                    }
+                                    else
+                                    {
+                                        Html.Raw("No value");
+                                    }
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                </li>
+                }
+            </ul>
+            }
         </form>
         <hr />
+        
+        <div class="input-group">
+            <span class="input-group-addon">
+                Upload New Model
+            </span>
+            <input id="newBabylonModel" name="newBabylonModel" class="form-control" type="file" accept=".babylon"/>
+            <input id="uploadNewModel" type="button" class="form-control btn btn-default" value="Upload" disabled />
+        </div>
+        <div class="topVSpacer"></div>
         <div class="card">
             <div class="card-header text-center cursor-pointer secondBG text-light" data-toggle="collapse" href="#shipPreviewContainer" aria-expanded="false" aria-controls="shipPreviewContainer">
                 Ship Preview

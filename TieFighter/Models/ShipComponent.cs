@@ -7,20 +7,21 @@ namespace TieFighter.Models
 {
     public enum ShipComponentType
     {
-        LaserCannon,
-        IonCannon,
-        ProtonTorpedo,
-        ConcussionMissile,
-        LifeSupport,
-        Engine,
-        Thruster,
-        FuelTank,
-        SheildGenerator,
-        DroidSocket,
-        Cockpit,
-        Sensors,
-        CloakingDevice,
-        HyperDrive
+        Other = 0,
+        LaserCannon = 1,
+        IonCannon = 2,
+        ProtonTorpedo = 3,
+        ConcussionMissile = 4,
+        LifeSupport = 5,
+        Engine = 6,
+        Thruster = 7,
+        FuelTank = 8,
+        SheildGenerator = 9,
+        DroidSocket = 10,
+        Cockpit = 11,
+        Sensors = 12,
+        CloakingDevice = 13,
+        HyperDrive = 14
     };
 
     public class ShipComponent : IDatastoreEntityAndJsonBinding

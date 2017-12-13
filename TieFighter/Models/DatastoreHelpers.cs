@@ -10,15 +10,14 @@ namespace TieFighter.Models
 {
     public static class DatastoreHelpers
     {
-        public static T ParseEntityToObject<T>(Entity entity) where T:new()
+        public static T ParseEntityToObject<T>(Entity entity) where T:class, new()
         {
             T newInstance = (T)Activator.CreateInstance(typeof(T));
             var castedType = newInstance as IDatastoreEntityAndJsonBinding;
             if (castedType != null)
             {
                 // If the type implements IDatastoreEntityAndJsonBinding, use it
-                castedType.FromEntity(entity);
-                return newInstance;
+                return castedType.FromEntity(entity) as T;
             }
             else
             {
@@ -33,7 +32,7 @@ namespace TieFighter.Models
                     // Check if the property is part of the key
                     if (property.Name == "Id" || property.IsDefined(typeof(KeyAttribute), false))
                     {
-                        property.SetValue(newInstance, entity.Key.Path[0].Name);
+                        property.SetValue(newInstance, entity.Key.ToId());
                         continue;
                     }
 
@@ -93,7 +92,7 @@ namespace TieFighter.Models
             }
         }
 
-        public static IList<T> ParseEntitiesToObject<T>(IEnumerable<Entity> entities) where T:new()
+        public static IList<T> ParseEntitiesToObject<T>(IEnumerable<Entity> entities) where T:class, new()
         {
             var objects = new List<T>();
             foreach (var entity in entities)

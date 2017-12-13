@@ -58,7 +58,13 @@ namespace TieFighter.Areas.Admin.Controllers
         // GET: ShipComponents/Edit/5
         public ActionResult Edit(long id)
         {
-            return View();
+            var shipComponent = new ShipComponent().FromEntity(
+                Startup.DatastoreDb.Db.Lookup(
+                    Startup.DatastoreDb.ShipComponentsKeyFactory.CreateKey(id)
+                )
+            );
+
+            return View(shipComponent);
         }
 
         // POST: ShipComponents/Edit/5

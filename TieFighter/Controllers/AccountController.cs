@@ -18,7 +18,7 @@ using TieFighter.Services;
 
 namespace TieFighter.Controllers
 {
-    //[RequireHttps]
+    [RequireHttps]
     [Authorize(Policy = Startup.SignedInPolicyName)]
     public class AccountController : Controller
     {
@@ -65,7 +65,7 @@ namespace TieFighter.Controllers
         {
             if (displayNameVM.DisplayName.Length > 30)
             {
-                return Json(new { Error = "The max-length allowed for display names is 30 characters." });
+                return Json(new JsDefault{ Error = "The max-length allowed for display names is 30 characters.", Succeeded = false });
             }
 
             var user = await _userManager.GetUserAsync(User);
@@ -74,11 +74,11 @@ namespace TieFighter.Controllers
 
             if (updateResult.Succeeded)
             {
-                return Json(new { Error = "" });
+                return Json(new JsDefault{ Error = "", Succeeded = true });
             }
             else
             {
-                return Json(new { Error = updateResult.Errors });
+                return Json(new JsDefault{ Error = updateResult.Errors.ToString(), Succeeded = false });
             }
         }
 

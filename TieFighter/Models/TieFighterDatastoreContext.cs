@@ -383,37 +383,30 @@ namespace TieFighter.Models
             {
                 new Ship()
                 {
-                    FileLocation = "TieFighter.babylon",
                     DisplayName = "TIE-Fighter"
                 },
                 new Ship()
                 {
-                    FileLocation = "TieBomber.babylon",
                     DisplayName = "TIE-Bomber"
                 },
                 new Ship()
                 {
-                    FileLocation = "TieIntercepter.babylon",
                     DisplayName = "TIE-Intercepter"
                 },
                 new Ship()
                 {
-                    FileLocation = "StarDestroyerMark1.babylon",
                     DisplayName = "Imperial I - Star Destroyer"
                 },
                 new Ship()
                 {
-                    FileLocation = "XWing.babylon",
                     DisplayName = "X-Wing"
                 },
                 new Ship()
                 {
-                    FileLocation = "YWing.babylon",
                     DisplayName = "Y-Wing"
                 },
                 new Ship()
                 {
-                    FileLocation = "AWing.babylon",
                     DisplayName = "A-Wing"
                 }
             };
@@ -433,11 +426,6 @@ namespace TieFighter.Models
 
                 var shipEntity = new Entity()
                 {
-                    ["FileLocation"] = new Value()
-                    {
-                        StringValue = ship.FileLocation,
-                        ExcludeFromIndexes = true
-                    },
                     ["DisplayName"] = new Value()
                     {
                         StringValue = ship.DisplayName,

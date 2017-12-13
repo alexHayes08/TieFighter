@@ -3,7 +3,11 @@
 @{
     ViewData["Title"] = "Edit";
     var selectValues = Enum.GetNames(typeof(ShipComponentType));
-    var currentTypeName = Enum.GetName(typeof(ShipComponent), Model.Type);
+    string currentTypeName = "";
+    if (Model.Type != null)
+    {
+        currentTypeName = Enum.GetName(typeof(ShipComponentType), Model.Type.Value);
+    }
 }
 
 <div class="d-flex align-items-center">

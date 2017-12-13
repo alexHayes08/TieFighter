@@ -504,5 +504,13 @@ namespace TieFighter.Models
 
             return entity;
         }
+
+        public void Save(DatastoreDb db)
+        {
+            if (Id == 0)
+                throw new Exception("The Id has to be set before saving to the datastore.");
+
+            db.Upsert(ToEntity());
+        }
     }
 }

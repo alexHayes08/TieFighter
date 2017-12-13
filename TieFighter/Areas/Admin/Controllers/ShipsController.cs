@@ -6,6 +6,7 @@ using Google.Cloud.Datastore.V1;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using TieFighter.Areas.Admin.Models.JsViewModels;
 using TieFighter.Models;
 
@@ -54,9 +55,9 @@ namespace TieFighter.Areas.Admin.Controllers
             try
             {
                 var shipKey = Startup.DatastoreDb.ShipsKeyFactory.CreateKey(id);
-                var ship = DatastoreHelpers.ParseEntityToObject<Ship>(
+                var ship = new Ship().FromEntity(
                     Startup.DatastoreDb.Db.Lookup(shipKey)
-                );
+                ) as Ship;
 
                 var submeshes = new List<Submesh>();
                 var submeshesQuery = new Query(nameof(Submesh))
@@ -70,26 +71,28 @@ namespace TieFighter.Areas.Admin.Controllers
                     submeshes.Add(submesh);
                 }
 
+                ship.Submeshes = submeshes.ToArray();
+
                 return View(ship);
             }
             catch
             {
                 ViewBag.Error = "Failed to find ship!";
-                return Index();
+                return RedirectToAction(nameof(Index));
             }
         }
 
         // POST: Ships/Edit/5
         [HttpPost]
-        public JsonResult Edit(long id, IFormCollection collection)
+        public JsonResult Edit(long id, [FromForm]Ship ship, IFormCollection collection)
         {
             try
             {
                 // TODO: Add update logic here
                 var key = Startup.DatastoreDb.ShipsKeyFactory.CreateKey(id);
-                var ship = DatastoreHelpers.ParseEntityToObject<Ship>(
-                    Startup.DatastoreDb.Db.Lookup(key)
-                );
+                //var ship = DatastoreHelpers.ParseEntityToObject<Ship>(
+                //    Startup.DatastoreDb.Db.Lookup(key)
+                //);
 
                 // Set display name
                 if (!string.IsNullOrEmpty(collection[nameof(Ship.DisplayName)]))
@@ -119,11 +122,44 @@ namespace TieFighter.Areas.Admin.Controllers
 
         // Submitting an array of submeshes
         [HttpPost]
-        public JsonResult UpdateShipInfo([FromBody]Submesh[] submeshes)
+        public JsonResult UpdateShipModel(long id, IFormCollection collection)
         {
             try
             {
-                
+                if (collection.Files.Count == 0)
+                    throw new Exception("No file chosen.");
+                else if (collection.Keys.Count == 0)
+                    throw new Exception("File had no meshes it it.");
+
+                var ship = new Ship().FromEntity(
+                    Startup.DatastoreDb.Db.Lookup(
+                        Startup.DatastoreDb.ShipsKeyFactory.CreateKey(id)
+                    )
+                ) as Ship;
+
+                ship.SetSubmeshes();
+
+                if (ship.Submeshes.Length != collection.Count)
+                    ship.DeleteSubmeshes();
+
+                foreach (var key in collection.Keys)
+                {
+                    var jobj = JObject.Parse(collection[key]);
+
+                    // Create new submeshes
+                    var submesh = new Submesh()
+                    {
+                        MeshName = key,
+                        ShipId = ship.Id.Value,
+                        RotationOffset = new ThreeDimensionsCoord().FromJObject(jobj[nameof(Submesh.RotationOffset)] as JObject) as ThreeDimensionsCoord,
+                        TranslationOffset = new ThreeDimensionsCoord().FromJObject(jobj[nameof(Submesh.TranslationOffset)] as JObject) as ThreeDimensionsCoord,
+                        ScaleOffset = new ThreeDimensionsCoord().FromJObject(jobj[nameof(Submesh.ScaleOffset)] as JObject) as ThreeDimensionsCoord
+                    };
+
+                    submesh.Save(Startup.DatastoreDb.Db);
+                }
+
+                ship.UpdateFileAsync(collection.Files);
 
                 return Json(new JsDefault()
                 {
@@ -135,7 +171,7 @@ namespace TieFighter.Areas.Admin.Controllers
             {
                 return Json(new JsDefault()
                 {
-                    Error = "",
+                    Error = e.ToString(),
                     Succeeded = true
                 });
             }
