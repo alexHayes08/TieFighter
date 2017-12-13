@@ -10,7 +10,6 @@ namespace TieFighter.Areas.Admin.Models.MedalsViewModels
         public string MedalName { get; set; }
         public string Description { get; set; }
         public double PointsWorth { get; set; }
-        public string FileLocation { get; set; }
         public MedalCondition[] Conditions { get; set; }
         public List<SelectListItem> CondtionTypes { get; set; }
     }

@@ -120,17 +120,14 @@ namespace TieFighter.Areas.Admin.Controllers
                     try
                     {
                         var filename = medal.Id + ".png";
-                        var filepath = Path.Combine(_hostingEnvironment.WebRootPath, "Medals", $"{medal.Id}.png");
+                        var filepath = Path.Combine(_hostingEnvironment.WebRootPath, "resources", "Medals", $"{medal.Id}.png");
                         using (var stream = new FileStream(filepath, FileMode.Create))
                         {
                             file.CopyTo(stream);
                         }
-
-                        medal.FileLocation = filename;
                     }
                     catch (Exception e)
                     { }
-
                 }
 
                 // Update the Description

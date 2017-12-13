@@ -21,7 +21,7 @@
         <hr />
         <div class="row">
             <div class="col-md-6">
-                <form asp-action="Edit" class="d-block position-relative" enctype="multipart/form-data" method="post">
+                <form id="medalForm" asp-action="Edit" class="d-block position-relative" enctype="multipart/form-data" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="MedalName" class="control-label"></label>
@@ -39,8 +39,8 @@
                         <span asp-validation-for="PointsWorth" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="FileLocation" class="control-label"></label>
-                        <input asp-for="FileLocation" class="form-control" type="file" accept=".png"/>
+                        <label for="FileLocation" class="control-label">File Location</label>
+                        <input for="FileLocation" class="form-control" name="FileLocation" type="file" accept=".png"/>
                         <div id="newImagePreviewContainer" class="d-none">
                             <div class="row m-2">
                                 <div class="col-md-6 text-center">
@@ -55,14 +55,13 @@
                                 </div>
                             </div>
                         </div>
-                        <span asp-validation-for="FileLocation" class="text-danger"></span>
                     </div>
                 </form>
             </div>
             <div class="col-md-6">
                 <div class="d-inline">
                     <h2 class="text-center">Current Image</h2>
-                    <img id="currentImage" class="img-fluid mx-auto d-block z-depth-2" src="/Medals/@Model.FileLocation" alt="Image not set..." />
+                    <img id="currentImage" class="img-fluid mx-auto d-block z-depth-2" src="~/resources/Medals/@Html.Raw(Model.Id + ".png")" alt="Image not set..." />
                 </div>
             </div>
         </div>

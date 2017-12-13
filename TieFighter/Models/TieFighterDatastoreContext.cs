@@ -202,8 +202,7 @@ namespace TieFighter.Models
                                 ConditionValue = new DateTime(1,1,1,0,0,2).ToUniversalTime()
                             },
                         }
-                    },
-                    FileLocation = "Double Kill.png"
+                    }
                 },
                 new Medal()
                 {
@@ -222,8 +221,7 @@ namespace TieFighter.Models
                                 ConditionValue = new DateTime(1,1,1,0,0,2).ToUniversalTime()
                             }
                         }
-                    },
-                    FileLocation = "Triple Kill.png"
+                    }
                 },
                 new Medal()
                 {
@@ -242,8 +240,7 @@ namespace TieFighter.Models
                                 ConditionValue = null
                             }
                         }
-                    },
-                    FileLocation = "Ace.png"
+                    }
                 },
                 new Medal()
                 {
@@ -262,8 +259,7 @@ namespace TieFighter.Models
                                 ConditionValue = null
                             }
                         }
-                    },
-                    FileLocation = "DoubleAce.png"
+                    }
                 },
                 new Medal()
                 {
@@ -293,8 +289,7 @@ namespace TieFighter.Models
                                 }
                             }
                         }
-                    },
-                    FileLocation = ""
+                    }
                 }
             };
 
@@ -346,27 +341,23 @@ namespace TieFighter.Models
 
                 var medalEntity = new Entity()
                 {
-                    ["MedalName"] = new Value()
+                    [nameof(Medal.MedalName)] = new Value()
                     {
                         StringValue = medal.MedalName
                     },
-                    ["Description"] = new Value()
+                    [nameof(Medal.Description)] = new Value()
                     {
                         StringValue = medal.Description,
                         ExcludeFromIndexes = true
                     },
-                    ["PointsWorth"] = new Value()
+                    [nameof(Medal.PointsWorth)] = new Value()
                     {
                         DoubleValue = medal.PointsWorth,
                         ExcludeFromIndexes = true
                     },
-                    ["Conditions"] = new Value()
+                    [nameof(Medal.Conditions)] = new Value()
                     {
                         ArrayValue = medalConditions.ToArray()
-                    },
-                    ["FileLocation"] = new Value()
-                    {
-                        StringValue = medal.FileLocation
                     }
                 };
                 medalEntity.Key = medal.GenerateNewKey(dbContext.Db);

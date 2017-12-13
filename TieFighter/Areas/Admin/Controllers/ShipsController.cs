@@ -101,7 +101,7 @@ namespace TieFighter.Areas.Admin.Controllers
                 }
 
                 // Update ship
-                var shipEntity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, ship, nameof(Ship.Id));
+                var shipEntity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, ship);
                 Startup.DatastoreDb.Db.Update(shipEntity);
 
                 return Json(new JsDefault()

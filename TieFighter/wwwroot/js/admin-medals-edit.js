@@ -40,7 +40,7 @@ $(function () {
         }
 
         isLoading($("body main form")[0], true);
-        var formData = new FormData($("form")[0]);
+        var formData = new FormData($("#medalForm")[0]);
 
         // TODO: Get table form data
         //$("#conditionsTable ")

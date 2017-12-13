@@ -13,7 +13,6 @@ namespace TieFighter.Models
         public string Description { get; set; }
         [Range(0, double.MaxValue)]
         public double PointsWorth { get; set; }
-        public string FileLocation { get; set; }
         public MedalCondition[] Conditions { get; set; }
 
         public override IDatastoreEntityAndJsonBinding FromEntity(Entity entity)
@@ -23,8 +22,7 @@ namespace TieFighter.Models
                 Id = entity.Key.ToId(),
                 Description = entity[nameof(Medal.Description)].StringValue,
                 MedalName = entity[nameof(Medal.MedalName)].StringValue,
-                PointsWorth = entity[nameof(Medal.PointsWorth)].DoubleValue,
-                FileLocation = entity[nameof(Medal.FileLocation)].StringValue
+                PointsWorth = entity[nameof(Medal.PointsWorth)].DoubleValue
             };
 
             return medal;
@@ -36,8 +34,7 @@ namespace TieFighter.Models
             {
                 [nameof(MedalName)] = MedalName,
                 [nameof(Description)] = Description,
-                [nameof(PointsWorth)] = PointsWorth,
-                [nameof(FileLocation)] = FileLocation
+                [nameof(PointsWorth)] = PointsWorth
             };
 
             if (Id != null)

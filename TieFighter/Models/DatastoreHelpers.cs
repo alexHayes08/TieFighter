@@ -123,7 +123,7 @@ namespace TieFighter.Models
             // Setup the entity's id
             if (!string.IsNullOrEmpty(idPropertyName))
             {
-                string idValue = objType.GetProperty(idPropertyName).GetValue(obj).ToString();
+                long idValue = (long)objType.GetProperty(idPropertyName).GetValue(obj);
                 entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
                 isIdAlreadySet = true;
             }
@@ -141,13 +141,12 @@ namespace TieFighter.Models
 
                 if (prop.IsDefined(typeof(NotMappedAttribute)))
                 {
-
                     // Ignore this property if it contains the NotMapped Attribute
                     continue;
                 }
                 else if (prop.IsDefined(typeof(KeyAttribute)) && !isIdAlreadySet)
                 {
-                    string idValue = prop.GetValue(obj).ToString();
+                    long idValue = long.Parse(prop.GetValue(obj).ToString());
                     entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
                 }
                 else if (propertyType == typeof(Enum))

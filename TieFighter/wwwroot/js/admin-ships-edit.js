@@ -1,5 +1,6 @@
 ﻿//$(function () {
     var shipMeshes = [];
+    var modelParent = "modelParent";
 
     function Coords(x, y, z) {
         this.x = x || 0;
@@ -44,10 +45,10 @@
 
         var fileName = `${$("#Id").val()}%20.babylon`;
 
-        //if (path == null) {
+        if (url == null) {
             BABYLON.SceneLoader.ImportMesh("", "/resources/Models/", fileName, scene, function (newMesh) {
 
-                tiefighter = BABYLON.MeshBuilder.CreateBox("tiefighterParent", {}, scene);
+                tiefighter = BABYLON.MeshBuilder.CreateBox(modelParent, {}, scene);
                 tiefighter.visibility = 0;
                 for (var i = 0; i < newMesh.length; i++) {
                     var submesh = new Submesh(newMesh[i].id);
@@ -56,10 +57,6 @@
                     console.log(newMesh);
                     newMesh[i].parent = tiefighter;
                 }
-
-                tiefighter.rotation.y = Math.PI;
-
-                //camera.parent = tiefighter;
 
                 // Scene starts
                 engine.runRenderLoop(function () {
@@ -74,35 +71,35 @@
                     color: "red"
                 }).open();
             });
-        //} else {
-            //BABYLON.SceneLoader.ImportMesh("", "/resources/Models/", fileName, scene, function (newMesh) {
+        } else {
+            BABYLON.SceneLoader.ImportMesh("", "", url, scene, function (newMesh) {
 
-            //    tiefighter = BABYLON.MeshBuilder.CreateBox("tiefighterParent", {}, scene);
-            //    tiefighter.visibility = 0;
-            //    for (var i = 0; i < newMesh.length; i++) {
-            //        var submesh = new Submesh(newMesh[i].id);
-            //        shipMeshes.push(submesh);
+                tiefighter = BABYLON.MeshBuilder.CreateBox(modelParent, {}, scene);
+                tiefighter.visibility = 0;
+                for (var i = 0; i < newMesh.length; i++) {
+                    var submesh = new Submesh(newMesh[i].id);
+                    shipMeshes.push(submesh);
 
-            //        console.log(newMesh);
-            //        newMesh[i].parent = tiefighter;
-            //    }
+                    console.log(newMesh);
+                    newMesh[i].parent = tiefighter;
+                }
 
-            //    tiefighter.rotation.y = Math.PI;
+                tiefighter.rotation.y = Math.PI;
 
-            //    // Scene starts
-            //    engine.runRenderLoop(function () {
-            //        var canvasSize = $("#shipPreviewContainer > div").width();
-            //        engine.setSize(canvasSize, canvasSize);
-            //        scene.render();
-            //        isLoading($("#shipPreviewContainer > div")[0], false);
-            //    });
-            //}, null, function (error) {
-            //    new jBox('Notice', {
-            //        content: "Failed to load ship modal",
-            //        color: "red"
-            //    }).open();
-            //});
-        //}
+                // Scene starts
+                engine.runRenderLoop(function () {
+                    var canvasSize = $("#shipPreviewContainer > div").width();
+                    engine.setSize(canvasSize, canvasSize);
+                    scene.render();
+                    isLoading($("#shipPreviewContainer > div")[0], false);
+                });
+            }, null, function (error) {
+                new jBox('Notice', {
+                    content: "Failed to load ship modal",
+                    color: "red"
+                }).open();
+            });
+        }
     }
 
     $("#updateEntity").on("click", function () {
@@ -117,12 +114,15 @@
         }
 
         isLoading($("body main form")[0], true);
-        var formData = new FormData($("form")[0]);
+        var formData = new FormData($("#shipForm")[0]);
 
         $("#updateEntity").attr("disabled", "");
         setInputsTo($inputs, false);
 
-        XMLHttpRequestPromise("POST", window.location.href, formData)
+        XMLHttpRequestPromise(
+            "POST",
+            window.location.href,
+            formData, false)
             .then(function (response) {
                 var res = JSON.parse(response);
                 if (!res.succeeded) {
@@ -154,7 +154,7 @@
             var file = this.files[0];
             var reader = new FileReader();
             reader.onload = function () {
-                
+                loadModal(reader.result);
             }
             reader.readAsDataURL(file);
         }

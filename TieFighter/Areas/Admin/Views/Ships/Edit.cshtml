@@ -14,7 +14,7 @@
             <a asp-action="Index">Back to List</a>
         </div>
         <hr />
-        <form asp-action="Edit">
+        <form asp-action="Edit" id="shipForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input id="Id" name="Id" class="hidden" type="hidden" value="@Model.Id" />
             <div class="form-group">
