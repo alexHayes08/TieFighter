@@ -1,4 +1,7 @@
-﻿// #region Polyfilss
+﻿// Note: Possibly create GameManager element that reflects the object.
+// Reason: Add event listeners to the objects.
+
+// #region Polyfilss
 
 Array.prototype.last = function () {
     if (this.length == 0) {
@@ -13,6 +16,23 @@ Array.prototype.first = function () {
         return null;
     } else {
         return this[0];
+    }
+}
+
+var Helpers = {
+    // Courtesy of http://forums.devshed.com/javascript-development-115/regexp-match-url-pattern-493764.html
+    isUrl: function (str) {
+        var pattern = new RegExp('^(https?:\/\/)?' + // protocol
+            '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|' + // domain name
+            '((\d{1,3}\.){3}\d{1,3}))' + // OR ip (v4) address
+            '(\:\d+)?(\/[-a-z\d%_.~+]*)*' + // port and path
+            '(\?[;&a-z\d%_.~+=-]*)?' + // query string
+            '(\#[-a-z\d_]*)?$', 'i'); // fragment locater
+        if (!pattern.test(str)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 
@@ -190,25 +210,77 @@ class UserSettings {
     }
 }
 
+class Stage {
+    constructor(stageConfig) {
+
+    }
+}
+
 class Game {
-    constructor() {
-        this._gameDefinitions = "js file/to load?";
+    constructor(url) {
+        function getDefinition(url) {
+            
+        }
+
+        this._pathToGameDefinition = "js file/to load?";
         this._stages = [];
+        this._gameAssets = {};
+        this._gameDefinitions = {};
+        this._gameFunctionDefinitions = {};
+
+        XMLHttpRequestPromise("GET", url)
+            .then(function (response) {
+
+            }).catch(function (error) {
+
+            });
     }
 }
 
 class GameManager {
     constructor(settings) {
         this._settings = null;
-
         this.missions = {};
-        this.menus = {};
+        this.ui = {
+            menus: {},
+            canvas: settings.ui.canvas
+        }
         this.loading = {};
         this.settings = settings;
         this._loadedBabylonAssets = [];
         this._gameStatus = GameManager.GameStatus.NOT_LOADED;
     }
     loadGame(game) {
+        var getGameAssets = function () {
+            return XMLHttpRequestPromise("GET", `${window.navigator.location.origin}/api/definition/${game}.json`)
+                .then(function (response) {
+                    var definition = JSON.parse(response);
+                    var downloadPromises = [];
+                    for (var href of definition.downloads) {
+                        GameManager.dispatchEvent(GameManager.Events.loadingAsset(href.split("/").last()));
+                        downloadPromises.push(XMLHttpRequestPromise("GET", href)
+                            .then(function (download) {
+                                var gameAsset = JSON.parse(download);
+                                if (gameAsset.type == "BABYLON_ASSET") {
+                                    GameManager._loadedBabylonAssets.push(gameAsset.toBabylon());
+                                }
+                                GameManager.dispatchEvent(GameManager.Events.finishedLoadingAsset(gameAsset.name));
+                            }).catch(function (error) {
+                                GameManager.dispatchEvent(GameManager.Events.errorLoading(error.assetName));
+                            }));
+                    }
+
+                    Promise.all(downloadPromises)
+                        .then(function () {
+
+                        }).catch(function () {
+
+                        })
+                }).catch(function (error) {
+
+                });
+        }
+
         if (!(game instanceof Game)) {
             throw new Error("The argument 'game' must be an instance of Game.");
         }
@@ -220,6 +292,9 @@ class GameManager {
     }
     exitGame() {
         this._gameStatus = GameManager.GameStatus.UNLOADING;
+    }
+    loadUserSettings(settings) {
+
     }
     get settings() {
         return this._settings;
@@ -240,28 +315,25 @@ class GameManager {
             loadingMenus
         }
     }
-    loadUserSettings(settings) {
-
+    get addEventListener() {
+        return this.ui.canvas.addEventListener;
+    }
+    get removeEventListener() {
+        return this.ui.canvas.removeEventListener;
+    }
+    get dispatchEvent() {
+        return this.ui.canvas.dispatchEvent;
     }
     static get Events () {
         return {
-            loadingShip: function (shipName) {
-                return new CustomEvent("loadingShip", { shipName: shipName });
+            loadingAsset: function (assetName) {
+                return new CustomEvent("loadingAsset", { assetName: assetName });
             },
-            finishedLoadingShip: function (shipName) {
-                return new CustomEvent("finishedLoadingShip", { shipName: shipName });
+            finishedLoadingAsset: function (assetName) {
+                return new CustomEvent("finishedLoadingAsset", { assetName: assetName });
             },
-            errorLoadingShip: function (shipName) {
-                return new CustomEvent("errorLoadingShip", { shipName: shipName });
-            },
-            loadingScene: function (sceneName) {
-                return new CustomEvent("sceneLoading", { sceneName: sceneName });
-            },
-            finishedLoadingScene: function (sceneName) {
-                return new CustomEvent("finishedLoadingScene", { sceneName: sceneName })
-            },
-            errorLoadingScene: function (sceneName) {
-                return new CustomEvent("errorLoadingScene", { sceneName: sceneName });
+            errorLoadingAsset: function (assetName) {
+                return new CustomEvent("errorLoadingAsset", { assetName: assetName });
             },
             updateControls: function () {
                 return new CustomEvent("controlsWereUpdated");
