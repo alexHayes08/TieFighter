@@ -81,6 +81,12 @@ namespace TieFighter
             // Add file services
             var physicalProvider = _hostingEnvironment.ContentRootFileProvider;
             services.AddSingleton<IFileProvider>(physicalProvider);
+
+            // Add custom string resources service
+            var stringResourceConfig = new StringResourceService();
+            var result = stringResourceConfig.TrySetConfigFileLocation("C:\\Users\\alexc\\Source\\Repos\\TieFighter\\TieFighter\\wwwroot\\StringResources.xml");
+            services.AddSingleton<IStringResourceService, StringResourceService>();
+            services.AddSingleton(stringResourceConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

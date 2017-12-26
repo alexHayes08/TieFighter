@@ -1,4 +1,27 @@
 ﻿$(function () {
+    $("#createRole").on("click", function () {
+        var roleName = $("#newRoleName").val();
+        var existingRoleNames = [];
+        $("#userRoles li").each(function () {
+            existingRoleNames.push(this.innerText.trim());
+        });
+
+        var newRoleElContainer = document.createElement("li");
+        var newRoleElLabel = document.createElement("label");
+        var newRoleEl = document.createElement("input");
+
+        newRoleEl.classList.add("custom-checkbox", "align-middle");
+        newRoleEl.setAttribute("name", roleName);
+        newRoleEl.setAttribute("type", "checkbox");
+
+        newRoleElLabel.appendChild(newRoleEl);
+        newRoleElContainer.appendChild(newRoleElLabel);
+
+        newRoleElLabel.innerHTML += roleName;
+
+        $("#userRoles").append(newRoleElContainer);
+    });
+
     $("#updateEntity").on("click", function () {
         var $inputs = $("body main input,body main textarea,body main button");
 

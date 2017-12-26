@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StringResources>
+  <StringResource>
+    <Name>Title</Name>
+    <Id>Home.Title</Id>
+  </StringResource>
+  <StringResource>
+    <Name>Dashboard</Name>
+    <Id>Admin.Category.Dashboard</Id>
+  </StringResource>
+  <StringResource>
+    <Name>Games</Name>
+    <Id>Admin.Category.Games</Id>
+  </StringResource>
+  <StringResource>
+    <Name>Users</Name>
+    <Id>Admin.Category.Users</Id>
+  </StringResource>
+  <StringResource>
+    <Name>Medals</Name>
+    <Id>Admin.Category.Medals</Id>
+  </StringResource>
+</StringResources>

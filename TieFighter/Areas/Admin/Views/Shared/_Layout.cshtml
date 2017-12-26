@@ -40,9 +40,6 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Public Site</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
-                    </li>
                     <li>
                         @await Html.PartialAsync("_LoginPartial")
                     </li>
@@ -175,7 +172,12 @@
                                         <ul class="list-group">
                                             <li class="list-group-item">
                                                 <h5 class="mb-0">
-                                                    <a asp-area="Admin" asp-controller="ImageManager" asp-action="Index">Image Manager</a>
+                                                    <a asp-area="Admin" asp-controller="ResourceManager" asp-action="Index">Resource Manager</a>
+                                                </h5>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h5 class="mb-0">
+                                                    <a asp-area="Admin" asp-controller="Configuration" asp-action="Index">Configuration</a>
                                                 </h5>
                                             </li>
                                             <li class="list-group-item">

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using TieFighter.Models;
+using TieFighter.Services;
 
 namespace TieFighter
 {

@@ -181,6 +181,14 @@ namespace TieFighter.Areas.Admin.Controllers
                             {
                                 throw new Exception("Failed to remove the user from the role.");
                             }
+
+                            // Check if the role has any other users associated with it
+                            var otherUsersInRole = await _userManager.GetUsersInRoleAsync(notInRole.Name);
+                            if (otherUsersInRole.Count == 0)
+                            {
+                                // Delete role if no body is in it
+                                await _roleManager.DeleteAsync(notInRole);
+                            }
                         }
                     }
 
