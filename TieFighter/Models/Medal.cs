@@ -39,7 +39,7 @@ namespace TieFighter.Models
 
             if (Id != null)
             {
-                entity.Key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(Id.Value);
+                entity.Key = DatastoreDbReference.GamesKeyFactory.CreateKey(Id.Value);
             }
 
             return entity;

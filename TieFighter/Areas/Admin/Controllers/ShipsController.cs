@@ -16,12 +16,27 @@ namespace TieFighter.Areas.Admin.Controllers
     [Area("Admin")]
     public class ShipsController : Controller
     {
+        #region Constructors
+
+        public ShipsController(TieFighterDatastoreContext datastoreContext)
+        {
+            _datastoreContext = datastoreContext;
+        }
+
+        #endregion
+
+        #region Fields
+
+        private TieFighterDatastoreContext _datastoreContext;
+
+        #endregion
+
         // GET: Ships
         public ActionResult Index()
         {
             var shipsQuery = new Query(nameof(Ship));
             var ships = DatastoreHelpers.ParseEntitiesToObject<Ship>(
-                Startup.DatastoreDb.Db.RunQuery(shipsQuery).Entities
+                _datastoreContext.Db.RunQuery(shipsQuery).Entities
             );
             return View(ships);
         }
@@ -54,9 +69,9 @@ namespace TieFighter.Areas.Admin.Controllers
         {
             try
             {
-                var shipKey = Startup.DatastoreDb.ShipsKeyFactory.CreateKey(id);
+                var shipKey = _datastoreContext.GetKeyFactoryFor(nameof(Ship)).CreateKey(id);
                 var ship = new Ship().FromEntity(
-                    Startup.DatastoreDb.Db.Lookup(shipKey)
+                    _datastoreContext.Db.Lookup(shipKey)
                 ) as Ship;
 
                 var submeshes = new List<Submesh>();
@@ -64,7 +79,7 @@ namespace TieFighter.Areas.Admin.Controllers
                 {
                     Filter = Filter.Equal(nameof(Submesh.ShipId), ship.Id)
                 };
-                var submeshEntities = Startup.DatastoreDb.Db.RunQuery(submeshesQuery).Entities;
+                var submeshEntities = _datastoreContext.Db.RunQuery(submeshesQuery).Entities;
                 foreach (var entity in submeshEntities)
                 {
                     var submesh = new Submesh().FromEntity(entity) as Submesh;
@@ -89,7 +104,7 @@ namespace TieFighter.Areas.Admin.Controllers
             try
             {
                 // TODO: Add update logic here
-                var key = Startup.DatastoreDb.ShipsKeyFactory.CreateKey(id);
+                var key = _datastoreContext.ShipsKeyFactory.CreateKey(id);
                 //var ship = DatastoreHelpers.ParseEntityToObject<Ship>(
                 //    Startup.DatastoreDb.Db.Lookup(key)
                 //);
@@ -101,8 +116,8 @@ namespace TieFighter.Areas.Admin.Controllers
                 }
 
                 // Update ship
-                var shipEntity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, ship);
-                Startup.DatastoreDb.Db.Update(shipEntity);
+                var shipEntity = DatastoreHelpers.ObjectToEntity(_datastoreContext, ship);
+                _datastoreContext.Db.Update(shipEntity);
 
                 return Json(new JsDefault()
                 {
@@ -132,15 +147,15 @@ namespace TieFighter.Areas.Admin.Controllers
                     throw new Exception("File had no meshes it it.");
 
                 var ship = new Ship().FromEntity(
-                    Startup.DatastoreDb.Db.Lookup(
-                        Startup.DatastoreDb.ShipsKeyFactory.CreateKey(id)
+                    _datastoreContext.Db.Lookup(
+                        _datastoreContext.ShipsKeyFactory.CreateKey(id)
                     )
                 ) as Ship;
 
-                ship.SetSubmeshes();
+                //ship.SetSubmeshes();
 
-                if (ship.Submeshes.Length != collection.Count)
-                    ship.DeleteSubmeshes();
+                //if (ship.Submeshes.Length != collection.Count)
+                //    ship.DeleteSubmeshes();
 
                 foreach (var key in collection.Keys)
                 {
@@ -156,7 +171,7 @@ namespace TieFighter.Areas.Admin.Controllers
                         ScaleOffset = new ThreeDimensionsCoord().FromJObject(jobj[nameof(Submesh.ScaleOffset)] as JObject) as ThreeDimensionsCoord
                     };
 
-                    submesh.Save(Startup.DatastoreDb.Db);
+                    submesh.Save(_datastoreContext.Db);
                 }
 
                 ship.UpdateFileAsync(collection.Files);
@@ -186,10 +201,10 @@ namespace TieFighter.Areas.Admin.Controllers
                 var keys = new List<Key>();
                 foreach (var id in collection.Keys)
                 {
-                    keys.Add(Startup.DatastoreDb.ShipsKeyFactory.CreateKey(id));
+                    keys.Add(_datastoreContext.ShipsKeyFactory.CreateKey(id));
                 }
 
-                Startup.DatastoreDb.Db.Delete(keys);
+                _datastoreContext.Db.Delete(keys);
 
                 return Json(new JsDefault()
                 {

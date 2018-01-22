@@ -15,6 +15,21 @@ namespace TieFighter.Areas.Admin.Controllers
     [Area("Admin")]
     public class HomeController : Controller
     {
+        #region Fields
+
+        private TieFighterDatastoreContext _datastoreContext;
+
+        #endregion
+
+        #region Constructor(s)
+
+        public HomeController(TieFighterDatastoreContext datastoreContext)
+        {
+            _datastoreContext = datastoreContext;
+        }
+
+        #endregion
+
         public HomeController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, TieFighterContext context)
         {
             _userManager = userManager;
@@ -56,7 +71,7 @@ namespace TieFighter.Areas.Admin.Controllers
                 Limit = 5,
                 Order = { { nameof(Mission.LastPlayedOn), Direction.Descending } }
             };
-            var entities = Startup.DatastoreDb.Db.RunQuery(popularMapsQuery).Entities;
+            var entities = _datastoreContext.Db.RunQuery(popularMapsQuery).Entities;
             dashboard.MostPopularMissions = DatastoreHelpers
                 .ParseEntitiesToObject<Mission>(entities)
                 .OrderBy(m => m.LastPlayedOn)

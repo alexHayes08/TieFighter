@@ -62,7 +62,7 @@ namespace TieFighter.Models
         {
             var e = new Entity()
             {
-                Key = Startup.DatastoreDb.ShipComponentsKeyFactory.CreateKey(Id.Value),
+                Key = DatastoreDbReference.ShipComponentsKeyFactory.CreateKey(Id.Value),
                 [nameof(DisplayName)] = DisplayName,
             };
 

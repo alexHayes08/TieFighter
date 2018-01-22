@@ -18,7 +18,7 @@ namespace TieFighter.Models
 
         public override Entity ToEntity()
         {
-            return DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, this);
+            return DatastoreHelpers.ObjectToEntity(DatastoreDbReference, this);
         }
 
         public override IDatastoreEntityAndJsonBinding FromEntity(Entity entity)

@@ -36,7 +36,7 @@ namespace TieFighter.Models
         {
             return new Entity()
             {
-                Key = Startup.DatastoreDb.GameModesFactory.CreateKey(Id.Value),
+                Key = DatastoreDbReference.GameModesFactory.CreateKey(Id.Value),
                 [nameof(IsEnabled)] = IsEnabled,
                 [nameof(Name)] = Name,
                 [nameof(GameModeCategoryId)] = GameModeCategoryId

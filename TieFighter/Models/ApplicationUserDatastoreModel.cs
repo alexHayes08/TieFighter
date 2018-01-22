@@ -18,7 +18,7 @@ namespace TieFighter.Models
         public override Entity ToEntity(params IDatastoreEntityAndJsonBinding[] ancestors)
         {
             var entity = new Entity();
-            entity.Key = Startup.DatastoreDb.UsersKeyFactory.CreateKey(Id);
+            entity.Key = DatastoreDbReference.UsersKeyFactory.CreateKey(Id);
             var medalsWon = new List<Entity>();
             foreach (var medalWon in MedalsWon)
             {
@@ -36,7 +36,7 @@ namespace TieFighter.Models
                 });
             }
             entity[nameof(MedalsWon)] = medalsWon.ToArray();
-            entity[nameof(CampaignTourStats)] = DatastoreHelpers.ObjectsToEntities(Startup.DatastoreDb, CampaignTourStats);
+            entity[nameof(CampaignTourStats)] = DatastoreHelpers.ObjectsToEntities(DatastoreDbReference, CampaignTourStats);
             entity[nameof(ShipsUnlocked)] = shipsUnlocked.ToArray();
             entity[nameof(Settings)] = Settings.ToEntity();
 
@@ -51,8 +51,8 @@ namespace TieFighter.Models
         public static explicit operator User(ApplicationUser user)
         {
             var u = new User();
-            var key = Startup.DatastoreDb.UsersKeyFactory.CreateKey(user.Id);
-            var entity = Startup.DatastoreDb.Db.Lookup(key);
+            var key = DatastoreDbReference.UsersKeyFactory.CreateKey(user.Id);
+            var entity = DatastoreDbReference.Db.Lookup(key);
             return DatastoreHelpers.ParseEntityToObject<User>(entity);
         }
     }

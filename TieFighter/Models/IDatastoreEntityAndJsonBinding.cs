@@ -21,7 +21,7 @@ namespace TieFighter.Models
         {
             if (createNewId)
             {
-                Id = GenerateNewKey(Startup.DatastoreDb.Db).ToId();
+                Id = GenerateNewKey(DatastoreDbReference.Db).ToId();
             }
         }
 
@@ -112,12 +112,12 @@ namespace TieFighter.Models
         /// <returns>
         /// The ancestors are ordered from youngest to oldest
         /// </returns>
-        private IList<Type> GetAncestorTypes ()
+        private IList<Type> GetAncestorTypes()
         {
             var types = new List<Type>();
             var type = GetType();
             var currentType = type;
-            while (currentType != null 
+            while (currentType != null
                 && currentType.IsDefined(typeof(AncestorPathAttribute)))
             {
                 types.Add(currentType);
@@ -171,7 +171,7 @@ namespace TieFighter.Models
                     prop.SetValue(defaultInstance, id);
                 }
             }
-            
+
 
             foreach (var entityProperty in entityProperties)
             {
@@ -269,7 +269,7 @@ namespace TieFighter.Models
                     {
                         setKey = true;
                         var id = type.GetProperty(property.Name).GetValue(this) as string;
-                        entity.Key = ToKey(Startup.DatastoreDb.Db);
+                        entity.Key = ToKey(DatastoreDbReference.Db);
                     }
                 }
 
@@ -407,7 +407,7 @@ namespace TieFighter.Models
                     {
                         setKey = true;
                         var id = type.GetProperty(property.Name).GetValue(this) as string;
-                        entity.Key = ToKey(Startup.DatastoreDb.Db);
+                        entity.Key = ToKey(DatastoreDbReference.Db);
                     }
                 }
 
@@ -512,5 +512,7 @@ namespace TieFighter.Models
 
             db.Upsert(ToEntity());
         }
+
+        public static TieFighterDatastoreContext DatastoreDbReference { get; set; }
     }
 }

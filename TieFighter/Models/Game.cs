@@ -53,7 +53,7 @@ namespace TieFighter.Models
 
             return new Entity()
             {
-                Key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(Id.Value),
+                Key = DatastoreDbReference.GamesKeyFactory.CreateKey(Id.Value),
                 [nameof(Name)] = Name,
                 [nameof(IsEnabled)] = IsEnabled,
                 [nameof(GameUrl)] = GameUrl

@@ -15,11 +15,26 @@ namespace TieFighter.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class GamesController : Controller
     {
+        #region Fields
+
+        private TieFighterDatastoreContext _datastoreContext;
+
+        #endregion
+
+        #region Constructor(s)
+
+        public GamesController(TieFighterDatastoreContext datastoreContext)
+        {
+            _datastoreContext = datastoreContext;
+        }
+
+        #endregion
+
         // GET: Game
         public ActionResult Index()
         {
             var gamesQuery = new Query(nameof(Game));
-            var entities = Startup.DatastoreDb.Db.RunQuery(gamesQuery).Entities;
+            var entities = _datastoreContext.Db.RunQuery(gamesQuery).Entities;
             var games = new List<Game>();
             foreach (var entity in entities)
             {
@@ -44,12 +59,12 @@ namespace TieFighter.Areas.Admin.Controllers
 
             try
             {
-                reservedKey = game.GenerateNewKey(Startup.DatastoreDb.Db);
+                reservedKey = game.GenerateNewKey(_datastoreContext.Db);
                 game.Id = reservedKey.ToId();
 
                 //var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, game);
                 var entity = game.ToEntity();
-                Startup.DatastoreDb.Db.Upsert(entity);
+                _datastoreContext.Db.Upsert(entity);
 
                 return Redirect($"{nameof(Edit)}/{game.Id.ToString()}");
             }
@@ -57,7 +72,7 @@ namespace TieFighter.Areas.Admin.Controllers
             {
                 if (reservedKey != null)
                 {
-                    Startup.DatastoreDb.Db.Delete(reservedKey);
+                    _datastoreContext.Db.Delete(reservedKey);
                 }
                 ViewBag.Error = "Failed to create game. " + e.ToString();
                 return View();
@@ -76,8 +91,8 @@ namespace TieFighter.Areas.Admin.Controllers
                 //    key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(id);
                 //    entity = Startup.DatastoreDb.Db.Lookup(key);
                 //}
-                var key = Startup.DatastoreDb.GamesKeyFactory.CreateKey(id);
-                var entity = Startup.DatastoreDb.Db.Lookup(key);
+                var key = _datastoreContext.GamesKeyFactory.CreateKey(id);
+                var entity = _datastoreContext.Db.Lookup(key);
                 var game = new Game().FromEntity(entity) as Game;
 
                 return View(game);
@@ -95,8 +110,8 @@ namespace TieFighter.Areas.Admin.Controllers
         {
             try
             {
-                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, game);
-                Startup.DatastoreDb.Db.Upsert(entity);
+                var entity = DatastoreHelpers.ObjectToEntity(_datastoreContext, game);
+                _datastoreContext.Db.Upsert(entity);
 
                 return Json(new JsDefault()
                 {
@@ -125,11 +140,11 @@ namespace TieFighter.Areas.Admin.Controllers
                 {
                     if (long.TryParse(key, out long id))
                     {
-                        keys.Add(Startup.DatastoreDb.GamesKeyFactory.CreateKey(key));
+                        keys.Add(_datastoreContext.GamesKeyFactory.CreateKey(key));
                     }
                 }
 
-                Startup.DatastoreDb.Db.Delete(keys);
+                _datastoreContext.Db.Delete(keys);
 
                 return Json(new JsDefault()
                 {

@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using Google.Cloud.Datastore.V1;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Google.Cloud.Datastore.V1;
-using Microsoft.AspNetCore.Http;
 
 namespace TieFighter.Models
 {
@@ -28,11 +24,11 @@ namespace TieFighter.Models
 
         public override Entity ToEntity()
         {
-            var key = Startup.DatastoreDb.ShipsKeyFactory.CreateIncompleteKey();
+            var key = DatastoreDbReference.ShipsKeyFactory.CreateIncompleteKey();
 
             return new Entity()
             {
-                Key = Startup.DatastoreDb.Db.Insert(new Entity { Key = key }),
+                Key = DatastoreDbReference.Db.Insert(new Entity { Key = key }),
                 [nameof(DisplayName)] = DisplayName,
             };
         }
@@ -65,73 +61,73 @@ namespace TieFighter.Models
             }
         }
 
-        public void SetSubmeshes()
-        {
-            var submeshesQuery = new Query(nameof(Submesh))
-            {
-                Filter = Filter.Equal(nameof(Submesh.ShipId), Id)
-            };
+        //public void SetSubmeshes()
+        //{
+        //    var submeshesQuery = new Query(nameof(Submesh))
+        //    {
+        //        Filter = Filter.Equal(nameof(Submesh.ShipId), Id)
+        //    };
 
-            var submeshEntities = Startup.DatastoreDb.Db.RunQuery(submeshesQuery).Entities;
-            var submeshes = DatastoreHelpers.ParseEntitiesToObject<Submesh>(submeshEntities);
+        //    var submeshEntities = Startup.DatastoreDb.Db.RunQuery(submeshesQuery).Entities;
+        //    var submeshes = DatastoreHelpers.ParseEntitiesToObject<Submesh>(submeshEntities);
 
-            foreach (var submesh in submeshes)
-            {
-                var componentsQuery = new Query(nameof(ShipComponentLineItem))
-                {
-                    Filter = Filter.Equal(nameof(ShipComponentLineItem.SubmeshId), submesh.Id)
-                };
-                var components = DatastoreHelpers.ParseEntitiesToObject<ShipComponentLineItem>(
-                    Startup.DatastoreDb.Db.RunQuery(componentsQuery).Entities
-                );
+        //    foreach (var submesh in submeshes)
+        //    {
+        //        var componentsQuery = new Query(nameof(ShipComponentLineItem))
+        //        {
+        //            Filter = Filter.Equal(nameof(ShipComponentLineItem.SubmeshId), submesh.Id)
+        //        };
+        //        var components = DatastoreHelpers.ParseEntitiesToObject<ShipComponentLineItem>(
+        //            Startup.DatastoreDb.Db.RunQuery(componentsQuery).Entities
+        //        );
 
-                foreach (var component in components)
-                {
-                    var shipComponent = DatastoreHelpers.ParseEntityToObject<ShipComponent>(
-                        Startup.DatastoreDb.Db.Lookup(
-                            Startup.DatastoreDb.ShipComponentsKeyFactory.CreateKey(component.ShipCompnentId)
-                        )
-                    );
+        //        foreach (var component in components)
+        //        {
+        //            var shipComponent = DatastoreHelpers.ParseEntityToObject<ShipComponent>(
+        //                Startup.DatastoreDb.Db.Lookup(
+        //                    Startup.DatastoreDb.ShipComponentsKeyFactory.CreateKey(component.ShipCompnentId)
+        //                )
+        //            );
 
-                    component.ShipCompnent = shipComponent;
-                }
-            }
+        //            component.ShipCompnent = shipComponent;
+        //        }
+        //    }
 
-            Submeshes = submeshes.ToArray();
-        }
+        //    Submeshes = submeshes.ToArray();
+        //}
 
-        public void DeleteSubmeshes()
-        {
-            var submeshesQuery = new Query(nameof(Submesh))
-            {
-                Filter = Filter.Equal(nameof(Submesh.ShipId), Id)
-            };
+        //public void DeleteSubmeshes()
+        //{
+        //    var submeshesQuery = new Query(nameof(Submesh))
+        //    {
+        //        Filter = Filter.Equal(nameof(Submesh.ShipId), Id)
+        //    };
 
-            var submeshEntities = Startup.DatastoreDb.Db.RunQuery(submeshesQuery).Entities;
-            var submeshes = DatastoreHelpers.ParseEntitiesToObject<Submesh>(submeshEntities);
+        //    var submeshEntities = Startup.DatastoreDb.Db.RunQuery(submeshesQuery).Entities;
+        //    var submeshes = DatastoreHelpers.ParseEntitiesToObject<Submesh>(submeshEntities);
 
-            foreach (var submesh in submeshes)
-            {
-                var componentsQuery = new Query(nameof(ShipComponentLineItem))
-                {
-                    Filter = Filter.Equal(nameof(ShipComponentLineItem.SubmeshId), submesh.Id)
-                };
-                var components = DatastoreHelpers.ParseEntitiesToObject<ShipComponentLineItem>(
-                    Startup.DatastoreDb.Db.RunQuery(componentsQuery).Entities
-                );
+        //    foreach (var submesh in submeshes)
+        //    {
+        //        var componentsQuery = new Query(nameof(ShipComponentLineItem))
+        //        {
+        //            Filter = Filter.Equal(nameof(ShipComponentLineItem.SubmeshId), submesh.Id)
+        //        };
+        //        var components = DatastoreHelpers.ParseEntitiesToObject<ShipComponentLineItem>(
+        //            Startup.DatastoreDb.Db.RunQuery(componentsQuery).Entities
+        //        );
 
-                foreach (var component in components)
-                {
-                    Startup.DatastoreDb.Db.Delete(
-                        Startup.DatastoreDb.Db.Lookup(
-                            Startup.DatastoreDb.ShipComponentsKeyFactory.CreateKey(component.ShipCompnentId)
-                        )
-                    );
-                }
-            }
+        //        foreach (var component in components)
+        //        {
+        //            Startup.DatastoreDb.Db.Delete(
+        //                Startup.DatastoreDb.Db.Lookup(
+        //                    Startup.DatastoreDb.ShipComponentsKeyFactory.CreateKey(component.ShipCompnentId)
+        //                )
+        //            );
+        //        }
+        //    }
 
-            Startup.DatastoreDb.Db.Delete(submeshEntities);
-            Submeshes = new Submesh[0];
-        }
+        //    Startup.DatastoreDb.Db.Delete(submeshEntities);
+        //    Submeshes = new Submesh[0];
+        //}
     }
 }

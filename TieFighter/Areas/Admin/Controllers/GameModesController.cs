@@ -12,11 +12,18 @@ namespace TieFighter.Areas.Admin.Controllers
 {
     public class GameModesController : Controller
     {
+        private TieFighterDatastoreContext _datastoreContext;
+
+        public GameModesController(TieFighterDatastoreContext datastoreContext)
+        {
+            _datastoreContext = datastoreContext;
+        }
+
         // GET: GameModes
         public ActionResult Index()
         {
             var gamesQuery = new Query(nameof(GameMode));
-            var entities = Startup.DatastoreDb.Db.RunQuery(gamesQuery).Entities;
+            var entities = _datastoreContext.Db.RunQuery(gamesQuery).Entities;
             var gameModes = DatastoreHelpers.ParseEntitiesToObject<GameMode>(entities);
 
             return View(gameModes);
@@ -36,9 +43,9 @@ namespace TieFighter.Areas.Admin.Controllers
             try
             {
                 gameMode.Id = gameMode
-                    .GenerateNewKey(Startup.DatastoreDb.Db)
+                    .GenerateNewKey(_datastoreContext.Db)
                     .ToId();
-                Startup.DatastoreDb.Db.Upsert(gameMode.ToEntity());
+                _datastoreContext.Db.Upsert(gameMode.ToEntity());
 
                 return RedirectToAction(nameof(Index));
             }
@@ -63,7 +70,7 @@ namespace TieFighter.Areas.Admin.Controllers
             try
             {
                 var entity = gameMode.ToEntity();
-                Startup.DatastoreDb.Db.Upsert(entity);
+                _datastoreContext.Db.Upsert(entity);
 
                 return Json(new JsDefault()
                 {
@@ -93,11 +100,11 @@ namespace TieFighter.Areas.Admin.Controllers
                 {
                     if (long.TryParse(key, out long id))
                     {
-                        keys.Add(Startup.DatastoreDb.GameModesFactory.CreateKey(key));
+                        keys.Add(_datastoreContext.GameModesFactory.CreateKey(key));
                     }
                 }
 
-                Startup.DatastoreDb.Db.Delete(keys);
+                _datastoreContext.Db.Delete(keys);
 
                 return Json(new JsDefault()
                 {

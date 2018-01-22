@@ -98,7 +98,7 @@ namespace TieFighter.Models
                     "without first setting the UserId property.");
             }
 
-            var key = Startup.DatastoreDb.ControlSettingsKeyFactory.CreateKey(UserId);
+            var key = DatastoreDbReference.ControlSettingsKeyFactory.CreateKey(UserId);
             var entity = new Entity()
             {
                 Key = key,

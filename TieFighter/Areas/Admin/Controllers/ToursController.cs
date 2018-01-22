@@ -16,11 +16,26 @@ namespace TieFighter.Areas.Admin.Controllers
     [Authorize]
     public class ToursController : Controller
     {
+        #region Fields
+
+        private readonly TieFighterDatastoreContext _datastoreContext;
+
+        #endregion
+
+        #region Constructor(s)
+
+        public ToursController(TieFighterDatastoreContext datastoreContext)
+        {
+            _datastoreContext = datastoreContext;
+        }
+
+        #endregion
+
         // GET: Tours
         public ActionResult Index()
         {
             var query = new Query(nameof(Tour));
-            var entities = Startup.DatastoreDb.Db.RunQuery(query).Entities;
+            var entities = _datastoreContext.Db.RunQuery(query).Entities;
             var tours = DatastoreHelpers.ParseEntitiesToObject<Tour>(entities);
             return View(tours);
         }
@@ -48,8 +63,8 @@ namespace TieFighter.Areas.Admin.Controllers
                     TourId = collection[nameof(Mission.TourId)]
                 };
 
-                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, mission, nameof(Mission.Id));
-                Startup.DatastoreDb.Db.Upsert(entity);
+                var entity = DatastoreHelpers.ObjectToEntity(_datastoreContext, mission, nameof(Mission.Id));
+                _datastoreContext.Db.Upsert(entity);
 
                 return RedirectToAction(nameof(EditMission));
             }
@@ -69,16 +84,16 @@ namespace TieFighter.Areas.Admin.Controllers
         // GET: Tours/Edit/5
         public ActionResult Edit(long id)
         {
-            var tourKey = Startup.DatastoreDb.ToursKeyFactory.CreateKey(id);
+            var tourKey = _datastoreContext.ToursKeyFactory.CreateKey(id);
             try
             {
-                var tour = DatastoreHelpers.ParseEntityToObject<Tour>(Startup.DatastoreDb.Db.Lookup(tourKey));
+                var tour = DatastoreHelpers.ParseEntityToObject<Tour>(_datastoreContext.Db.Lookup(tourKey));
                 var missionsQuery = new Query(nameof(Mission))
                 {
                     Filter = Filter.Equal(nameof(Mission.TourId), tour.TourId)
                 };
                 var missions = DatastoreHelpers.ParseEntitiesToObject<Mission>(
-                    Startup.DatastoreDb.Db.RunQuery(missionsQuery).Entities
+                    _datastoreContext.Db.RunQuery(missionsQuery).Entities
                 );
                 tour.Missions = missions;
                 var conflictingTours = GetToursWithSamePosition(tour.Position);
@@ -115,8 +130,8 @@ namespace TieFighter.Areas.Admin.Controllers
                     TourName = collection[nameof(Tour.TourName)]
                 };
 
-                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, tour, nameof(Tour.TourId));
-                Startup.DatastoreDb.Db.Upsert(entity);
+                var entity = DatastoreHelpers.ObjectToEntity(_datastoreContext, tour, nameof(Tour.TourId));
+                _datastoreContext.Db.Upsert(entity);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -129,9 +144,9 @@ namespace TieFighter.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult EditMission(long id)
         {
-            var key = Startup.DatastoreDb.MissionsKeyFactory.CreateKey(id);
+            var key = _datastoreContext.MissionsKeyFactory.CreateKey(id);
             var mission = DatastoreHelpers
-                .ParseEntityToObject<Mission>(Startup.DatastoreDb.Db.Lookup(key));
+                .ParseEntityToObject<Mission>(_datastoreContext.Db.Lookup(key));
 
             return View(mission);
         }
@@ -149,8 +164,8 @@ namespace TieFighter.Areas.Admin.Controllers
                     PositionInTour = int.Parse(collection["PositionInTour"])
                 };
 
-                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, mission, "Id");
-                Startup.DatastoreDb.Db.Update(entity);
+                var entity = DatastoreHelpers.ObjectToEntity(_datastoreContext, mission, "Id");
+                _datastoreContext.Db.Update(entity);
 
                 return Json(new JsDefault()
                 {
@@ -221,7 +236,7 @@ namespace TieFighter.Areas.Admin.Controllers
             {
                 Filter = Filter.Equal(nameof(Tour.Position), position)
             };
-            var entities = Startup.DatastoreDb.Db.RunQuery(query).Entities;
+            var entities = _datastoreContext.Db.RunQuery(query).Entities;
             var tours = DatastoreHelpers.ParseEntitiesToObject<Tour>(entities);
 
             return tours;

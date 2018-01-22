@@ -17,10 +17,13 @@ namespace TieFighter.Areas.Admin.Controllers
     public class MedalsController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly TieFighterDatastoreContext _datastoreContext;
 
-        public MedalsController(IHostingEnvironment hostingEnvironment)
+        public MedalsController(IHostingEnvironment hostingEnvironment,
+            TieFighterDatastoreContext datastoreContext)
         {
             _hostingEnvironment = hostingEnvironment;
+            _datastoreContext = datastoreContext;
         }
 
         // GET: Medals
@@ -34,7 +37,7 @@ namespace TieFighter.Areas.Admin.Controllers
             //};
 
             var query = new Query(nameof(Medal));
-            var entities = Startup.DatastoreDb.Db.RunQuery(query).Entities;
+            var entities = _datastoreContext.Db.RunQuery(query).Entities;
             var medals = new List<Medal>();
             foreach (var entity in entities)
             {
@@ -57,8 +60,8 @@ namespace TieFighter.Areas.Admin.Controllers
         {
             try
             {
-                medal.Id = medal.GenerateNewKey(Startup.DatastoreDb.Db).ToId();
-                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, medal, nameof(Medal.Id));
+                medal.Id = medal.GenerateNewKey(_datastoreContext.Db).ToId();
+                var entity = DatastoreHelpers.ObjectToEntity(_datastoreContext, medal, nameof(Medal.Id));
 
                 return RedirectToAction(nameof(Edit), medal.Id);
             }
@@ -77,8 +80,8 @@ namespace TieFighter.Areas.Admin.Controllers
                 Redirect(nameof(Index));
             }
 
-            var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
-            var response = Startup.DatastoreDb.Db.Lookup(key);
+            var key = _datastoreContext.MedalsKeyFactory.CreateKey(id);
+            var response = _datastoreContext.Db.Lookup(key);
 
             if (response == null)
             {
@@ -95,8 +98,8 @@ namespace TieFighter.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Update(long id, IFormCollection collection)
         { 
-            var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
-            var response = Startup.DatastoreDb.Db.Lookup(key);
+            var key = _datastoreContext.MedalsKeyFactory.CreateKey(id);
+            var response = _datastoreContext.Db.Lookup(key);
 
             if (response == null)
             {
@@ -152,8 +155,8 @@ namespace TieFighter.Areas.Admin.Controllers
                 }
 
                 // Upsert the medal to Datastore
-                var entity = DatastoreHelpers.ObjectToEntity(Startup.DatastoreDb, medal, nameof(Medal.Id));
-                Startup.DatastoreDb.Db.Upsert(entity);
+                var entity = DatastoreHelpers.ObjectToEntity(_datastoreContext, medal, nameof(Medal.Id));
+                _datastoreContext.Db.Upsert(entity);
 
                 return Json(new JsDefault() { Error = "", Succeeded = true });
             }
@@ -164,8 +167,8 @@ namespace TieFighter.Areas.Admin.Controllers
         public JsonResult IsIdAvailable(IFormCollection collection)
         {
             var id = collection["Id"];
-            var key = Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id);
-            var result = Startup.DatastoreDb.Db.Lookup(key);
+            var key = _datastoreContext.MedalsKeyFactory.CreateKey(id);
+            var result = _datastoreContext.Db.Lookup(key);
             //var newAntiForgeToken = Html.AntiForgeryToken();
             if (result != null)
             {
@@ -187,10 +190,10 @@ namespace TieFighter.Areas.Admin.Controllers
                 var keys = new List<Key>();
                 foreach (var id in ids)
                 {
-                    keys.Add(Startup.DatastoreDb.MedalsKeyFactory.CreateKey(id));
+                    keys.Add(_datastoreContext.MedalsKeyFactory.CreateKey(id));
                 }
 
-                Startup.DatastoreDb.Db.Delete(keys);
+                _datastoreContext.Db.Delete(keys);
 
                 return Json(new JsDefault()
                 {

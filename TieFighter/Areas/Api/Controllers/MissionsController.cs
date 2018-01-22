@@ -15,6 +15,21 @@ namespace TieFighter.Areas.Api.Controllers
     [Area("Api")]
     public class MissionsController : Controller
     {
+        #region Fields
+
+        private readonly TieFighterDatastoreContext _datastoreContext;
+
+        #endregion
+
+        #region Constructor(s)
+
+        public MissionsController(TieFighterDatastoreContext datastoreContext)
+        {
+            _datastoreContext = datastoreContext;
+        }
+
+        #endregion
+
         // GET: api/Missions
         [HttpGet]
         public JsonResult Get()
@@ -23,7 +38,7 @@ namespace TieFighter.Areas.Api.Controllers
             {
                 var missionQuery = new Query(nameof(Mission));
                 var missions = DatastoreHelpers.ParseEntitiesToObject<Mission>(
-                    Startup.DatastoreDb.Db.RunQuery(missionQuery).Entities
+                    _datastoreContext.Db.RunQuery(missionQuery).Entities
                 );
                 var missionObjList = new List<object>(missions);
 
@@ -50,9 +65,9 @@ namespace TieFighter.Areas.Api.Controllers
         {
             try
             {
-                var key = Startup.DatastoreDb.MissionsKeyFactory.CreateKey(id);
+                var key = _datastoreContext.MissionsKeyFactory.CreateKey(id);
                 var mission = DatastoreHelpers.ParseEntityToObject<Mission>(
-                    Startup.DatastoreDb.Db.Lookup(key)
+                    _datastoreContext.Db.Lookup(key)
                 );
 
                 return Json(new JsResult()

@@ -15,6 +15,21 @@ namespace TieFighter.Areas.Api.Controllers
     [Area("Api")]
     public class ToursController : Controller
     {
+        #region Fields
+
+        private readonly TieFighterDatastoreContext _datastoreContext;
+
+        #endregion
+
+        #region Constructor(s)
+
+        public ToursController(TieFighterDatastoreContext datastoreContext)
+        {
+            _datastoreContext = datastoreContext;
+        }
+
+        #endregion
+
         // GET: api/Tours
         [HttpGet]
         public JsonResult Get()
@@ -23,7 +38,7 @@ namespace TieFighter.Areas.Api.Controllers
             {
                 var toursQuery = new Query(nameof(Tour));
                 var tours = DatastoreHelpers.ParseEntitiesToObject<Tour>(
-                    Startup.DatastoreDb.Db.RunQuery(toursQuery).Entities
+                    _datastoreContext.Db.RunQuery(toursQuery).Entities
                 );
 
                 var toursObjList = new List<object>(tours);
@@ -51,9 +66,9 @@ namespace TieFighter.Areas.Api.Controllers
         {
             try
             {
-                var key = Startup.DatastoreDb.ToursKeyFactory.CreateKey(id);
+                var key = _datastoreContext.ToursKeyFactory.CreateKey(id);
                 var tour = DatastoreHelpers.ParseEntityToObject<Tour>(
-                    Startup.DatastoreDb.Db.Lookup(key)
+                    _datastoreContext.Db.Lookup(key)
                 );
 
                 return Json(new JsResult()

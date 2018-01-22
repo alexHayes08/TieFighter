@@ -15,11 +15,26 @@ namespace TieFighter.Areas.Admin.Controllers
     [Area("Admin")]
     public class ShipComponentsController : Controller
     {
+        #region Fields
+
+        private readonly TieFighterDatastoreContext _datastoreContext;
+
+        #endregion
+
+        #region Constructor(s)
+
+        public ShipComponentsController(TieFighterDatastoreContext datastoreContext)
+        {
+            _datastoreContext = datastoreContext;
+        }
+
+        #endregion
+
         // GET: ShipComponents
         public ActionResult Index()
         {
             var query = new Query(nameof(ShipComponent));
-            var entities = Startup.DatastoreDb.Db.RunQuery(query).Entities;
+            var entities = _datastoreContext.Db.RunQuery(query).Entities;
             var shipComponents = new List<ShipComponent>();
             foreach (var entity in entities)
             {
@@ -43,8 +58,8 @@ namespace TieFighter.Areas.Admin.Controllers
             try
             {
                 // TODO: Add insert logic here
-                shipComponent.Id = shipComponent.GenerateNewKey(Startup.DatastoreDb.Db).ToId();
-                Startup.DatastoreDb.Db.Upsert(shipComponent.ToEntity());
+                shipComponent.Id = shipComponent.GenerateNewKey(_datastoreContext.Db).ToId();
+                _datastoreContext.Db.Upsert(shipComponent.ToEntity());
 
                 return RedirectToAction(nameof(Index));
             }
@@ -59,8 +74,8 @@ namespace TieFighter.Areas.Admin.Controllers
         public ActionResult Edit(long id)
         {
             var shipComponent = new ShipComponent().FromEntity(
-                Startup.DatastoreDb.Db.Lookup(
-                    Startup.DatastoreDb.ShipComponentsKeyFactory.CreateKey(id)
+                _datastoreContext.Db.Lookup(
+                    _datastoreContext.ShipComponentsKeyFactory.CreateKey(id)
                 )
             );
 
@@ -74,7 +89,7 @@ namespace TieFighter.Areas.Admin.Controllers
         {
             try
             {
-                Startup.DatastoreDb.Db.Upsert(shipComponent.ToEntity());
+                _datastoreContext.Db.Upsert(shipComponent.ToEntity());
 
                 return Json(new JsDefault()
                 {
@@ -103,10 +118,10 @@ namespace TieFighter.Areas.Admin.Controllers
                 foreach (var key in collection.Keys)
                 {
                     if (long.TryParse(key, out long id))
-                        keys.Add(Startup.DatastoreDb.ShipComponentsKeyFactory.CreateKey(id));
+                        keys.Add(_datastoreContext.ShipComponentsKeyFactory.CreateKey(id));
                 }
 
-                Startup.DatastoreDb.Db.Delete(keys);
+                _datastoreContext.Db.Delete(keys);
 
                 return Json(new JsDefault()
                 {

@@ -20,7 +20,6 @@ namespace TieFighter
 {
     public class Startup
     {
-        public static readonly TieFighterDatastoreContext DatastoreDb = new TieFighterDatastoreContext(googleProjectId);
         public const string SignedInPolicyName = "signedIn";
 
         private const string customGoogleSignInSchemeName = "google";
@@ -81,6 +80,11 @@ namespace TieFighter
             // Add file services
             var physicalProvider = _hostingEnvironment.ContentRootFileProvider;
             services.AddSingleton<IFileProvider>(physicalProvider);
+
+            // Add Google Datastore Singleton
+            var datastoreDb = new TieFighterDatastoreContext(googleProjectId);
+            services.AddSingleton<TieFighterDatastoreContext>(datastoreDb);
+            IDatastoreEntityAndJsonBinding.DatastoreDbReference = datastoreDb;
 
             // Add custom string resources service
             var stringResourceConfig = new StringResourceService();

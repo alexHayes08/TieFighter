@@ -8,7 +8,7 @@ using TieFighter.Areas.Admin.Models.MedalsViewModels;
 
 namespace TieFighter.Models
 {
-    public class TieFighterDatastoreContext
+    public class TieFighterDatastoreContext : IDatastoreContext
     {
         #region Constructors
 
@@ -106,10 +106,12 @@ namespace TieFighter.Models
 
         #region Properties
 
+        DatastoreDb IDatastoreContext.Db => Db;
+
         #endregion
 
         #region Functions
-       
+
         public IList<Medal> GetPaginatedMedals(int pageNumber, int resultsPerPage, DateTime lastUpdated)
         {
             var response = GetPaginatedOf(nameof(Medal), resultsPerPage, pageNumber, lastUpdated);
@@ -142,6 +144,7 @@ namespace TieFighter.Models
         }
 
         private const string MedalConditionValueName = nameof(MedalCondition.ConditionValue);
+
         private static void SetMedalEntityValue(MedalCondition condition, ref Entity entity)
         {
             switch (condition.ConditionType)
@@ -998,6 +1001,11 @@ namespace TieFighter.Models
             }
 
             await dbContext.Db.UpsertAsync(userEntities);
+        }
+
+        public KeyFactory GetKeyFactoryFor(string kind)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -103,7 +103,7 @@ namespace TieFighter.Models
             return objects;
         }
 
-        public static Entity ObjectToEntity<T>(TieFighterDatastoreContext db, T obj, string idPropertyName = null, params string[] indexedProperties) where T:new()
+        public static Entity ObjectToEntity<T>(IDatastoreContext db, T obj, string idPropertyName = null, params string[] indexedProperties) where T:new()
         {
             if (db == null)
             {
@@ -124,7 +124,7 @@ namespace TieFighter.Models
             if (!string.IsNullOrEmpty(idPropertyName))
             {
                 long idValue = (long)objType.GetProperty(idPropertyName).GetValue(obj);
-                entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
+                entity.Key = db.GetKeyFactoryFor(objType.Name).CreateKey(idValue);
                 isIdAlreadySet = true;
             }
 
@@ -147,7 +147,7 @@ namespace TieFighter.Models
                 else if (prop.IsDefined(typeof(KeyAttribute)) && !isIdAlreadySet)
                 {
                     long idValue = long.Parse(prop.GetValue(obj).ToString());
-                    entity.Key = db.GetKeyFactoryForKind(objType.Name).CreateKey(idValue);
+                    entity.Key = db.GetKeyFactoryFor(objType.Name).CreateKey(idValue);
                 }
                 else if (propertyType == typeof(Enum))
                 {
@@ -203,7 +203,7 @@ namespace TieFighter.Models
             return entity;
         }
 
-        public static Entity[] ObjectsToEntities<T>(TieFighterDatastoreContext db, IEnumerable<T> objects) where T:new()
+        public static Entity[] ObjectsToEntities<T>(IDatastoreContext db, IEnumerable<T> objects) where T:new()
         {
             var entities = new List<Entity>();
             foreach (var obj in objects)
